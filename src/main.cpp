@@ -320,12 +320,11 @@ int main() {
                         double check_car_s = closest_car_ahead->s;
                         double check_car_speed = closest_car_ahead->speed;
 
+                        printf(" | Closest car speed: %f | ", check_car_speed);
+
                         check_car_s += ((double) prev_size * .02 * check_car_speed);
 
                         if (check_car_s > car_s && closest_car_ahead->distance < min_safe_distance_threshold) {
-
-                            printf(" | Closest car speed: %d | ", check_car_speed);
-
                             if (check_car_speed <= speed_limit) {
                                 // check if car ahead us behaves well. No reason to blindly follow a crazy driver
                                 target_speed = check_car_speed;
