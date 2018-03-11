@@ -243,6 +243,8 @@ int main() {
                     // Sensor Fusion Data, a list of all other cars on the same side of the road.
                     auto sensor_fusion = j[1]["sensor_fusion"];
 
+                    print("-------------------------");
+
                     int prev_size = previous_path_x.size();
 
                     if (prev_size > 0) {
@@ -282,6 +284,8 @@ int main() {
                         cars.push_back(car);
                     }
 
+                    printf("cars in the sensor area: %d", cars.size());
+
                     // --------------- determine the closest car in our lane ---------------
 
                     Car *closest_car_ahead = NULL;
@@ -303,6 +307,9 @@ int main() {
                             closest_car_ahead = car;
                         }
                     }
+
+                    printf("has closest car: %b", (closest_car_ahead != NULL));
+                    printf("distance to the closest car: %f", min_distance);
 
                     // --------------- check if we are in the safe distance to the closest car ---------------
 
@@ -415,6 +422,8 @@ int main() {
                         next_x_vals.push_back(out_x);
                         next_y_vals.push_back(out_y);
                     }
+
+                    print("-------------------------");
 
                     json msgJson;
 
