@@ -311,24 +311,31 @@ int main() {
 
                     bool has_closest_car = closest_car_ahead != NULL;
 
-                    printf(" | Has closest car: %b | ", has_closest_car);
+                    printf(" | Has closest car: %s | ", has_closest_car ? "true" : "false");
                     printf(" | Distance to the car: %f | ", min_distance);
 
                     // --------------- check if we are in the safe distance to the closest car ---------------
 
                     if (has_closest_car) {
                         double check_car_s = closest_car_ahead->s;
-                        check_car_s += ((double) prev_size * .02 * closest_car_ahead->speed);
+                        double check_car_speed = closest_car_ahead->speed;
+
+                        check_car_s += ((double) prev_size * .02 * check_car_speed);
 
                         if (check_car_s > car_s && closest_car_ahead->distance < min_safe_distance_threshold) {
-                            if (target_speed <= speed_limit) {
+
+                            printf(" | Closest car speed: %d | ", check_car_speed);
+
+                            if (check_car_speed <= speed_limit) {
                                 // check if car ahead us behaves well. No reason to blindly follow a crazy driver
-                                target_speed = closest_car_ahead->speed;
+                                target_speed = check_car_speed;
                             }
                         }
                     }
 
                     // --------------- control velocity changes ---------------
+
+                    printf(" | Target speed: %d | ", target_speed);
 
                     if (ref_velocity < target_speed) {
                         printf(" | Mode: increase speed | ");
