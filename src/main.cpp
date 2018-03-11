@@ -309,12 +309,14 @@ int main() {
                         }
                     }
 
-                    printf(" | Has closest car: %b | ", (closest_car_ahead != NULL));
+                    bool has_closest_car = closest_car_ahead != NULL;
+
+                    printf(" | Has closest car: %b | ", has_closest_car);
                     printf(" | Distance to the car: %f | ", min_distance);
 
                     // --------------- check if we are in the safe distance to the closest car ---------------
 
-                    if (closest_car_ahead != NULL) {
+                    if (has_closest_car) {
                         double check_car_s = closest_car_ahead->s;
                         check_car_s += ((double) prev_size * .02 * closest_car_ahead->speed);
 
