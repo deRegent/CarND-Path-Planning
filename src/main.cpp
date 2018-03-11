@@ -255,7 +255,7 @@ int main() {
                     double speed_limit = 49.5;
                     double target_speed = speed_limit;
                     double sensor_range = 400.0;
-                    double min_safe_distance_threshold = 30.0;
+                    double min_safe_distance_threshold = 20.0;
                     double velocity_change = 0.224;
                     int car_lane = floor(car_d / 4.0);
 
