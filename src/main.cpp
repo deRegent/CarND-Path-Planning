@@ -334,7 +334,7 @@ int main() {
 
                     // --------------- control velocity changes ---------------
 
-                    printf(" | Target speed: %d | ", target_speed);
+                    printf(" | Target speed: %f | ", target_speed);
 
                     if (ref_velocity < target_speed) {
                         printf(" | Mode: increase speed | ");
