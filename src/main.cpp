@@ -243,7 +243,8 @@ int main() {
                     // Sensor Fusion Data, a list of all other cars on the same side of the road.
                     auto sensor_fusion = j[1]["sensor_fusion"];
 
-                    printf("-------------------------\\n");
+                    printf("-------------------------");
+                    printf("\n");
 
                     int prev_size = previous_path_x.size();
 
@@ -284,7 +285,7 @@ int main() {
                         cars.push_back(car);
                     }
 
-                    printf("cars in the sensor area: %d\\n", cars.size());
+                    printf(" | Cars in the sensor area: %d | ", cars.size());
 
                     // --------------- determine the closest car in our lane ---------------
 
@@ -308,8 +309,8 @@ int main() {
                         }
                     }
 
-                    printf("has closest car: %b\\n", (closest_car_ahead != NULL));
-                    printf("distance to the closest car: %f\\n", min_distance);
+                    printf(" | Has closest car: %b | ", (closest_car_ahead != NULL));
+                    printf(" | Distance to the car: %f | ", min_distance);
 
                     // --------------- check if we are in the safe distance to the closest car ---------------
 
@@ -318,7 +319,7 @@ int main() {
                         check_car_s += ((double) prev_size * .02 * closest_car_ahead->speed);
 
                         if (check_car_s > car_s && closest_car_ahead->distance < min_safe_distance_threshold) {
-                            if (target_speed < speed_limit) {
+                            if (target_speed <= speed_limit) {
                                 // check if car ahead us behaves well. No reason to blindly follow a crazy driver
                                 target_speed = closest_car_ahead->speed;
                             }
@@ -328,8 +329,12 @@ int main() {
                     // --------------- control velocity changes ---------------
 
                     if (ref_velocity < target_speed) {
+                        printf(" | Mode: increase speed | ");
                         ref_velocity = std::min(ref_velocity + velocity_change, target_speed);
+                    } else if (ref_velocity == target_speed) {
+                        printf(" | Mode: keep max speed | ");
                     } else {
+                        printf(" | Mode: decrease speed | ");
                         ref_velocity -= velocity_change;
                     }
 
@@ -423,7 +428,8 @@ int main() {
                         next_y_vals.push_back(out_y);
                     }
 
-                    printf("-------------------------\\n");
+                    printf("-------------------------");
+                    printf("\n");
 
                     json msgJson;
 
