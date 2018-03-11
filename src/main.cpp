@@ -243,7 +243,7 @@ int main() {
                     // Sensor Fusion Data, a list of all other cars on the same side of the road.
                     auto sensor_fusion = j[1]["sensor_fusion"];
 
-                    print("-------------------------");
+                    printf("-------------------------");
 
                     int prev_size = previous_path_x.size();
 
@@ -423,7 +423,7 @@ int main() {
                         next_y_vals.push_back(out_y);
                     }
 
-                    print("-------------------------");
+                    printf("-------------------------");
 
                     json msgJson;
 
