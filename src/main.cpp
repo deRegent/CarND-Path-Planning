@@ -353,7 +353,7 @@ int main() {
                     TrajectoryBuilder trajectoryBuilder;
 
                     Trajectory trajectory = trajectoryBuilder.build_trajectory(car_x, car_y, car_s, car_yaw,
-                                                                               target_lane, ref_velocity, previous_path_x,
+                                                                               car_lane, ref_velocity, previous_path_x,
                                                                                previous_path_y, map_waypoints_x,
                                                                                map_waypoints_y, map_waypoints_s);
 
