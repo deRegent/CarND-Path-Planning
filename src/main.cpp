@@ -350,6 +350,13 @@ int main() {
                         ref_velocity -= velocity_change;
                     }
 
+                    // TODO implement Road class to store vehicles in the sensor range
+                    // TODO implement Road updates
+                    // TODO implement getting vehicle ahead of current car
+                    // TODO implement StateController with State "KeepLane" which might accelerate/decelerate vehicle according to the safe distance
+                    // TODO implement collision predictions in case of lane changes and test it on live track with logs
+                    // TODO implement StateController "prepare" states and "change lane" states
+
                     TrajectoryBuilder trajectoryBuilder;
 
                     Trajectory trajectory = trajectoryBuilder.build_trajectory(car_x, car_y, car_s, car_yaw,
