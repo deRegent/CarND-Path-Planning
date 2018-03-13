@@ -34,10 +34,10 @@ namespace car_nd_path_planning {
     }
 
     Trajectory TrajectoryBuilder::build_trajectory(double car_x, double car_y, double car_s,
-                                             double car_yaw, int target_lane, double ref_velocity,
-                                             vector<double> previous_path_x, vector<double> previous_path_y,
-                                             vector<double> map_waypoints_x, vector<double> map_waypoints_y,
-                                             vector<double> map_waypoints_s) {
+                                                   double car_yaw, int target_lane, double ref_velocity,
+                                                   vector<double> previous_path_x, vector<double> previous_path_y,
+                                                   vector<double> map_waypoints_x, vector<double> map_waypoints_y,
+                                                   vector<double> map_waypoints_s) {
 
         // --------------- use code provided by Udacity in project's walkthrough ---------------
         // --------------- to control trajectory with spline library             ---------------

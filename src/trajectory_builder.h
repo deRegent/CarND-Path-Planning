@@ -17,7 +17,10 @@ namespace car_nd_path_planning {
         TrajectoryBuilder();
 
         Trajectory build_trajectory(double car_x, double car_y, double car_s,
-                              double car_yaw, int target_lane, double ref_velocity);
+                                    double car_yaw, int target_lane, double ref_velocity,
+                                    vector<double> previous_path_x, vector<double> previous_path_y,
+                                    vector<double> map_waypoints_x, vector<double> map_waypoints_y,
+                                    vector<double> map_waypoints_s);
 
     };
 
