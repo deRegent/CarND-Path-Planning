@@ -10,6 +10,9 @@
 #include "json.hpp"
 #include "spline.h"
 
+#include "trajectory.h"
+#include "trajectory_builder.h"
+
 using namespace std;
 using namespace car_nd_path_planning;
 
