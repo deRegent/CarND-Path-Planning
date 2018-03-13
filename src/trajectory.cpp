@@ -2,6 +2,8 @@
 // Created by Дима on 13.03.2018.
 //
 
+#include "trajectory.h"
+
 namespace car_nd_path_planning {
     using namespace std;
 

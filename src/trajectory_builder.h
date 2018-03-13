@@ -8,6 +8,7 @@
 #include "trajectory.h"
 #include "spline.h"
 #include <math.h>
+#include <vector>
 
 namespace car_nd_path_planning {
     using namespace std;
