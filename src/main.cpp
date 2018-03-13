@@ -11,6 +11,7 @@
 #include "spline.h"
 
 using namespace std;
+using namespace car_nd_path_planning;
 
 // for convenience
 using json = nlohmann::json;
@@ -346,95 +347,15 @@ int main() {
                         ref_velocity -= velocity_change;
                     }
 
-                    // --------------- use code provided by Udacity in project's walkthrough ---------------
-                    // --------------- to control trajectory with spline library             ---------------
+                    TrajectoryBuilder trajectoryBuilder;
 
-                    vector<double> ptsx;
-                    vector<double> ptsy;
+                    Trajectory trajectory = trajectoryBuilder.build_trajectory(car_x, car_y, car_s, car_yaw,
+                                                                               target_lane, ref_velocity, previous_path_x,
+                                                                               previous_path_y, map_waypoints_x,
+                                                                               map_waypoints_y, map_waypoints_s);
 
-                    double ref_x = car_x;
-                    double ref_y = car_y;
-                    double ref_yaw = deg2rad(car_yaw);
-
-                    if (prev_size < 2) {
-                        ptsx.push_back(car_x - cos(car_yaw));
-                        ptsy.push_back(car_y - sin(car_yaw));
-
-                        ptsx.push_back(car_x);
-                        ptsy.push_back(car_y);
-                    }
-                    else {
-                        ref_x = previous_path_x[prev_size - 1];
-                        ref_y = previous_path_y[prev_size - 1];
-
-                        double ref_x_prev = previous_path_x[prev_size - 2];
-                        double ref_y_prev = previous_path_y[prev_size - 2];
-                        ref_yaw = atan2(ref_y - ref_y_prev, ref_x - ref_x_prev);
-
-                        ptsx.push_back(ref_x_prev);
-                        ptsy.push_back(ref_y_prev);
-
-                        ptsx.push_back(ref_x);
-                        ptsy.push_back(ref_y);
-                    }
-
-                    vector<double> next_wp0 = getXY(car_s + 30, (2 + 4 * lane), map_waypoints_s, map_waypoints_x,
-                                                    map_waypoints_y);
-                    vector<double> next_wp1 = getXY(car_s + 60, (2 + 4 * lane), map_waypoints_s, map_waypoints_x,
-                                                    map_waypoints_y);
-                    vector<double> next_wp2 = getXY(car_s + 90, (2 + 4 * lane), map_waypoints_s, map_waypoints_x,
-                                                    map_waypoints_y);
-
-                    ptsx.push_back(next_wp0[0]);
-                    ptsy.push_back(next_wp0[1]);
-
-                    ptsx.push_back(next_wp1[0]);
-                    ptsy.push_back(next_wp1[1]);
-
-                    ptsx.push_back(next_wp2[0]);
-                    ptsy.push_back(next_wp2[1]);
-
-                    for (int i = 0; i < ptsx.size(); i++) {
-                        double new_x = ptsx[i] - ref_x;
-                        double new_y = ptsy[i] - ref_y;
-
-                        ptsx[i] = (new_x * cos(0 - ref_yaw)) - (new_y * sin(0 - ref_yaw));
-                        ptsy[i] = (new_x * sin(0 - ref_yaw)) + (new_y * cos(0 - ref_yaw));
-
-                    }
-
-                    tk::spline s;
-
-                    s.set_points(ptsx, ptsy);
-
-                    vector<double> next_x_vals;
-                    vector<double> next_y_vals;
-
-                    for (int i = 0; i < prev_size; i++) {
-                        next_x_vals.push_back(previous_path_x[i]);
-                        next_y_vals.push_back(previous_path_y[i]);
-                    }
-
-                    double target_x = 30.0;
-                    double target_y = s(target_x);
-
-                    double target_dist = sqrt((target_x * target_x) + (target_y * target_y));
-                    double N = target_dist / (0.02 * ref_velocity / 2.24);
-                    double delta_x = target_x / N;
-
-                    double new_x = 0.0;
-                    double new_y = 0.0;
-
-                    for (int i = 0; i < (50 - prev_size); i++) {
-                        new_x = new_x + delta_x;
-                        new_y = s(new_x);
-
-                        double out_x = ref_x + (new_x * cos(ref_yaw)) - (new_y * sin(ref_yaw));
-                        double out_y = ref_y + (new_x * sin(ref_yaw)) + (new_y * cos(ref_yaw));
-
-                        next_x_vals.push_back(out_x);
-                        next_y_vals.push_back(out_y);
-                    }
+                    vector<double> next_x_vals = trajectory.path_x;
+                    vector<double> next_y_vals = trajectory.path_y;
 
                     printf("-------------------------");
                     printf("\n");
