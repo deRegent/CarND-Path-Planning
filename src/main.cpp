@@ -157,7 +157,7 @@ vector<double> getXY(double s, double d, vector<double> maps_s, vector<double> m
 }
 
 // int lane = 1; //0-left lane, 1-middle lane, 2-right lane
-// double ref_velocity = 0.0; //MPH
+double ref_velocity = 0.0; //MPH
 
 Vehicle *cur_vehicle = NULL;
 Road road;
@@ -200,7 +200,7 @@ int main() {
     }
 
     h.onMessage(
-            [&cur_vehicle, &road, &map_waypoints_x, &map_waypoints_y, &map_waypoints_s, &map_waypoints_dx, &map_waypoints_dy](
+            [&ref_velocity, &cur_vehicle, &road, &map_waypoints_x, &map_waypoints_y, &map_waypoints_s, &map_waypoints_dx, &map_waypoints_dy](
                     uWS::WebSocket <uWS::SERVER> ws, char *data, size_t length,
                     uWS::OpCode opCode) {
                 // "42" at the start of the message means there's a websocket message event.
