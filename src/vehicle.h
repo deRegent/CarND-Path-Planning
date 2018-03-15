@@ -10,18 +10,22 @@
 #include "trajectory.h"
 
 namespace car_nd_path_planning {
+    using namespace std;
 
     class Vehicle {
 
     public:
 
+        Vehicle(double x, double y, double yaw, double s, double d);
+
         Vehicle(int id, double x, double y, double vx, double vy, double s, double d);
+
+        void update(double x, double y, double yaw, double s, double d);
 
         void update(double x, double y, double vx, double vy, double s, double d);
 
         Trajectory predict_trajectory(double delta_t);
 
-    private:
         int id;
         double x;
         double y;
@@ -36,6 +40,9 @@ namespace car_nd_path_planning {
         double acceleration_y;
 
         milliseconds last_update_time;
+
+    private:
+        int default_car_id = -1;
 
     };
 

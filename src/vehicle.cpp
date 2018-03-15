@@ -7,23 +7,11 @@
 namespace car_nd_path_planning {
     using namespace std;
 
-    Vehicle::Vehicle(vector<double> ptsx, vector<double> ptsy) {
+    Vehicle::Vehicle(double x, double y, double yaw, double s, double d) {
+        double vx = speed*cos(yaw);
+        double vy = speed*sin(yaw);
 
-        this->id = id;
-
-        int id;
-        double x;
-        double y;
-        double vx;
-        double vy;
-        double s;
-        double d;
-
-        double speed;
-        int lane;
-        double acceleration_x;
-        double acceleration_y;
-
+        this->Vehicle(this->default_car_id, x, y, vx, vy, s, d);
     }
 
     Vehicle::Vehicle(int id, double x, double y, double vx, double vy, double s, double d) {
@@ -45,6 +33,13 @@ namespace car_nd_path_planning {
         );
 
         this->last_update_time = cur_time;
+    }
+
+    void Vehicle::update(double x, double y, double yaw, double s, double d) {
+        double vx = speed*cos(yaw);
+        double vy = speed*sin(yaw);
+
+       this->update(x, y, vx, vy, s, d);
     }
 
     void Vehicle::update(double x, double y, double vx, double vy, double s, double d) {

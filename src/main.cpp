@@ -12,6 +12,7 @@
 
 #include "trajectory.h"
 #include "trajectory_builder.h"
+#include "road.h"
 
 using namespace std;
 using namespace car_nd_path_planning;
@@ -155,22 +156,11 @@ vector<double> getXY(double s, double d, vector<double> maps_s, vector<double> m
 
 }
 
-int lane = 1; //0-left lane, 1-middle lane, 2-right lane
-double ref_velocity = 0.0; //MPH
+// int lane = 1; //0-left lane, 1-middle lane, 2-right lane
+// double ref_velocity = 0.0; //MPH
 
-class Car {
-public:
-    double id;
-    double x;
-    double y;
-    double vx;
-    double vy;
-    double s;
-    double d;
-    double speed;
-    double distance;
-    int lane;
-};
+Vehicle *cur_vehicle = NULL;
+Road road;
 
 int main() {
     uWS::Hub h;
@@ -209,185 +199,152 @@ int main() {
         map_waypoints_dy.push_back(d_y);
     }
 
-    h.onMessage([&map_waypoints_x, &map_waypoints_y, &map_waypoints_s, &map_waypoints_dx, &map_waypoints_dy](
-            uWS::WebSocket <uWS::SERVER> ws, char *data, size_t length,
-            uWS::OpCode opCode) {
-        // "42" at the start of the message means there's a websocket message event.
-        // The 4 signifies a websocket message
-        // The 2 signifies a websocket event
-        //auto sdata = string(data).substr(0, length);
-        //cout << sdata << endl;
-        if (length && length > 2 && data[0] == '4' && data[1] == '2') {
+    h.onMessage(
+            [&cur_vehicle, &road, &map_waypoints_x, &map_waypoints_y, &map_waypoints_s, &map_waypoints_dx, &map_waypoints_dy](
+                    uWS::WebSocket <uWS::SERVER> ws, char *data, size_t length,
+                    uWS::OpCode opCode) {
+                // "42" at the start of the message means there's a websocket message event.
+                // The 4 signifies a websocket message
+                // The 2 signifies a websocket event
+                //auto sdata = string(data).substr(0, length);
+                //cout << sdata << endl;
+                if (length && length > 2 && data[0] == '4' && data[1] == '2') {
 
-            auto s = hasData(data);
+                    auto s = hasData(data);
 
-            if (s != "") {
-                auto j = json::parse(s);
+                    if (s != "") {
+                        auto j = json::parse(s);
 
-                string event = j[0].get<string>();
+                        string event = j[0].get<string>();
 
-                if (event == "telemetry") {
-                    // j[1] is the data JSON object
+                        if (event == "telemetry") {
+                            // j[1] is the data JSON object
 
-                    // Main car's localization Data
-                    double car_x = j[1]["x"];
-                    double car_y = j[1]["y"];
-                    double car_s = j[1]["s"];
-                    double car_d = j[1]["d"];
-                    double car_yaw = j[1]["yaw"];
-                    double car_speed = j[1]["speed"];
+                            // Main car's localization Data
+                            double car_x = j[1]["x"];
+                            double car_y = j[1]["y"];
+                            double car_s = j[1]["s"];
+                            double car_d = j[1]["d"];
+                            double car_yaw = j[1]["yaw"];
+                            double car_speed = j[1]["speed"];
 
-                    // Previous path data given to the Planner
-                    auto previous_path_x = j[1]["previous_path_x"];
-                    auto previous_path_y = j[1]["previous_path_y"];
-                    // Previous path's end s and d values
-                    double end_path_s = j[1]["end_path_s"];
-                    double end_path_d = j[1]["end_path_d"];
+                            // Previous path data given to the Planner
+                            auto previous_path_x = j[1]["previous_path_x"];
+                            auto previous_path_y = j[1]["previous_path_y"];
+                            // Previous path's end s and d values
+                            double end_path_s = j[1]["end_path_s"];
+                            double end_path_d = j[1]["end_path_d"];
 
-                    // Sensor Fusion Data, a list of all other cars on the same side of the road.
-                    auto sensor_fusion = j[1]["sensor_fusion"];
+                            // Sensor Fusion Data, a list of all other cars on the same side of the road.
+                            auto sensor_fusion = j[1]["sensor_fusion"];
 
-                    printf("-------------------------");
-                    printf("\n");
+                            printf("-------------------------");
+                            printf("\n");
 
-                    int prev_size = previous_path_x.size();
+                            int prev_size = previous_path_x.size();
 
-                    if (prev_size > 0) {
-                        car_s = end_path_s;
-                    }
-
-                    double speed_limit = 49.5;
-                    double target_speed = speed_limit;
-                    double sensor_range = 400.0;
-                    double min_safe_distance_threshold = 20.0;
-                    double velocity_change = 0.224;
-                    int car_lane = floor(car_d / 4.0);
-
-                    // --------------- get cars in sensor area ---------------
-
-                    vector <Car> cars;
-
-                    for (int i = 0; i < sensor_fusion.size(); i++) {
-                        Car car;
-
-                        car.id = sensor_fusion[i][0];
-                        car.x = sensor_fusion[i][1];
-                        car.y = sensor_fusion[i][2];
-                        car.vx = sensor_fusion[i][3];
-                        car.vy = sensor_fusion[i][4];
-                        car.s = sensor_fusion[i][5];
-                        car.d = sensor_fusion[i][6];
-                        car.speed = sqrt(car.vx * car.vx + car.vy * car.vy);
-                        car.distance = car.s - car_s;
-                        car.lane = floor(car.d / 4.0);
-
-                        if ((car.distance >= 0.0 && car.distance > sensor_range) ||
-                            (car.distance < 0.0 && car.distance < -sensor_range)) {
-                            continue;
-                        }
-
-                        cars.push_back(car);
-                    }
-
-                    printf(" | Cars in the sensor area: %d | ", cars.size());
-
-                    // --------------- determine the closest car in our lane ---------------
-
-                    Car *closest_car_ahead = NULL;
-                    double min_distance = -1;
-
-                    for (int i = 0; i < cars.size(); i++) {
-                        Car *car = (Car *) &cars[i];
-
-                        if (car_lane != car->lane) {
-                            // skip cars not in our lane
-                            continue;
-                        }
-
-                        double check_car_s = car->s;
-                        check_car_s += ((double) prev_size * .02 * car->speed);
-
-                        if (check_car_s > car_s && (min_distance < 0 || car->distance < min_distance)) {
-                            min_distance = car->distance;
-                            closest_car_ahead = car;
-                        }
-                    }
-
-                    bool has_closest_car = closest_car_ahead != NULL;
-
-                    printf(" | Has closest car: %s | ", has_closest_car ? "true" : "false");
-                    printf(" | Distance to the car: %f | ", min_distance);
-
-                    // --------------- check if we are in the safe distance to the closest car ---------------
-
-                    if (has_closest_car) {
-                        double check_car_s = closest_car_ahead->s;
-                        double check_car_speed = closest_car_ahead->speed;
-
-                        printf(" | Closest car speed: %f | ", check_car_speed);
-
-                        check_car_s += ((double) prev_size * .02 * check_car_speed);
-
-                        if (check_car_s > car_s && closest_car_ahead->distance < min_safe_distance_threshold) {
-                            if (check_car_speed <= speed_limit) {
-                                // check if car ahead us behaves well. No reason to blindly follow a crazy driver
-                                target_speed = check_car_speed;
+                            if (prev_size > 0) {
+                                car_s = end_path_s;
                             }
+
+                            double speed_limit = 49.5;
+                            double target_speed = speed_limit;
+                            double sensor_range = 400.0;
+                            double min_safe_distance_threshold = 20.0;
+                            double velocity_change = 0.224;
+                            int car_lane = floor(car_d / 4.0);
+
+                            // --------------- update Road data ---------------
+
+                            if (cur_vehicle == NULL) {
+                                cur_vehicle = new Vehicle(car_x, car_y, car_yaw, car_s, car_d);
+                            } else {
+                                (*cur_vehicle).update(car_x, car_y, car_yaw, car_s, car_d);
+                            }
+
+                            road.update(sensor_fusion);
+
+                            // --------------- determine the closest car in our lane ---------------
+
+                            Vehicle *closest_vehicle_ahead = road.get_closest_vehicle_ahead_of(cur_vehicle);
+
+                            bool has_closest_car = closest_car_ahead != NULL;
+
+                            printf(" | Has closest car: %s | ", has_closest_car ? "true" : "false");
+                            printf(" | Distance to the car: %f | ", min_distance);
+
+                            // --------------- check if we are in the safe distance to the closest car ---------------
+
+                            if (has_closest_car) {
+                                double check_car_s = closest_car_ahead->s;
+                                double check_car_speed = closest_car_ahead->speed;
+
+                                printf(" | Closest car speed: %f | ", check_car_speed);
+
+                                check_car_s += ((double) prev_size * .02 * check_car_speed);
+
+                                if (check_car_s > car_s && closest_car_ahead->distance < min_safe_distance_threshold) {
+                                    if (check_car_speed <= speed_limit) {
+                                        // check if car ahead us behaves well. No reason to blindly follow a crazy driver
+                                        target_speed = check_car_speed;
+                                    }
+                                }
+                            }
+
+                            // --------------- control velocity changes ---------------
+
+                            printf(" | Target speed: %f | ", target_speed);
+
+                            if (ref_velocity < target_speed) {
+                                printf(" | Mode: increase speed | ");
+                                ref_velocity = std::min(ref_velocity + velocity_change, target_speed);
+                            } else if (ref_velocity == target_speed) {
+                                printf(" | Mode: keep max speed | ");
+                            } else {
+                                printf(" | Mode: decrease speed | ");
+                                ref_velocity -= velocity_change;
+                            }
+
+                            // TODO implement Road class to store vehicles in the sensor range
+                            // TODO implement Road updates
+                            // TODO implement getting vehicle ahead of current car
+                            // TODO implement StateController with State "KeepLane" which might accelerate/decelerate vehicle according to the safe distance
+                            // TODO implement collision predictions in case of lane changes and test it on live track with logs
+                            // TODO implement StateController "prepare" states and "change lane" states
+
+                            TrajectoryBuilder trajectoryBuilder;
+
+                            Trajectory trajectory = trajectoryBuilder.build_trajectory(car_x, car_y, car_s, car_yaw,
+                                                                                       car_lane, ref_velocity,
+                                                                                       previous_path_x,
+                                                                                       previous_path_y, map_waypoints_x,
+                                                                                       map_waypoints_y,
+                                                                                       map_waypoints_s);
+
+                            vector<double> next_x_vals = trajectory.path_x;
+                            vector<double> next_y_vals = trajectory.path_y;
+
+                            printf("-------------------------");
+                            printf("\n");
+
+                            json msgJson;
+
+                            msgJson["next_x"] = next_x_vals;
+                            msgJson["next_y"] = next_y_vals;
+
+                            auto msg = "42[\"control\"," + msgJson.dump() + "]";
+
+                            //this_thread::sleep_for(chrono::milliseconxds(1000));
+                            ws.send(msg.data(), msg.length(), uWS::OpCode::TEXT);
+
                         }
-                    }
-
-                    // --------------- control velocity changes ---------------
-
-                    printf(" | Target speed: %f | ", target_speed);
-
-                    if (ref_velocity < target_speed) {
-                        printf(" | Mode: increase speed | ");
-                        ref_velocity = std::min(ref_velocity + velocity_change, target_speed);
-                    } else if (ref_velocity == target_speed) {
-                        printf(" | Mode: keep max speed | ");
                     } else {
-                        printf(" | Mode: decrease speed | ");
-                        ref_velocity -= velocity_change;
+                        // Manual driving
+                        std::string msg = "42[\"manual\",{}]";
+                        ws.send(msg.data(), msg.length(), uWS::OpCode::TEXT);
                     }
-
-                    // TODO implement Road class to store vehicles in the sensor range
-                    // TODO implement Road updates
-                    // TODO implement getting vehicle ahead of current car
-                    // TODO implement StateController with State "KeepLane" which might accelerate/decelerate vehicle according to the safe distance
-                    // TODO implement collision predictions in case of lane changes and test it on live track with logs
-                    // TODO implement StateController "prepare" states and "change lane" states
-
-                    TrajectoryBuilder trajectoryBuilder;
-
-                    Trajectory trajectory = trajectoryBuilder.build_trajectory(car_x, car_y, car_s, car_yaw,
-                                                                               car_lane, ref_velocity, previous_path_x,
-                                                                               previous_path_y, map_waypoints_x,
-                                                                               map_waypoints_y, map_waypoints_s);
-
-                    vector<double> next_x_vals = trajectory.path_x;
-                    vector<double> next_y_vals = trajectory.path_y;
-
-                    printf("-------------------------");
-                    printf("\n");
-
-                    json msgJson;
-
-                    msgJson["next_x"] = next_x_vals;
-                    msgJson["next_y"] = next_y_vals;
-
-                    auto msg = "42[\"control\"," + msgJson.dump() + "]";
-
-                    //this_thread::sleep_for(chrono::milliseconxds(1000));
-                    ws.send(msg.data(), msg.length(), uWS::OpCode::TEXT);
-
                 }
-            } else {
-                // Manual driving
-                std::string msg = "42[\"manual\",{}]";
-                ws.send(msg.data(), msg.length(), uWS::OpCode::TEXT);
-            }
-        }
-    });
+            });
 
     // We don't need this since we're not using HTTP but if it's removed the
     // program
