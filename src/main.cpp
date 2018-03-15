@@ -268,7 +268,7 @@ int main() {
 
                             Vehicle *closest_vehicle_ahead = road.get_closest_vehicle_ahead_of(cur_vehicle);
 
-                            bool has_closest_car = closest_car_ahead != NULL;
+                            bool has_closest_car = closest_vehicle_ahead != NULL;
 
                             printf(" | Has closest car: %s | ", has_closest_car ? "true" : "false");
                             printf(" | Distance to the car: %f | ", min_distance);
@@ -276,14 +276,16 @@ int main() {
                             // --------------- check if we are in the safe distance to the closest car ---------------
 
                             if (has_closest_car) {
-                                double check_car_s = closest_car_ahead->s;
-                                double check_car_speed = closest_car_ahead->speed;
+                                double check_car_s = closest_vehicle_ahead->s;
+                                double check_car_speed = closest_vehicle_ahead->speed;
 
                                 printf(" | Closest car speed: %f | ", check_car_speed);
 
+                                double distance = Math.abs(closest_vehicle_ahead - cur_vehicle->s);
+
                                 check_car_s += ((double) prev_size * .02 * check_car_speed);
 
-                                if (check_car_s > car_s && closest_car_ahead->distance < min_safe_distance_threshold) {
+                                if (check_car_s > cur_vehicle->s && distance < min_safe_distance_threshold) {
                                     if (check_car_speed <= speed_limit) {
                                         // check if car ahead us behaves well. No reason to blindly follow a crazy driver
                                         target_speed = check_car_speed;
