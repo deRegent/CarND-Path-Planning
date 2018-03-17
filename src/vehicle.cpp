@@ -11,10 +11,14 @@ namespace car_nd_path_planning {
         double vx = speed*cos(yaw);
         double vy = speed*sin(yaw);
 
-        this->Vehicle(this->default_car_id, x, y, vx, vy, s, d);
+        this->init(this->default_car_id, x, y, vx, vy, s, d);
     }
 
     Vehicle::Vehicle(int id, double x, double y, double vx, double vy, double s, double d) {
+        this->init(id, x, y, vx, vy, s, d);
+    }
+
+    void Vehicle::init(int id, double x, double y, double vx, double vy, double s, double d){
         this->id = id;
         this->x = x;
         this->y = y;
@@ -78,7 +82,7 @@ namespace car_nd_path_planning {
             x = x + vx * delta_t + this->acceleration_x * delta_t * delta_t / 2;
             vx = vx + this->acceleration_x * delta_t;
 
-            y = y + vy * t + this->acceleration_y * delta_t * delta_t / 2;
+            y = y + vy * delta_t + this->acceleration_y * delta_t * delta_t / 2;
             vy = vy + this->acceleration_y * delta_t;
 
             next_x_vals.push_back(x);

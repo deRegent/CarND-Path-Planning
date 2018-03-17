@@ -22,6 +22,8 @@ namespace car_nd_path_planning {
 
         Vehicle(int id, double x, double y, double vx, double vy, double s, double d);
 
+        void init(int id, double x, double y, double vx, double vy, double s, double d);
+
         void update(double x, double y, double yaw, double s, double d);
 
         void update(double x, double y, double vx, double vy, double s, double d);
