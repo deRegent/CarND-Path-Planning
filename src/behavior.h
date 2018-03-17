@@ -45,7 +45,7 @@ namespace car_nd_path_planning {
         int get_target_lane();
 
     private:
-        State cur_state = State::KeepLane;
+        State state = State::KeepLane;
 
         Vehicle* cur_vehicle;
         Road* road;
