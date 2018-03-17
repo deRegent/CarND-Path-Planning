@@ -11,6 +11,7 @@
 #include "spline.h"
 
 #include "trajectory.h"
+#include "behavior.h"
 #include "trajectory_builder.h"
 #include "road.h"
 
@@ -156,11 +157,9 @@ vector<double> getXY(double s, double d, vector<double> maps_s, vector<double> m
 
 }
 
-// int lane = 1; //0-left lane, 1-middle lane, 2-right lane
-double ref_velocity = 0.0; //MPH
-
+Behavior *behavior = NULL;
 Vehicle *cur_vehicle = NULL;
-Road road;
+Road* road = new Road();
 
 int main() {
     uWS::Hub h;
@@ -200,7 +199,7 @@ int main() {
     }
 
     h.onMessage(
-            [&ref_velocity, &cur_vehicle, &road, &map_waypoints_x, &map_waypoints_y, &map_waypoints_s, &map_waypoints_dx, &map_waypoints_dy](
+            [&behavior, &cur_vehicle, &road, &map_waypoints_x, &map_waypoints_y, &map_waypoints_s, &map_waypoints_dx, &map_waypoints_dy](
                     uWS::WebSocket <uWS::SERVER> ws, char *data, size_t length,
                     uWS::OpCode opCode) {
                 // "42" at the start of the message means there's a websocket message event.
@@ -247,82 +246,28 @@ int main() {
                                 car_s = end_path_s;
                             }
 
-                            double speed_limit = 49.5;
-                            double target_speed = speed_limit;
-                            double sensor_range = 400.0;
-                            double min_safe_distance_threshold = 20.0;
-                            double velocity_change = 0.224;
-                            int car_lane = floor(car_d / 4.0);
-
-                            // --------------- update Road data ---------------
-
                             if (cur_vehicle == NULL) {
                                 cur_vehicle = new Vehicle(car_x, car_y, car_yaw, car_s, car_d);
+                                behavior = new Behavior(cur_vehicle, road);
                             } else {
-                                (*cur_vehicle).update(car_x, car_y, car_yaw, car_s, car_d);
+                                cur_vehicle->update(car_x, car_y, car_yaw, car_s, car_d);
                             }
 
-                            road.update(sensor_fusion, cur_vehicle->s);
+                            road->update(sensor_fusion, cur_vehicle->s);
 
-                            // --------------- determine the closest car in our lane ---------------
-
-                            Vehicle *closest_vehicle_ahead = road.get_closest_vehicle_ahead_of(cur_vehicle);
-
-                            bool has_closest_car = closest_vehicle_ahead != NULL;
-
-                            double min_distance = has_closest_car ? std::abs(cur_vehicle->s - closest_vehicle_ahead->s)
-                                                                  : 0;
-
-                            printf(" | Has closest car: %s | ", has_closest_car ? "true" : "false");
-                            printf(" | Distance to the car: %f | ", min_distance);
-
-                            // --------------- check if we are in the safe distance to the closest car ---------------
-
-                            if (has_closest_car) {
-                                double check_car_s = closest_vehicle_ahead->s;
-                                double check_car_speed = closest_vehicle_ahead->speed;
-
-                                printf(" | Closest car speed: %f | ", check_car_speed);
-
-                                double distance = std::abs(check_car_s - cur_vehicle->s);
-
-                                check_car_s += ((double) prev_size * .02 * check_car_speed);
-
-                                if (check_car_s > cur_vehicle->s && distance < min_safe_distance_threshold) {
-                                    if (check_car_speed <= speed_limit) {
-                                        // check if car ahead us behaves well. No reason to blindly follow a crazy driver
-                                        target_speed = check_car_speed;
-                                    }
-                                }
-                            }
-
-                            // --------------- control velocity changes ---------------
-
-                            printf(" | Target speed: %f | ", target_speed);
-
-                            if (ref_velocity < target_speed) {
-                                printf(" | Mode: increase speed | ");
-                                ref_velocity = std::min(ref_velocity + velocity_change, target_speed);
-                            } else if (ref_velocity == target_speed) {
-                                printf(" | Mode: keep max speed | ");
-                            } else {
-                                printf(" | Mode: decrease speed | ");
-                                ref_velocity -= velocity_change;
-                            }
-
-                            // TODO implement Road class to store vehicles in the sensor range
-                            // TODO implement Road updates
-                            // TODO implement getting vehicle ahead of current car
-                            // TODO implement StateController with State "KeepLane" which might accelerate/decelerate vehicle according to the safe distance
-                            // TODO implement collision predictions in case of lane changes and test it on live track with logs
-                            // TODO implement StateController "prepare" states and "change lane" states
+                            behavior->update(previous_path_x, previous_path_y, map_waypoints_x, map_waypoints_y, map_waypoints_s);
 
                             TrajectoryBuilder trajectoryBuilder;
 
-                            Trajectory trajectory = trajectoryBuilder.build_trajectory(car_x, car_y, car_s, car_yaw,
-                                                                                       car_lane, ref_velocity,
+                            Trajectory trajectory = trajectoryBuilder.build_trajectory(cur_vehicle->x,
+                                                                                       cur_vehicle->y,
+                                                                                       cur_vehicle->s,
+                                                                                       cur_vehicle->yaw,
+                                                                                       behavior->get_target_lane(),
+                                                                                       behavior->get_ref_velocity(),
                                                                                        previous_path_x,
-                                                                                       previous_path_y, map_waypoints_x,
+                                                                                       previous_path_y,
+                                                                                       map_waypoints_x,
                                                                                        map_waypoints_y,
                                                                                        map_waypoints_s);
 

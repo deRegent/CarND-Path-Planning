@@ -23,6 +23,9 @@ namespace car_nd_path_planning {
                                     vector<double> map_waypoints_x, vector<double> map_waypoints_y,
                                     vector<double> map_waypoints_s);
 
+        int horizon = 50;
+        double delta_t = 0.02;
+
     };
 
 }

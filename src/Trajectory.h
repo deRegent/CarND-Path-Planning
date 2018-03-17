@@ -16,6 +16,10 @@ namespace car_nd_path_planning {
 
         vector<double> path_x;
         vector<double> path_y;
+
+        int horizon;
+        double delta_t;
+
     };
 
 }

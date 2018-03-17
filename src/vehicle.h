@@ -14,6 +14,10 @@ namespace car_nd_path_planning {
     using namespace std;
     using namespace std::chrono;
 
+    constexpr double pi() { return M_PI; }
+
+    double deg2rad(double x) { return x * pi() / 180; }
+
     class Vehicle {
 
     public:
@@ -30,6 +34,8 @@ namespace car_nd_path_planning {
 
         Trajectory predict_trajectory(int horizon, double delta_t);
 
+        bool has_collisions(Trajectory trajectory, double collision_distance);
+
         int id;
         double x;
         double y;
@@ -37,6 +43,8 @@ namespace car_nd_path_planning {
         double vy;
         double s;
         double d;
+
+        double yaw;
 
         double speed;
         int lane;

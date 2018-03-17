@@ -31,7 +31,7 @@ namespace car_nd_path_planning {
                     this->vehicles[id] = vehicle;
                 } else {
                     Vehicle *vehicle = vehicles[id];
-                    (*vehicle).update(x, y, vx, vy, s, d);
+                    vehicle->update(x, y, vx, vy, s, d);
                 }
             } else {
                 this->vehicles.erase(id);
@@ -39,7 +39,42 @@ namespace car_nd_path_planning {
         }
     }
 
+    vector<Vehicle*> Road::get_vehicles() {
+        vector<Vehicle *> vehicles;
+
+        for (const auto &item : this->vehicles) {
+            int id = item.first;
+            Vehicle *road_vehicle = item.second;
+
+            vehicles.push_back(road_vehicle);
+        }
+
+        return vehicles;
+    }
+
+    vector<Vehicle*> Road::get_vehicles_in_lane(int lane) {
+        vector<Vehicle *> vehicles;
+
+        for (const auto &item : this->vehicles) {
+            int id = item.first;
+            Vehicle *road_vehicle = item.second;
+
+            if (lane != road_vehicle->lane) {
+                // skip cars not in the target lane
+                continue;
+            }
+
+            vehicles.push_back(road_vehicle);
+        }
+
+        return vehicles;
+    }
+
     Vehicle* Road::get_closest_vehicle_ahead_of(Vehicle *vehicle) {
+        return this->get_closest_vehicle_ahead_of(vehicle, vehicle->lane);
+    }
+
+    Vehicle* Road::get_closest_vehicle_ahead_of(Vehicle *vehicle, int lane) {
 
         double min_distance = -1;
         Vehicle *target_vehicle = NULL;
@@ -48,8 +83,8 @@ namespace car_nd_path_planning {
             int id = item.first;
             Vehicle *road_vehicle = item.second;
 
-            if (vehicle->lane != road_vehicle->lane) {
-                // skip cars not in the same lane
+            if (lane != road_vehicle->lane) {
+                // skip cars not in the target lane
                 continue;
             }
 
@@ -64,6 +99,63 @@ namespace car_nd_path_planning {
         }
 
         return target_vehicle;
+    }
+
+    vector<double> Road::get_average_lane_speed(int lane){
+        double total_speed = 0;
+
+        vector<Vehicle *> vehicles = this->get_vehicles_in_lane(lane);
+
+        for (int i=0; i < vehicles.size(); i++){
+            Vehicle* vehicle = vehicles[i];
+            total_speed += vehicle->speed;
+        }
+
+        if (total_speed == 0){
+            return this->empty_lane_speed;
+        }
+
+        return total_speed / vehicles.size();
+    }
+
+    vector<double> Road::get_average_lane_speeds() {
+        vector<double> speeds;
+
+        for (int lane = 0; lane < this->lanes; lane++) {
+            speeds.push_back(this->get_average_lane_speed(lane));
+        }
+
+        return speeds;
+    }
+
+    vector<double> Road::get_speed_of_closest_vehicles_for(Vehicle *cur_vehicle) {
+        vector<double> speeds;
+
+        for (int lane = 0; lane < this->lanes; lane++) {
+            Vehicle *vehicle = this->get_closest_vehicle_ahead_of(cur_vehicle, lane);
+
+            if (vehicle == NULL) {
+                speeds.push_back(this->empty_lane_speed);
+            } else {
+                speeds.push_back(vehicle->speed);
+            }
+        }
+
+        return speeds;
+    }
+
+    bool Road::has_collisions(Trajectory trajectory, double collision_distance){
+        vector<Vehicle *> vehicles = this->get_vehicles();
+
+        for (int i=0; i < vehicles.size(); i++){
+            Vehicle* vehicle = vehicles[i];
+
+            if (vehicle->has_collisions(trajectory)){
+                return true;
+            }
+        }
+
+        return false;
     }
 
 }

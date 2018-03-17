@@ -8,6 +8,8 @@ namespace car_nd_path_planning {
     using namespace std;
 
     Vehicle::Vehicle(double x, double y, double yaw, double s, double d) {
+        yaw = deg2rad(yaw);
+
         double vx = speed*cos(yaw);
         double vy = speed*sin(yaw);
 
@@ -27,6 +29,9 @@ namespace car_nd_path_planning {
         this->s = s;
         this->d = d;
 
+        this->yaw = atan2(vy, vx);
+        this->yaw = (this->yaw < 0.1) ? 0 : this->yaw;
+
         this->speed = sqrt(vx * vx + vy * vy);;
         this->lane = floor(d / 4.0);
         this->acceleration_x = 0;
@@ -40,6 +45,8 @@ namespace car_nd_path_planning {
     }
 
     void Vehicle::update(double x, double y, double yaw, double s, double d) {
+        yaw = deg2rad(yaw);
+
         double vx = speed*cos(yaw);
         double vy = speed*sin(yaw);
 
@@ -65,6 +72,9 @@ namespace car_nd_path_planning {
         this->s = s;
         this->d = d;
 
+        this->yaw = atan2(vy, vx);
+        this->yaw = (this->yaw < 0.1) ? 0 : this->yaw;
+
         this->speed = sqrt(vx * vx + vy * vy);;
         this->lane = floor(d / 4.0);
     }
@@ -89,9 +99,33 @@ namespace car_nd_path_planning {
             next_y_vals.push_back(y);
         }
 
-        Trajectory trajectory(next_x_vals, next_y_vals);
+        Trajectory trajectory(next_x_vals, next_y_vals, horizon, delta_t);
 
         return trajectory;
+    }
+
+    bool Vehicle::has_collisions(Trajectory trajectory, double collision_distance){
+
+        Trajectory predicted_trajectory = this->predict_trajectory(trajectory.horizon, trajectory.delta_t);
+
+        vector<double> trajectory_x_vals = trajectory.path_x;
+        vector<double> trajectory_y_vals = trajectory.path_y;
+
+        vector<double> predicted_trajectory_x_vals = trajectory.path_x;
+        vector<double> predicted_trajectory_y_vals = trajectory.path_y;
+
+        for (int i = 0; i < trajectory.horizon; i++) {
+            double point_distance = distance(trajectory_x_vals[i], trajectory_y_vals[i], predicted_trajectory_x_vals[i], predicted_trajectory_y_vals[i]);
+            if (point_distance < collision_distance){
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    double distance(double x1, double y1, double x2, double y2) {
+        return sqrt((x2 - x1) * (x2 - x1) + (y2 - y1) * (y2 - y1));
     }
 
 }
