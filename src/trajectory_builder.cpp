@@ -9,13 +9,6 @@ namespace car_nd_path_planning {
 
     TrajectoryBuilder::TrajectoryBuilder() { }
 
-    // For converting back and forth between radians and degrees.
-    constexpr double pi() { return M_PI; }
-
-    double deg2rad(double x) { return x * pi() / 180; }
-
-    double rad2deg(double x) { return x * 180 / pi(); }
-
     // Transform from Frenet s,d coordinates to Cartesian x,y
     vector<double> getXY(double s, double d, vector<double> maps_s, vector<double> maps_x, vector<double> maps_y) {
         int prev_wp = -1;

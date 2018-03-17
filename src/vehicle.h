@@ -7,8 +7,10 @@
 
 #include <chrono>
 #include <vector>
-#include "trajectory.h"
 #include <math.h>
+
+#include "trajectory.h"
+#include "utils.h"
 
 namespace car_nd_path_planning {
     using namespace std;

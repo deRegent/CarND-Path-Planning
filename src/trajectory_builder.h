@@ -5,10 +5,12 @@
 #ifndef CARND_PATH_PLANNING_TRAJECTORY_GENERATOR_H
 #define CARND_PATH_PLANNING_TRAJECTORY_GENERATOR_H
 
-#include "trajectory.h"
 #include "spline.h"
 #include <math.h>
 #include <vector>
+
+#include "trajectory.h"
+#include "utils.h"
 
 namespace car_nd_path_planning {
     using namespace std;
