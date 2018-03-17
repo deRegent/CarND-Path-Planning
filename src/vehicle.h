@@ -11,6 +11,7 @@
 
 namespace car_nd_path_planning {
     using namespace std;
+    using namespace std::chrono;
 
     class Vehicle {
 

@@ -270,6 +270,9 @@ int main() {
 
                             bool has_closest_car = closest_vehicle_ahead != NULL;
 
+                            double min_distance = has_closest_car ? Math.abs(cur_vehicle->s - closest_vehicle_ahead->s)
+                                                                  : 0;
+
                             printf(" | Has closest car: %s | ", has_closest_car ? "true" : "false");
                             printf(" | Distance to the car: %f | ", min_distance);
 
@@ -281,7 +284,7 @@ int main() {
 
                                 printf(" | Closest car speed: %f | ", check_car_speed);
 
-                                double distance = Math.abs(closest_vehicle_ahead - cur_vehicle->s);
+                                double distance = Math.abs(check_car_s - cur_vehicle->s);
 
                                 check_car_s += ((double) prev_size * .02 * check_car_speed);
 

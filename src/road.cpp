@@ -6,6 +6,7 @@
 
 namespace car_nd_path_planning {
     using namespace std;
+    using json = nlohmann::json;
 
     Road::Road() {
 
@@ -37,6 +38,33 @@ namespace car_nd_path_planning {
                 vehicles.erase(id);
             }
         }
+    }
+
+    Vehicle *Road::get_closest_vehicle_ahead_of(Vehicle *vehicle) {
+
+        double min_distance = -1;
+        Vehicle *target_vehicle = NULL;
+
+        for (const auto &item : myMap) {
+            id = item.first;
+            Vehicle *road_vehicle = item.first;
+
+            if (vehicle->lane != road_vehicle->lane) {
+                // skip cars not in the same lane
+                continue;
+            }
+
+            double distance = Math.abs(vehicle->s - road_vehicle->s);
+
+            bool is_ahead = (road_vehicle->s - vehicle->s) > 0;
+
+            if (is_ahead && (min_distance < 0 || distance < min_distance)) {
+                min_distance = car->distance;
+                target_vehicle = road_vehicle;
+            }
+        }
+
+        return target_vehicle;
     }
 
     Vehicle *Road::get_closest_vehicle_ahead_of(Vehicle *vehicle) {
