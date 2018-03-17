@@ -114,10 +114,13 @@ namespace car_nd_path_planning {
             bool has_collisions = road->has_collisions(trajectory, this->collision_theshold);
 
             if (!has_collisions) {
+                printf(" | State: Ready to change lane Right! | ");
                 if (this->state == State::PrepareLaneChangeRight) {
-                    this->state = State::LaneChangeRight;
+                    printf(" | State: Ready to change lane Right! | ");
+//                    this->state = State::LaneChangeRight;
                 } else {
-                    this->state = State::LaneChangeLeft;
+                    printf(" | State: Ready to change lane Left! | ");
+//                    this->state = State::LaneChangeLeft;
                 }
             }
         } else if (this->state == State::LaneChangeRight || this->state == State::LaneChangeLeft) {
@@ -166,7 +169,13 @@ namespace car_nd_path_planning {
             Vehicle *closest_vehicle_ahead = road->get_closest_vehicle_ahead_of(this->cur_vehicle);
             bool has_vehicle_ahead = closest_vehicle_ahead != NULL;
             if (has_vehicle_ahead) {
-                this->target_speed = closest_vehicle_ahead->speed;
+                double closest_distance = std::abs(closest_vehicle_ahead->s - this->cur_vehicle->s);
+
+                if (closest_distance > this->min_safe_distance_threshold) {
+                    this->target_speed = closest_vehicle_ahead->speed;
+                } else {
+                    this->target_speed = this->speed_limit;
+                }
             } else {
                 this->target_speed = this->speed_limit;
             }
