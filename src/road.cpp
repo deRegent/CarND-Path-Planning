@@ -101,7 +101,7 @@ namespace car_nd_path_planning {
         return target_vehicle;
     }
 
-    vector<double> Road::get_average_lane_speed(int lane){
+    double Road::get_average_lane_speed(int lane){
         double total_speed = 0;
 
         vector<Vehicle *> vehicles = this->get_vehicles_in_lane(lane);
