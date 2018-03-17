@@ -6,7 +6,6 @@
 
 namespace car_nd_path_planning {
     using namespace std;
-    using json = nlohmann::json;
 
     Road::Road() {
 
