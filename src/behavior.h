@@ -13,6 +13,7 @@
 #include "vehicle.h"
 #include "road.h"
 #include "trajectory.h"
+#include "trajectory_builder.h"
 
 namespace car_nd_path_planning {
     using namespace std;
