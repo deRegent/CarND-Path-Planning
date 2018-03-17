@@ -12,10 +12,7 @@
     </ADDITIONAL_GENERATION_ENVIRONMENT>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="8829f0fb-40e2-45af-8bc8-cb66da2bff18" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/vehicle.cpp" afterPath="$PROJECT_DIR$/src/vehicle.cpp" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/vehicle.h" afterPath="$PROJECT_DIR$/src/vehicle.h" />
-    </list>
+    <list default="true" id="8829f0fb-40e2-45af-8bc8-cb66da2bff18" name="Default" comment="" />
     <ignored path="CarND-Path-Planning-Project.iws" />
     <ignored path=".idea/workspace.xml" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -65,21 +62,21 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="vehicle.cpp" pinned="false" current-in-tab="true">
+      <file leaf-file-name="vehicle.cpp" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/vehicle.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="749">
-              <caret line="128" column="55" selection-start-line="128" selection-start-column="55" selection-end-line="128" selection-end-column="55" />
+            <state relative-caret-position="392">
+              <caret line="107" column="0" selection-start-line="107" selection-start-column="0" selection-end-line="107" selection-end-column="0" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="trajectory.h" pinned="false" current-in-tab="false">
+      <file leaf-file-name="trajectory.h" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/trajectory.h">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="340">
-              <caret line="20" column="22" selection-start-line="20" selection-start-column="22" selection-end-line="20" selection-end-column="22" />
+            <state relative-caret-position="238">
+              <caret line="14" column="88" selection-start-line="14" selection-start-column="88" selection-end-line="14" selection-end-column="88" />
               <folding />
             </state>
           </provider>
@@ -129,7 +126,7 @@
         <entry file="file://$PROJECT_DIR$/src/trajectory.cpp">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="153">
-              <caret line="9" column="96" selection-start-line="9" selection-start-column="96" selection-end-line="9" selection-end-column="96" />
+              <caret line="9" column="96" selection-start-line="9" selection-start-column="69" selection-end-line="9" selection-end-column="96" />
               <folding />
             </state>
           </provider>
@@ -146,7 +143,6 @@
         <option value="$PROJECT_DIR$/src/Trajectory.h" />
         <option value="$PROJECT_DIR$/src/trajectory_generator.h" />
         <option value="$PROJECT_DIR$/src/trajectory_builder.h" />
-        <option value="$PROJECT_DIR$/src/trajectory.h" />
         <option value="$PROJECT_DIR$/src/trajectory.cpp" />
         <option value="$PROJECT_DIR$/src/trajectory_builder.cpp" />
         <option value="$PROJECT_DIR$/src/road.h" />
@@ -156,6 +152,7 @@
         <option value="$PROJECT_DIR$/src/behavior.h" />
         <option value="$PROJECT_DIR$/src/vehicle.h" />
         <option value="$PROJECT_DIR$/src/vehicle.cpp" />
+        <option value="$PROJECT_DIR$/src/trajectory.h" />
       </list>
     </option>
   </component>
@@ -632,14 +629,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/trajectory.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="153">
-          <caret line="9" column="96" selection-start-line="9" selection-start-column="96" selection-end-line="9" selection-end-column="96" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main.cpp">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="3996">
@@ -680,14 +669,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/trajectory.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="340">
-          <caret line="20" column="22" selection-start-line="20" selection-start-column="22" selection-end-line="20" selection-end-column="22" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/road.h">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="579">
@@ -706,8 +687,24 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/vehicle.cpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="749">
-          <caret line="128" column="55" selection-start-line="128" selection-start-column="55" selection-end-line="128" selection-end-column="55" />
+        <state relative-caret-position="392">
+          <caret line="107" column="0" selection-start-line="107" selection-start-column="0" selection-end-line="107" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/trajectory.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="153">
+          <caret line="9" column="96" selection-start-line="9" selection-start-column="69" selection-end-line="9" selection-end-column="96" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/trajectory.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="238">
+          <caret line="14" column="88" selection-start-line="14" selection-start-column="88" selection-end-line="14" selection-end-column="88" />
           <folding />
         </state>
       </provider>
