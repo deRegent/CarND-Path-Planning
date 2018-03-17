@@ -25,7 +25,7 @@ namespace car_nd_path_planning {
                                vector<double> map_waypoints_x, vector<double> map_waypoints_y,
                                vector<double> map_waypoints_s) {
 
-        if (state == State::KeepLane) {
+        if (this->state == State::KeepLane) {
 
             Vehicle *vehicle_ahead = road->get_closest_vehicle_ahead_of(this->cur_vehicle);
             bool has_vehicle_ahead = vehicle_ahead != NULL;
@@ -82,12 +82,12 @@ namespace car_nd_path_planning {
                     this->cur_state = State::PrepareLaneChangeLeft;
                 }
             }
-        } else if (state == State::PrepareLaneChangeRight || state == State::PrepareLaneChangeLeft) {
+        } else if (this->state == State::PrepareLaneChangeRight || this->state == State::PrepareLaneChangeLeft) {
             TrajectoryBuilder trajectoryBuilder;
 
             int trajectory_lane;
 
-            if (state == State::PrepareLaneChangeRight) {
+            if (this->state == State::PrepareLaneChangeRight) {
                 trajectory_lane = this->cur_vehicle->lane + 1;
             } else {
                 trajectory_lane = this->cur_vehicle->lane - 1;
@@ -105,16 +105,16 @@ namespace car_nd_path_planning {
                                                                        map_waypoints_y,
                                                                        map_waypoints_s);
 
-            bool has_collisions = road.has_collisions(trajectory, this->collision_theshold);
+            bool has_collisions = road->has_collisions(trajectory, this->collision_theshold);
 
             if (!has_collisions){
-                if (state == State::PrepareLaneChangeRight) {
+                if (this->state == State::PrepareLaneChangeRight) {
                     this->cur_state = State :: LaneChangeRight;
                 } else {
                     this->cur_state = State :: LaneChangeLeft;
                 }
             }
-        } else if (state == State::LaneChangeRight || state == State::LaneChangeLeft) {
+        } else if (this->state == State::LaneChangeRight || this->state == State::LaneChangeLeft) {
             if (this->cur_vehicle->lane == this->target_lane){
                 this->cur_state = State :: KeepLane;
             }
@@ -123,7 +123,7 @@ namespace car_nd_path_planning {
 
     void Behavior::updateParams(int prev_size) {
 
-        if (state == State::KeepLane) {
+        if (this->state == State::KeepLane) {
             printf(" | State: Keep Lane | ");
 
             Vehicle *closest_vehicle_ahead = road->get_closest_vehicle_ahead_of(this->cur_vehicle);
@@ -149,9 +149,9 @@ namespace car_nd_path_planning {
             }
 
             this->target_lane = this->cur_vehicle->lane;
-        } else if (state == State::PrepareLaneChangeRight || state == State::PrepareLaneChangeLeft) {
+        } else if (this->state == State::PrepareLaneChangeRight || this->state == State::PrepareLaneChangeLeft) {
 
-            if (state == State::PrepareLaneChangeRight) {
+            if (this->state == State::PrepareLaneChangeRight) {
                 printf(" | State: Prepare Lane Change Right | ");
             } else {
                 printf(" | State: Prepare Lane Change Left | ");
@@ -165,9 +165,9 @@ namespace car_nd_path_planning {
 
             this->target_lane = this->cur_vehicle->lane;
 
-        } else if (state == State::LaneChangeRight || state == State::LaneChangeLeft) {
+        } else if (this->state == State::LaneChangeRight || this->state == State::LaneChangeLeft) {
 
-            if (state == State::LaneChangeRight) {
+            if (this->state == State::LaneChangeRight) {
                 printf(" | State: Lane Change Right | ");
 
                 this->target_lane = this->cur_vehicle->lane + 1;
