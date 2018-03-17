@@ -5,6 +5,8 @@
 #ifndef CARND_PATH_PLANNING_UTILS_H
 #define CARND_PATH_PLANNING_UTILS_H
 
+#include <math.h>
+
 namespace car_nd_path_planning {
     using namespace std;
 
