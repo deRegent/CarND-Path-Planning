@@ -150,7 +150,7 @@ namespace car_nd_path_planning {
         for (int i=0; i < vehicles.size(); i++){
             Vehicle* vehicle = vehicles[i];
 
-            if (vehicle->has_collisions(trajectory)){
+            if (vehicle->has_collisions(trajectory, collision_distance)){
                 return true;
             }
         }
