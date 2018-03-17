@@ -8,6 +8,7 @@
 #include <chrono>
 #include <vector>
 #include "trajectory.h"
+#include <math.h>
 
 namespace car_nd_path_planning {
     using namespace std;
@@ -25,7 +26,7 @@ namespace car_nd_path_planning {
 
         void update(double x, double y, double vx, double vy, double s, double d);
 
-        Trajectory predict_trajectory(double delta_t);
+        Trajectory predict_trajectory(int horizon, double delta_t);
 
         int id;
         double x;
