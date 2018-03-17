@@ -21,7 +21,7 @@ namespace car_nd_path_planning {
     public:
         Road();
 
-        void update(json sensor_fusion);
+        void update(json sensor_fusion, double cur_car_s);
 
         Vehicle* get_closest_vehicle_ahead_of(Vehicle* vehicle);
 

@@ -262,7 +262,7 @@ int main() {
                                 (*cur_vehicle).update(car_x, car_y, car_yaw, car_s, car_d);
                             }
 
-                            road.update(sensor_fusion);
+                            road.update(sensor_fusion, cur_vehicle->s);
 
                             // --------------- determine the closest car in our lane ---------------
 

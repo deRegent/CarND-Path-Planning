@@ -22,7 +22,7 @@ namespace car_nd_path_planning {
             double s = sensor_fusion[i][5];
             double d = sensor_fusion[i][6];
 
-            distance = Math.abs(s - cur_car_s);
+            double distance = Math.abs(s - cur_car_s);
 
             if (distance <= this->sensor_range) {
                 // car is in the sensor range
@@ -44,9 +44,9 @@ namespace car_nd_path_planning {
         double min_distance = -1;
         Vehicle *target_vehicle = NULL;
 
-        for (const auto &item : myMap) {
+        for (const auto &item : this->vehicles) {
             id = item.first;
-            Vehicle *road_vehicle = item.first;
+            Vehicle *road_vehicle = item.second;
 
             if (vehicle->lane != road_vehicle->lane) {
                 // skip cars not in the same lane
@@ -58,7 +58,7 @@ namespace car_nd_path_planning {
             bool is_ahead = (road_vehicle->s - vehicle->s) > 0;
 
             if (is_ahead && (min_distance < 0 || distance < min_distance)) {
-                min_distance = car->distance;
+                min_distance = distance;
                 target_vehicle = road_vehicle;
             }
         }
@@ -80,7 +80,7 @@ namespace car_nd_path_planning {
                 continue;
             }
 
-            double distance = Math.abs(vehicle->s - road_vehicle->s);
+            double distance = std::abs(vehicle->s - road_vehicle->s);
 
             bool is_ahead = (road_vehicle->s - vehicle->s) > 0;
 
