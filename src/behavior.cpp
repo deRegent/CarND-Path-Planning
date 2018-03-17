@@ -171,7 +171,7 @@ namespace car_nd_path_planning {
             if (has_vehicle_ahead) {
                 double closest_distance = std::abs(closest_vehicle_ahead->s - this->cur_vehicle->s);
 
-                if (closest_distance > this->min_safe_distance_threshold) {
+                if (closest_distance <= this->min_safe_distance_threshold) {
                     this->target_speed = closest_vehicle_ahead->speed;
                 } else {
                     this->target_speed = this->speed_limit;
