@@ -30,7 +30,13 @@ namespace car_nd_path_planning {
             Vehicle *vehicle_ahead = road->get_closest_vehicle_ahead_of(this->cur_vehicle);
             bool has_vehicle_ahead = vehicle_ahead != NULL;
 
-            if (has_vehicle_ahead) {
+            if (has_vehicle_ahead ) {
+                double closest_distance = std::abs(vehicle_ahead->s - this->cur_vehicle->s);
+
+                if (closest_distance > this->min_safe_distance_threshold){
+                    return;
+                }
+
                 vector<double> average_lane_speeds = road->get_average_lane_speeds();
                 vector<double> closest_vehicles_in_lanes_speeds =
                         road->get_speed_of_closest_vehicles_for(this->cur_vehicle);
