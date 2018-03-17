@@ -30,10 +30,10 @@ namespace car_nd_path_planning {
             Vehicle *vehicle_ahead = road->get_closest_vehicle_ahead_of(this->cur_vehicle);
             bool has_vehicle_ahead = vehicle_ahead != NULL;
 
-            if (has_vehicle_ahead ) {
+            if (has_vehicle_ahead) {
                 double closest_distance = std::abs(vehicle_ahead->s - this->cur_vehicle->s);
 
-                if (closest_distance > this->min_safe_distance_threshold){
+                if (closest_distance > this->min_safe_distance_threshold) {
                     return;
                 }
 
@@ -113,16 +113,16 @@ namespace car_nd_path_planning {
 
             bool has_collisions = road->has_collisions(trajectory, this->collision_theshold);
 
-            if (!has_collisions){
+            if (!has_collisions) {
                 if (this->state == State::PrepareLaneChangeRight) {
-                    this->state = State :: LaneChangeRight;
+                    this->state = State::LaneChangeRight;
                 } else {
-                    this->state = State :: LaneChangeLeft;
+                    this->state = State::LaneChangeLeft;
                 }
             }
         } else if (this->state == State::LaneChangeRight || this->state == State::LaneChangeLeft) {
-            if (this->cur_vehicle->lane == this->target_lane){
-                this->state = State :: KeepLane;
+            if (this->cur_vehicle->lane == this->target_lane) {
+                this->state = State::KeepLane;
             }
         }
     }
@@ -167,6 +167,8 @@ namespace car_nd_path_planning {
             bool has_vehicle_ahead = closest_vehicle_ahead != NULL;
             if (has_vehicle_ahead) {
                 this->target_speed = closest_vehicle_ahead->speed;
+            } else {
+                this->target_speed = this->speed_limit;
             }
 
             this->target_lane = this->cur_vehicle->lane;
