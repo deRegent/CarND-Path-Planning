@@ -37,6 +37,9 @@ namespace car_nd_path_planning {
                     return;
                 }
 
+                // TODO compute speed only ahead
+                // TODO check collisions code
+
                 vector<double> average_lane_speeds = road->get_average_lane_speeds();
                 vector<double> closest_vehicles_in_lanes_speeds =
                         road->get_speed_of_closest_vehicles_for(this->cur_vehicle);
