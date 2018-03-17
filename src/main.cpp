@@ -270,7 +270,7 @@ int main() {
 
                             bool has_closest_car = closest_vehicle_ahead != NULL;
 
-                            double min_distance = has_closest_car ? Math.abs(cur_vehicle->s - closest_vehicle_ahead->s)
+                            double min_distance = has_closest_car ? std::abs(cur_vehicle->s - closest_vehicle_ahead->s)
                                                                   : 0;
 
                             printf(" | Has closest car: %s | ", has_closest_car ? "true" : "false");
