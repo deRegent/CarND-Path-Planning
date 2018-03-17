@@ -22,7 +22,7 @@ namespace car_nd_path_planning {
             double s = sensor_fusion[i][5];
             double d = sensor_fusion[i][6];
 
-            double distance = Math.abs(s - cur_car_s);
+            double distance = std::abs(s - cur_car_s);
 
             if (distance <= this->sensor_range) {
                 // car is in the sensor range
@@ -30,50 +30,23 @@ namespace car_nd_path_planning {
                     Vehicle *vehicle = new Vehicle(id, x, y, vx, vy, s, d);
                     this->vehicles[id] = vehicle;
                 } else {
-                    vehicle = vehicles[id];
+                    Vehicle *vehicle = vehicles[id];
                     (*vehicle).update(x, y, vx, vy, s, d);
                 }
             } else {
-                vehicles.erase(id);
+                this->vehicles.erase(id);
             }
         }
     }
 
-    Vehicle *Road::get_closest_vehicle_ahead_of(Vehicle *vehicle) {
+    Vehicle* Road::get_closest_vehicle_ahead_of(Vehicle *vehicle) {
 
         double min_distance = -1;
         Vehicle *target_vehicle = NULL;
 
         for (const auto &item : this->vehicles) {
-            id = item.first;
+            int id = item.first;
             Vehicle *road_vehicle = item.second;
-
-            if (vehicle->lane != road_vehicle->lane) {
-                // skip cars not in the same lane
-                continue;
-            }
-
-            double distance = Math.abs(vehicle->s - road_vehicle->s);
-
-            bool is_ahead = (road_vehicle->s - vehicle->s) > 0;
-
-            if (is_ahead && (min_distance < 0 || distance < min_distance)) {
-                min_distance = distance;
-                target_vehicle = road_vehicle;
-            }
-        }
-
-        return target_vehicle;
-    }
-
-    Vehicle *Road::get_closest_vehicle_ahead_of(Vehicle *vehicle) {
-
-        double min_distance = -1;
-        Vehicle *target_vehicle = NULL;
-
-        for (const auto &item : myMap) {
-            id = item.first;
-            Vehicle *road_vehicle = item.first;
 
             if (vehicle->lane != road_vehicle->lane) {
                 // skip cars not in the same lane
@@ -85,7 +58,7 @@ namespace car_nd_path_planning {
             bool is_ahead = (road_vehicle->s - vehicle->s) > 0;
 
             if (is_ahead && (min_distance < 0 || distance < min_distance)) {
-                min_distance = car->distance;
+                min_distance = distance;
                 target_vehicle = road_vehicle;
             }
         }
