@@ -77,9 +77,9 @@ namespace car_nd_path_planning {
                 }
 
                 if ((best_lane - cur_lane) > 0) {
-                    this->cur_state = State::PrepareLaneChangeRight;
+                    this->state = State::PrepareLaneChangeRight;
                 } else if ((best_lane - cur_lane) < 0) {
-                    this->cur_state = State::PrepareLaneChangeLeft;
+                    this->state = State::PrepareLaneChangeLeft;
                 }
             }
         } else if (this->state == State::PrepareLaneChangeRight || this->state == State::PrepareLaneChangeLeft) {
@@ -109,14 +109,14 @@ namespace car_nd_path_planning {
 
             if (!has_collisions){
                 if (this->state == State::PrepareLaneChangeRight) {
-                    this->cur_state = State :: LaneChangeRight;
+                    this->state = State :: LaneChangeRight;
                 } else {
-                    this->cur_state = State :: LaneChangeLeft;
+                    this->state = State :: LaneChangeLeft;
                 }
             }
         } else if (this->state == State::LaneChangeRight || this->state == State::LaneChangeLeft) {
             if (this->cur_vehicle->lane == this->target_lane){
-                this->cur_state = State :: KeepLane;
+                this->state = State :: KeepLane;
             }
         }
     }
