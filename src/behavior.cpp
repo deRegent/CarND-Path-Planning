@@ -200,9 +200,11 @@ namespace car_nd_path_planning {
 
             printf(" | Closest car speed: %f | ", check_car_speed);
 
-            check_car_s += ((double) prev_size * .02 * check_car_speed);
+//            check_car_s += ((double) prev_size * .02 * check_car_speed);
 
             double distance = std::abs(check_car_s - this->cur_vehicle->s);
+
+            printf(" | Distance to the closest car : %f | ", distance);
 
             if (check_car_s > cur_vehicle->s && distance < this->min_safe_distance_threshold) {
                 if (check_car_speed <= speed_limit) {
