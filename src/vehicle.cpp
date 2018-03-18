@@ -50,7 +50,7 @@ namespace car_nd_path_planning {
         double vx = speed * cos(yaw);
         double vy = speed * sin(yaw);
 
-        this->update(x, y, vx, vy, s, d, maps_x, maps_y);
+        this->update(x, y, vx, vy, s, d);
     }
 
     void Vehicle::update(double x, double y, double vx, double vy, double s, double d) {
