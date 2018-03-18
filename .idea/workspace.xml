@@ -14,8 +14,6 @@
   <component name="ChangeListManager">
     <list default="true" id="8829f0fb-40e2-45af-8bc8-cb66da2bff18" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/behavior.cpp" afterPath="$PROJECT_DIR$/src/behavior.cpp" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/road.cpp" afterPath="$PROJECT_DIR$/src/road.cpp" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/road.h" afterPath="$PROJECT_DIR$/src/road.h" />
     </list>
     <ignored path="CarND-Path-Planning-Project.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -93,7 +91,7 @@
         <entry file="file://$PROJECT_DIR$/src/behavior.cpp">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="478">
-              <caret line="33" column="39" selection-start-line="33" selection-start-column="39" selection-end-line="33" selection-end-column="39" />
+              <caret line="33" column="46" selection-start-line="33" selection-start-column="46" selection-end-line="33" selection-end-column="46" />
               <folding />
             </state>
           </provider>
@@ -823,7 +821,7 @@
     <entry file="file://$PROJECT_DIR$/src/behavior.cpp">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="478">
-          <caret line="33" column="39" selection-start-line="33" selection-start-column="39" selection-end-line="33" selection-end-column="39" />
+          <caret line="33" column="46" selection-start-line="33" selection-start-column="46" selection-end-line="33" selection-end-column="46" />
           <folding />
         </state>
       </provider>
