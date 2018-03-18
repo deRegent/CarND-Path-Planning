@@ -238,7 +238,9 @@ namespace car_nd_path_planning {
         vector<double> speeds_normalized;
         for (int i=0; i < speeds.size(); i++){
             if (speeds[i] > this->speed_limit) {
-                speeds_normalized[i] = this->speed_limit;
+                speeds_normalized.push_back(this->speed_limit);
+            } else {
+                speeds_normalized.push_back(speeds[i]);
             }
         }
 
