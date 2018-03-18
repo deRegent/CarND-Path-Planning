@@ -162,7 +162,13 @@ namespace car_nd_path_planning {
 
                 double average = average_lane_speeds[possible_lane];
 
-                printf("|%s|", average != road->empty_lane_speed ? "" + average : "inf");
+                printf("|");
+                if (average != road->empty_lane_speed){
+                    printf("%f", average);
+                } else {
+                    printf("INF");
+                }
+                printf("|");
 
                 if (!is_viable_lane) {
                     continue;
