@@ -82,29 +82,8 @@ namespace car_nd_path_planning {
         if (this->state == State::KeepLane) {
             printf(" | State: Keep Lane | ");
 
-            Vehicle *closest_vehicle_ahead = road->get_closest_vehicle_ahead_of(this->cur_vehicle);
-            bool has_vehicle_ahead = closest_vehicle_ahead != NULL;
-            if (has_vehicle_ahead) {
-                double check_car_s = closest_vehicle_ahead->s;
-                double check_car_speed = closest_vehicle_ahead->speed;
+            this->follow_closest_vehicle(prev_size);
 
-                printf(" | Closest car speed: %f | ", check_car_speed);
-
-                double distance = std::abs(check_car_s - this->cur_vehicle->s);
-
-//                check_car_s += ((double) prev_size * .02 * check_car_speed);
-
-                if (check_car_s > cur_vehicle->s && distance < this->min_safe_distance_threshold) {
-                    if (check_car_speed <= speed_limit) {
-                        // check if car ahead us behaves well. No reason to blindly follow a crazy driver
-                        this->target_speed = check_car_speed;
-                    }
-                }
-            } else {
-                this->target_speed = this->speed_limit;
-            }
-
-            this->target_lane = this->cur_vehicle->lane;
         } else if (this->state == State::PrepareLaneChangeRight || this->state == State::PrepareLaneChangeLeft) {
 
             if (this->state == State::PrepareLaneChangeRight) {
@@ -113,21 +92,7 @@ namespace car_nd_path_planning {
                 printf(" | State: Prepare Lane Change Left | ");
             }
 
-            Vehicle *closest_vehicle_ahead = road->get_closest_vehicle_ahead_of(this->cur_vehicle);
-            bool has_vehicle_ahead = closest_vehicle_ahead != NULL;
-            if (has_vehicle_ahead) {
-                double closest_distance = std::abs(closest_vehicle_ahead->s - this->cur_vehicle->s);
-
-                if (closest_distance <= this->min_safe_distance_threshold) {
-                    this->target_speed = closest_vehicle_ahead->speed;
-                } else {
-                    this->target_speed = this->speed_limit;
-                }
-            } else {
-                this->target_speed = this->speed_limit;
-            }
-
-            this->target_lane = this->cur_vehicle->lane;
+            this->follow_closest_vehicle(prev_size);
 
         } else if (this->state == State::LaneChangeRight || this->state == State::LaneChangeLeft) {
 
@@ -224,6 +189,34 @@ namespace car_nd_path_planning {
                 this->state = State::PrepareLaneChangeLeft;
             }
         }
+    }
+
+    void Behavior::follow_closest_vehicle(int prev_size){
+        Vehicle *closest_vehicle_ahead = road->get_closest_vehicle_ahead_of(this->cur_vehicle);
+        bool has_vehicle_ahead = closest_vehicle_ahead != NULL;
+        if (has_vehicle_ahead) {
+            double check_car_s = closest_vehicle_ahead->s;
+            double check_car_speed = closest_vehicle_ahead->speed;
+
+            printf(" | Closest car speed: %f | ", check_car_speed);
+
+            check_car_s += ((double) prev_size * .02 * check_car_speed);
+
+            double distance = std::abs(check_car_s - this->cur_vehicle->s);
+
+            if (check_car_s > cur_vehicle->s && distance < this->min_safe_distance_threshold) {
+                if (check_car_speed <= speed_limit) {
+                    // check if car ahead us behaves well. No reason to blindly follow a crazy driver
+                    this->target_speed = check_car_speed;
+                }
+            } else {
+                this->target_speed = this->speed_limit;
+            }
+        } else {
+            this->target_speed = this->speed_limit;
+        }
+
+        this->target_lane = this->cur_vehicle->lane;
     }
 
     double Behavior::get_ref_velocity() {

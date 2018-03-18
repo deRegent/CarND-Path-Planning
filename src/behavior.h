@@ -63,6 +63,8 @@ namespace car_nd_path_planning {
         void updateState();
         void updateParams();
 
+        void follow_closest_vehicle();
+
         void evaluate_keep_lane_trajectory();
     };
 }
