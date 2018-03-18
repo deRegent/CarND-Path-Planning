@@ -142,13 +142,13 @@ namespace car_nd_path_planning {
 
                 double vehicle_speed = closest_vehicles_in_lanes_speeds[lane];
 
-                printf("|");
+                printf("| ");
                 if (vehicle_speed != road->empty_lane_speed){
                     printf("%f", vehicle_speed);
                 } else {
                     printf("INF");
                 }
-                printf("|");
+                printf(" |");
 
                 if (vehicle_speed > best_closest_speed) {
                     best_closest_speed = vehicle_speed;
@@ -158,6 +158,7 @@ namespace car_nd_path_planning {
             if (closest_speed_in_lane >= best_closest_speed) {
                 // cur lane is better
                 this->state = State::KeepLane;
+                printf(" |Current lane faster than best closest vehicles| ");
                 return;
             }
 
@@ -171,17 +172,20 @@ namespace car_nd_path_planning {
 
                 double average = average_lane_speeds[possible_lane];
 
-                printf("|");
+                printf("| ");
                 if (average != road->empty_lane_speed){
                     printf("%f", average);
                 } else {
                     printf("INF");
                 }
-                printf("|");
+
 
                 if (!is_viable_lane) {
+                    printf("-NA");
                     continue;
                 }
+
+                printf(" |");
 
                 if (best_average_lane_speed < 0 || average > best_average_lane_speed) {
                     best_average_lane_speed = average;
@@ -192,6 +196,7 @@ namespace car_nd_path_planning {
             if (closest_speed_in_lane >= best_average_lane_speed) {
                 // cur lane is better in the near future
                 this->state = State::KeepLane;
+                printf(" |Current lane faster than best average| ");
                 return;
             }
 
