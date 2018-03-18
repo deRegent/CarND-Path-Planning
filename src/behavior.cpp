@@ -134,6 +134,8 @@ namespace car_nd_path_planning {
         double closest_speed_in_lane = closest_vehicles_in_lanes_speeds[cur_lane];
         double best_closest_speed = closest_speed_in_lane;
 
+        int best_lane = -1;
+
         printf("\r\n");
         printf("|Closest speeds| ");
 
@@ -152,50 +154,9 @@ namespace car_nd_path_planning {
 
             if (vehicle_speed > best_closest_speed) {
                 best_closest_speed = vehicle_speed;
+                best_lane = lane;
             }
         }
-
-        int best_lane = -1;
-        double best_average_lane_speed = -1;
-
-        printf("\r\n");
-        printf("|Average speeds| ");
-
-        for (int possible_lane = 0; possible_lane < average_lane_speeds.size(); possible_lane++) {
-            bool is_viable_lane = possible_lane != cur_lane && std::abs(cur_lane - possible_lane) <= 1;
-
-            double average = average_lane_speeds[possible_lane];
-
-            printf("| ");
-            if (average != road->empty_lane_speed){
-                printf("%f", average);
-            } else {
-                printf("INF");
-                average = this->speed_limit;
-            }
-
-
-            if (!is_viable_lane) {
-                printf("-NA");
-                continue;
-            }
-
-            printf(" |");
-
-            if (best_average_lane_speed < 0 || average > best_average_lane_speed) {
-                best_average_lane_speed = average;
-                best_lane = possible_lane;
-            }
-        }
-
-        printf("\r\n");
-        printf("| best average ");
-        if (best_average_lane_speed != road->empty_lane_speed){
-            printf("%f", best_average_lane_speed);
-        } else {
-            printf("INF");
-        }
-        printf(" |");
 
         if (has_vehicle_ahead) {
             double closest_distance = std::abs(vehicle_ahead->s - this->cur_vehicle->s);
@@ -210,16 +171,6 @@ namespace car_nd_path_planning {
 
                 printf("\r\n");
                 printf(" |Current lane faster than best closest vehicles| ");
-
-                return;
-            }
-
-            if (closest_speed_in_lane >= best_average_lane_speed) {
-                // cur lane is better in the near future
-                this->state = State::KeepLane;
-
-                printf("\r\n");
-                printf(" |Current lane faster than best average| ");
 
                 return;
             }
