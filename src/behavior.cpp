@@ -146,6 +146,7 @@ namespace car_nd_path_planning {
                 printf("%f", vehicle_speed);
             } else {
                 printf("INF");
+                vehicle_speed = this->speed_limit;
             }
             printf(" |");
 
@@ -170,6 +171,7 @@ namespace car_nd_path_planning {
                 printf("%f", average);
             } else {
                 printf("INF");
+                average = this->speed_limit;
             }
 
 
