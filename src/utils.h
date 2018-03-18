@@ -58,7 +58,7 @@ namespace car_nd_path_planning {
 
         double heading = atan2((map_y - y), (map_x - x));
 
-        double angle = abs(theta - heading);
+        double angle = std::abs(theta - heading);
 
         if (angle > pi() / 4) {
             closestWaypoint++;
