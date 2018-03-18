@@ -111,8 +111,8 @@ namespace car_nd_path_planning {
         vector<double> trajectory_x_vals = trajectory.path_x;
         vector<double> trajectory_y_vals = trajectory.path_y;
 
-        vector<double> predicted_trajectory_x_vals = trajectory.path_x;
-        vector<double> predicted_trajectory_y_vals = trajectory.path_y;
+        vector<double> predicted_trajectory_x_vals = predicted_trajectory.path_x;
+        vector<double> predicted_trajectory_y_vals = predicted_trajectory.path_y;
 
         for (int i = 0; i < trajectory.horizon; i++) {
             double point_distance = distance(trajectory_x_vals[i], trajectory_y_vals[i], predicted_trajectory_x_vals[i], predicted_trajectory_y_vals[i]);
