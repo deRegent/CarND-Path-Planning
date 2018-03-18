@@ -41,14 +41,14 @@ namespace car_nd_path_planning {
 
         bool has_collisions(Trajectory trajectory, double collision_distance, int lane);
 
+        double empty_lane_speed = std::numeric_limits<double>::max();
+
     private:
         map<int, Vehicle*> vehicles;
 
         int lanes = 3;
 
         double sensor_range = 400.0;
-
-        double empty_lane_speed = std::numeric_limits<double>::max();
     };
 }
 

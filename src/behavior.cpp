@@ -122,7 +122,7 @@ namespace car_nd_path_planning {
         if (has_vehicle_ahead) {
             double closest_distance = std::abs(vehicle_ahead->s - this->cur_vehicle->s);
 
-            if (closest_distance > this->min_safe_distance_threshold && this->state == State::KeepLane) {
+            if (closest_distance > this->min_safe_distance_threshold * 2 && this->state == State::KeepLane) {
                 return;
             }
 
@@ -139,7 +139,7 @@ namespace car_nd_path_planning {
             printf(" |Closest speeds| ");
 
             for (int lane = 0; lane < closest_vehicles_in_lanes_speeds.size(); lane++) {
-                 printf("| %f |", closest_vehicles_in_lanes_speeds[lane]);
+                printf("| %f |", closest_vehicles_in_lanes_speeds[lane]);
 
                 if (closest_vehicles_in_lanes_speeds[lane] > best_closest_speed) {
                     best_closest_speed = closest_vehicles_in_lanes_speeds[lane];
@@ -160,14 +160,16 @@ namespace car_nd_path_planning {
             for (int possible_lane = 0; possible_lane < average_lane_speeds.size(); possible_lane++) {
                 bool is_viable_lane = possible_lane != cur_lane && std::abs(cur_lane - possible_lane) <= 1;
 
-                printf("|%f|", average_lane_speeds[possible_lane]);
+                double average = average_lane_speeds[possible_lane];
+
+                printf("|%s|", average != road->empty_lane_speed ? "" + average : "inf");
 
                 if (!is_viable_lane) {
                     continue;
                 }
 
-                if (best_average_lane_speed < 0 || average_lane_speeds[possible_lane] > best_average_lane_speed) {
-                    best_average_lane_speed = average_lane_speeds[possible_lane];
+                if (best_average_lane_speed < 0 || average > best_average_lane_speed) {
+                    best_average_lane_speed = average;
                     best_lane = possible_lane;
                 }
             }
