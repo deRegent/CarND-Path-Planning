@@ -23,7 +23,7 @@ namespace car_nd_path_planning {
     public:
         Road();
 
-        void update(json sensor_fusion, double cur_car_s);
+        void update(json sensor_fusion, double cur_car_s, vector<double> maps_x, vector<double> maps_y);
 
         vector<Vehicle *> get_vehicles();
 
