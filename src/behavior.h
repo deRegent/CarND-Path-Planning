@@ -52,7 +52,7 @@ namespace car_nd_path_planning {
         double speed_limit = 49.5;
         double target_speed = speed_limit;
         double sensor_range = 400.0;
-        double min_safe_distance_threshold = 15.0;
+        double min_safe_distance_threshold = 0;
         double collision_threshold = 10.0;
         double velocity_change = 0.224;
         double block_distance_threshold = min_safe_distance_threshold * 2;
