@@ -95,7 +95,7 @@ namespace car_nd_path_planning {
 
             double distance = std::abs(vehicle->s - s);
 
-            bool is_ahead = (s - vehicle->s) > 0;
+            bool is_ahead = (s - (vehicle->s - 10)) > 0;
 
             if (is_ahead && (min_distance < 0 || distance < min_distance)) {
                 min_distance = distance;
