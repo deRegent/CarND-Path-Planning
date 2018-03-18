@@ -32,8 +32,8 @@ namespace car_nd_path_planning {
         if (this->state == State::KeepLane) {
 
             printf("%s", this->has_collision_on_lane_change(0) ? "| X |" : "|  |");
-            printf("%s", 1, this->has_collision_on_lane_change(1) ? "| X |" : "|  |");
-            printf("%s", 2, this->has_collision_on_lane_change(2) ? "| X |" : "|  |");
+            printf("%s", this->has_collision_on_lane_change(1) ? "| X |" : "|  |");
+            printf("%s", this->has_collision_on_lane_change(2) ? "| X |" : "|  |");
 
             this->evaluate_keep_lane_trajectory();
 
