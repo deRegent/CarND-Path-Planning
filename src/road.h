@@ -39,7 +39,7 @@ namespace car_nd_path_planning {
 
         vector<double> get_speed_of_closest_vehicles_for(Vehicle* cur_vehicle);
 
-        bool has_collisions(Trajectory trajectory, double collision_distance);
+        bool has_collisions(Trajectory trajectory, double collision_distance, int lane);
 
     private:
         map<int, Vehicle*> vehicles;

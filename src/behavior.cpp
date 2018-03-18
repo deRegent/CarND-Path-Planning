@@ -31,9 +31,9 @@ namespace car_nd_path_planning {
 
         if (this->state == State::KeepLane) {
 
-            printf(" | collision: %s in lane %d| ", this->has_collision_on_lane_change(0) ? "true" : "false", 0);
-            printf(" | collisions %s in lane %d| ", this->has_collision_on_lane_change(1) ? "true" : "false", 1);
-            printf(" | collisions %s in lane %d| ", this->has_collision_on_lane_change(2) ? "true" : "false", 2);
+            printf(" |lane %d crash %s |", this->has_collision_on_lane_change(0) ? "true" : "false", 0);
+            printf(" |lane %d crash %s |", this->has_collision_on_lane_change(1) ? "true" : "false", 1);
+            printf(" |lane %d crash %s |", this->has_collision_on_lane_change(2) ? "true" : "false", 2);
 
             this->evaluate_keep_lane_trajectory();
 
@@ -230,7 +230,7 @@ namespace car_nd_path_planning {
                                                                    this->map_waypoints_y,
                                                                    this->map_waypoints_s);
 
-        bool has_collisions = road->has_collisions(trajectory, this->collision_threshold);
+        bool has_collisions = road->has_collisions(trajectory, this->collision_threshold, trajectory_lane);
 
         return has_collisions;
     }
