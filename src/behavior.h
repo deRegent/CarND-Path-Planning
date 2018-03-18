@@ -35,11 +35,9 @@ namespace car_nd_path_planning {
                     vector<double> map_waypoints_x, vector<double> map_waypoints_y,
                     vector<double> map_waypoints_s);
 
-        void updateState(vector<double> previous_path_x, vector<double> previous_path_y,
-                    vector<double> map_waypoints_x, vector<double> map_waypoints_y,
-                    vector<double> map_waypoints_s);
+        void updateState();
 
-        void updateParams(int prev_size);
+        void updateParams();
 
         double get_ref_velocity();
 
@@ -60,10 +58,16 @@ namespace car_nd_path_planning {
         double collision_threshold = 5.0;
         double velocity_change = 0.224;
 
+        vector<double> previous_path_x;
+        vector<double> previous_path_y;
+        vector<double> map_waypoints_x;
+        vector<double> map_waypoints_y;
+        vector<double> map_waypoints_s;
+
         void updateState();
         void updateParams();
 
-        void follow_closest_vehicle(int prev_size);
+        void follow_closest_vehicle();
 
         void evaluate_keep_lane_trajectory();
 

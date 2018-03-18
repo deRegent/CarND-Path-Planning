@@ -17,13 +17,17 @@ namespace car_nd_path_planning {
                           vector<double> map_waypoints_x, vector<double> map_waypoints_y,
                           vector<double> map_waypoints_s) {
 
-        this->updateState(previous_path_x, previous_path_y, map_waypoints_x, map_waypoints_y, map_waypoints_s);
-        this->updateParams(previous_path_x.size());
+        this->previous_path_x = previous_path_x;
+        this->previous_path_y = previous_path_y;
+        this->map_waypoints_x = map_waypoints_x;
+        this->map_waypoints_y = map_waypoints_y;
+        this->map_waypoints_s = map_waypoints_s;
+
+        this->updateState();
+        this->updateParams();
     }
 
-    void Behavior::updateState(vector<double> previous_path_x, vector<double> previous_path_y,
-                               vector<double> map_waypoints_x, vector<double> map_waypoints_y,
-                               vector<double> map_waypoints_s) {
+    void Behavior::updateState() {
 
         if (this->state == State::KeepLane) {
 
@@ -66,12 +70,12 @@ namespace car_nd_path_planning {
         }
     }
 
-    void Behavior::updateParams(int prev_size) {
+    void Behavior::updateParams() {
 
         if (this->state == State::KeepLane) {
             printf(" | State: Keep Lane | ");
 
-            this->follow_closest_vehicle(prev_size);
+            this->follow_closest_vehicle();
 
         } else if (this->state == State::PrepareLaneChangeRight || this->state == State::PrepareLaneChangeLeft) {
 
@@ -81,7 +85,7 @@ namespace car_nd_path_planning {
                 printf(" | State: Prepare Lane Change Left | ");
             }
 
-            this->follow_closest_vehicle(prev_size);
+            this->follow_closest_vehicle();
 
         } else if (this->state == State::LaneChangeRight || this->state == State::LaneChangeLeft) {
 
@@ -180,7 +184,7 @@ namespace car_nd_path_planning {
         }
     }
 
-    void Behavior::follow_closest_vehicle(int prev_size) {
+    void Behavior::follow_closest_vehicle() {
         Vehicle *closest_vehicle_ahead = road->get_closest_vehicle_ahead_of(this->cur_vehicle);
         bool has_vehicle_ahead = closest_vehicle_ahead != NULL;
         if (has_vehicle_ahead) {
@@ -220,11 +224,11 @@ namespace car_nd_path_planning {
                                                                    this->cur_vehicle->yaw,
                                                                    trajectory_lane,
                                                                    this->ref_velocity,
-                                                                   previous_path_x,
-                                                                   previous_path_y,
-                                                                   map_waypoints_x,
-                                                                   map_waypoints_y,
-                                                                   map_waypoints_s);
+                                                                   this->previous_path_x,
+                                                                   this->previous_path_y,
+                                                                   this->map_waypoints_x,
+                                                                   this->map_waypoints_y,
+                                                                   this->map_waypoints_s);
 
         bool has_collisions = road->has_collisions(trajectory, this->collision_threshold);
 

@@ -88,11 +88,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="behavior.cpp" pinned="false" current-in-tab="true">
+      <file leaf-file-name="behavior.cpp" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/behavior.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="527">
-              <caret line="31" column="113" selection-start-line="31" selection-start-column="113" selection-end-line="31" selection-end-column="113" />
+            <state relative-caret-position="296">
+              <caret line="195" column="48" selection-start-line="195" selection-start-column="39" selection-end-line="195" selection-end-column="48" />
               <folding />
             </state>
           </provider>
@@ -108,11 +108,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="behavior.h" pinned="false" current-in-tab="false">
+      <file leaf-file-name="behavior.h" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/behavior.h">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="698">
-              <caret line="67" column="13" selection-start-line="67" selection-start-column="13" selection-end-line="67" selection-end-column="42" />
+            <state relative-caret-position="732">
+              <caret line="69" column="36" selection-start-line="69" selection-start-column="36" selection-end-line="69" selection-end-column="36" />
               <folding />
             </state>
           </provider>
@@ -158,8 +158,8 @@
         <option value="$PROJECT_DIR$/src/utils.h" />
         <option value="$PROJECT_DIR$/src/road.cpp" />
         <option value="$PROJECT_DIR$/src/vehicle.cpp" />
-        <option value="$PROJECT_DIR$/src/behavior.h" />
         <option value="$PROJECT_DIR$/src/behavior.cpp" />
+        <option value="$PROJECT_DIR$/src/behavior.h" />
       </list>
     </option>
   </component>
@@ -811,18 +811,18 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/behavior.h">
+    <entry file="file://$PROJECT_DIR$/src/behavior.cpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="698">
-          <caret line="67" column="13" selection-start-line="67" selection-start-column="13" selection-end-line="67" selection-end-column="42" />
+        <state relative-caret-position="296">
+          <caret line="195" column="48" selection-start-line="195" selection-start-column="39" selection-end-line="195" selection-end-column="48" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/behavior.cpp">
+    <entry file="file://$PROJECT_DIR$/src/behavior.h">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="527">
-          <caret line="31" column="113" selection-start-line="31" selection-start-column="113" selection-end-line="31" selection-end-column="113" />
+        <state relative-caret-position="732">
+          <caret line="69" column="36" selection-start-line="69" selection-start-column="36" selection-end-line="69" selection-end-column="36" />
           <folding />
         </state>
       </provider>
