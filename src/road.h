@@ -23,7 +23,7 @@ namespace car_nd_path_planning {
     public:
         Road();
 
-        void update(json sensor_fusion, double cur_car_s, vector<double> maps_x, vector<double> maps_y);
+        void update(json sensor_fusion, double cur_car_s, int prev_size);
 
         vector<Vehicle *> get_vehicles();
 
@@ -51,6 +51,8 @@ namespace car_nd_path_planning {
         double sensor_range = 100.0;
 
         double closest_range = 20.0;
+
+        int prev_size = 0;
     };
 }
 

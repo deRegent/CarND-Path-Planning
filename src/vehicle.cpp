@@ -44,8 +44,7 @@ namespace car_nd_path_planning {
         this->last_update_time = cur_time;
     }
 
-    void Vehicle::update(double x, double y, double yaw, double s, double d,
-                         vector<double> maps_x, vector<double> maps_y) {
+    void Vehicle::update(double x, double y, double yaw, double s, double d) {
         yaw = deg2rad(yaw);
 
         double vx = speed * cos(yaw);
@@ -54,10 +53,7 @@ namespace car_nd_path_planning {
         this->update(x, y, vx, vy, s, d, maps_x, maps_y);
     }
 
-    void Vehicle::update(double x, double y, double vx, double vy, double s, double d,
-                         vector<double> maps_x, vector<double> maps_y) {
-        this->maps_x = maps_x;
-        this->maps_y = maps_y;
+    void Vehicle::update(double x, double y, double vx, double vy, double s, double d) {
 
         milliseconds cur_time = duration_cast<milliseconds>(
                 system_clock::now().time_since_epoch()

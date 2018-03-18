@@ -131,10 +131,10 @@ int main() {
                                 cur_vehicle = new Vehicle(car_x, car_y, car_yaw, car_s, car_d);
                                 behavior = new Behavior(cur_vehicle, road);
                             } else {
-                                cur_vehicle->update(car_x, car_y, car_yaw, car_s, car_d, map_waypoints_x, map_waypoints_y);
+                                cur_vehicle->update(car_x, car_y, car_yaw, car_s, car_d);
                             }
 
-                            road->update(sensor_fusion, cur_vehicle->s, map_waypoints_x, map_waypoints_y);
+                            road->update(sensor_fusion, cur_vehicle->s, prev_size);
 
                             behavior->update(previous_path_x, previous_path_y, map_waypoints_x, map_waypoints_y, map_waypoints_s);
 

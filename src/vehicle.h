@@ -26,9 +26,9 @@ namespace car_nd_path_planning {
 
         void init(int id, double x, double y, double vx, double vy, double s, double d);
 
-        void update(double x, double y, double yaw, double s, double d, vector<double> maps_x, vector<double> maps_y);
+        void update(double x, double y, double yaw, double s, double d);
 
-        void update(double x, double y, double vx, double vy, double s, double d, vector<double> maps_x, vector<double> maps_y);
+        void update(double x, double y, double vx, double vy, double s, double d);
 
         Trajectory predict_trajectory(int horizon, double delta_t);
 

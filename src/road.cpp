@@ -11,7 +11,9 @@ namespace car_nd_path_planning {
 
     }
 
-    void Road::update(json sensor_fusion, double cur_car_s, vector<double> maps_x, vector<double> maps_y) {
+    void Road::update(json sensor_fusion, double cur_car_s, int prev_size) {
+        this->prev_size = prev_size;
+
         for (int i = 0; i < sensor_fusion.size(); i++) {
 
             int id = sensor_fusion[i][0];
@@ -31,7 +33,7 @@ namespace car_nd_path_planning {
                     this->vehicles[id] = vehicle;
                 } else {
                     Vehicle *vehicle = vehicles[id];
-                    vehicle->update(x, y, vx, vy, s, d, maps_x, maps_y);
+                    vehicle->update(x, y, vx, vy, s, d);
                 }
             } else {
                 this->vehicles.erase(id);
@@ -88,9 +90,12 @@ namespace car_nd_path_planning {
                 continue;
             }
 
-            double distance = std::abs(vehicle->s - road_vehicle->s);
+            double s = road_vehicle->s;
+            s += this->prev_size * 0.02 * road_vehicle->speed;
 
-            bool is_ahead = (road_vehicle->s - vehicle->s) > 0;
+            double distance = std::abs(vehicle->s - s);
+
+            bool is_ahead = (s - vehicle->s) > 0;
 
             if (is_ahead && (min_distance < 0 || distance < min_distance)) {
                 min_distance = distance;
