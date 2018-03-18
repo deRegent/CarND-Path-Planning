@@ -160,9 +160,6 @@ namespace car_nd_path_planning {
                 continue;
             }
 
-            printf("check car in lane %d", lane);
-            printf("\r\n");
-
             if (vehicle->has_collisions(trajectory, collision_distance)){
                 hasCollisions = true;
             }
