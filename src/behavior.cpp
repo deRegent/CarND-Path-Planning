@@ -193,6 +193,14 @@ namespace car_nd_path_planning {
                 }
             }
 
+            printf("| best average ");
+            if (average != road->empty_lane_speed){
+                printf("%f", average);
+            } else {
+                printf("INF");
+            }
+            printf(" |");
+
             if (closest_speed_in_lane >= best_average_lane_speed) {
                 // cur lane is better in the near future
                 this->state = State::KeepLane;
