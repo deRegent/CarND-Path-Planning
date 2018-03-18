@@ -236,6 +236,11 @@ namespace car_nd_path_planning {
         vector<double> speeds = road->get_speed_of_closest_vehicles_for(this->cur_vehicle);
         double max = maxAt(speeds);
 
+        printf("|Speed %d => %f|", 1, speeds[1]);
+        printf("|Speed %d => %f|", 2, speeds[2]);
+        printf("|Speed %d => %f|", 3, speeds[3]);
+        printf("|Max => %f|", max);
+
         if (max == road->empty_lane_speed) {
             max = this->speed_limit;
         } else if (max <= 0){
