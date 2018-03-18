@@ -5,8 +5,15 @@
 #ifndef CARND_PATH_PLANNING_UTILS_H
 #define CARND_PATH_PLANNING_UTILS_H
 
+#include <fstream>
 #include <math.h>
+#include <uWS/uWS.h>
+#include <chrono>
+#include <iostream>
+#include <thread>
 #include <vector>
+#include "Eigen-3.3/Eigen/Core"
+#include "Eigen-3.3/Eigen/QR"
 
 namespace car_nd_path_planning {
     using namespace std;
