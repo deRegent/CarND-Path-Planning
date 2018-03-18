@@ -55,6 +55,8 @@ namespace car_nd_path_planning {
         double collision_threshold = 10.0;
         double velocity_change = 0.224;
 
+        double lane_change_speed = 30;
+
         vector<double> previous_path_x;
         vector<double> previous_path_y;
         vector<double> map_waypoints_x;

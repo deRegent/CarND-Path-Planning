@@ -59,6 +59,11 @@ namespace car_nd_path_planning {
                 return;
             }
 
+            vector<double> closest_vehicles_in_lanes_speeds =
+                    road->get_speed_of_closest_vehicles_for(this->cur_vehicle);
+
+            this->lane_change_speed = closest_vehicles_in_lanes_speeds[trajectory_lane];
+
             bool has_collisions = this->has_collision_on_lane_change(trajectory_lane);
 
             printf("\r\n");
@@ -79,8 +84,8 @@ namespace car_nd_path_planning {
                     this->state = State::LaneChangeLeft;
                     this->target_lane = this->cur_vehicle->lane - 1;
                 }
-                
-                this->target_speed = closest_vehicles_in_lanes_speeds[this->target_lane];
+
+                this->target_speed = this->lane_change_speed;
             }
         } else if (this->state == State::LaneChangeRight || this->state == State::LaneChangeLeft) {
             if (this->cur_vehicle->lane == this->target_lane) {
@@ -250,7 +255,7 @@ namespace car_nd_path_planning {
                                                                    this->cur_vehicle->s,
                                                                    this->cur_vehicle->yaw,
                                                                    trajectory_lane,
-                                                                   this->ref_velocity,
+                                                                   this->lane_change_speed,
                                                                    this->previous_path_x,
                                                                    this->previous_path_y,
                                                                    this->map_waypoints_x,
