@@ -21,7 +21,7 @@ namespace car_nd_path_planning {
     }
 
     inline int maxAt(std::vector<int> &vector_name) {
-        int max = INT_MIN;
+        int max = std::numeric_limits<int>::min();
         for (auto val : vector_name) {
             if (max < val) max = val;
         }
