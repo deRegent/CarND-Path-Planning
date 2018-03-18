@@ -65,6 +65,9 @@ namespace car_nd_path_planning {
             printf("trajectory without collisions", has_collisions ? "| X |" : "|  |");
 
             if (!has_collisions) {
+                vector<double> closest_vehicles_in_lanes_speeds =
+                        road->get_speed_of_closest_vehicles_for(this->cur_vehicle);
+
                 if (this->state == State::PrepareLaneChangeRight) {
                     printf("\r\n");
                     printf("| State: Ready to change lane Right! |");
@@ -76,6 +79,8 @@ namespace car_nd_path_planning {
                     this->state = State::LaneChangeLeft;
                     this->target_lane = this->cur_vehicle->lane - 1;
                 }
+                
+                this->target_speed = closest_vehicles_in_lanes_speeds[this->target_lane];
             }
         } else if (this->state == State::LaneChangeRight || this->state == State::LaneChangeLeft) {
             if (this->cur_vehicle->lane == this->target_lane) {
@@ -215,8 +220,6 @@ namespace car_nd_path_planning {
 
             printf("\r\n");
             printf("|Closest car speed: %f|", check_car_speed);
-
-//            check_car_s += ((double) prev_size * .02 * check_car_speed);
 
             double distance = std::abs(check_car_s - this->cur_vehicle->s);
 
