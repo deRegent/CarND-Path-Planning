@@ -52,9 +52,16 @@ namespace car_nd_path_planning {
             printf("\r\n");
             printf("|KL: %f|PLCR: %f|PLCL: %f|", keep_lane_cost, lane_change_right_cost, lane_change_left_cost);
 
-            if (lane_change_right_cost < lane_change_left_cost && lane_change_right_cost < keep_lane_cost) {
+            vector<double> costs;
+            costs.push_back(keep_lane_cost);
+            costs.push_back(lane_change_right_cost);
+            costs.push_back(lane_change_left_cost);
+
+            double min = minAt(costs);
+
+            if (lane_change_right_cost == min) {
                 this->state = State::PrepareLaneChangeRight;
-            } else if (lane_change_left_cost < lane_change_right_cost && lane_change_left_cost < keep_lane_cost) {
+            } else if (lane_change_left_cost == min) {
                 this->state = State::PrepareLaneChangeLeft;
             } else {
                 this->state = State::KeepLane;
@@ -69,9 +76,16 @@ namespace car_nd_path_planning {
             printf("\r\n");
             printf("|KL: %f|PLCR: %f|PLCL: %f|", keep_lane_cost, lane_change_right_cost, lane_change_left_cost);
 
-            if (lane_change_right_cost < lane_change_left_cost && lane_change_right_cost < keep_lane_cost) {
+            vector<double> costs;
+            costs.push_back(keep_lane_cost);
+            costs.push_back(lane_change_right_cost);
+            costs.push_back(lane_change_left_cost);
+
+            double min = minAt(costs);
+
+            if (lane_change_right_cost == min) {
                 this->state = State::PrepareLaneChangeRight;
-            } else if (lane_change_left_cost < lane_change_right_cost && lane_change_left_cost < keep_lane_cost) {
+            } else if (lane_change_left_cost == min) {
                 this->state = State::PrepareLaneChangeLeft;
             } else {
                 this->state = State::KeepLane;
@@ -235,7 +249,7 @@ namespace car_nd_path_planning {
 
     double Behavior::evaluate_lane_speed(int lane) {
         vector<double> speeds = road->get_speed_of_closest_vehicles_for(this->cur_vehicle);
-        for (int i=0; i < speeds.size(); i++){
+        for (int i = 0; i < speeds.size(); i++) {
             if (speeds[i] > this->speed_limit) {
                 speeds[i] = this->speed_limit;
             }

@@ -36,6 +36,14 @@ namespace car_nd_path_planning {
         return max;
     }
 
+    inline double minAt(std::vector<double> &vector_name) {
+        double min = std::numeric_limits<double>::max();
+        for (auto val : vector_name) {
+            if (min > val) min = val;
+        }
+        return min;
+    }
+
     inline int ClosestWaypoint(double x, double y, vector<double> maps_x, vector<double> maps_y) {
 
         double closestLen = 100000; //large number
