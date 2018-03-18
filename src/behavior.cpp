@@ -224,11 +224,11 @@ namespace car_nd_path_planning {
                 return;
             }
 
-//            if ((best_lane - cur_lane) > 0) {
-//                this->state = State::PrepareLaneChangeRight;
-//            } else if ((best_lane - cur_lane) < 0) {
-//                this->state = State::PrepareLaneChangeLeft;
-//            }
+            if ((best_lane - cur_lane) > 0) {
+                this->state = State::PrepareLaneChangeRight;
+            } else if ((best_lane - cur_lane) < 0) {
+                this->state = State::PrepareLaneChangeLeft;
+            }
         }
     }
 
