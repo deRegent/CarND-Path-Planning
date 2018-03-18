@@ -55,12 +55,13 @@ namespace car_nd_path_planning {
             bool has_collisions = this->has_collision_on_lane_change(trajectory_lane);
 
             if (!has_collisions) {
-                printf(" | State: Ready to change lane Right! | ");
                 if (this->state == State::PrepareLaneChangeRight) {
-                    printf(" | State: Ready to change lane Right! | ");
+                    printf("\r\n");
+                    printf("| State: Ready to change lane Right! |");
                     this->state = State::LaneChangeRight;
                 } else {
-                    printf(" | State: Ready to change lane Left! | ");
+                    printf("\r\n");
+                    printf("| State: Ready to change lane Left! |");
                     this->state = State::LaneChangeLeft;
                 }
             }
@@ -74,44 +75,48 @@ namespace car_nd_path_planning {
     void Behavior::updateParams() {
 
         if (this->state == State::KeepLane) {
-            printf(" | State: Keep Lane | ");
+            printf("\r\n");
+            printf("|State: Keep Lane|");
 
             this->follow_closest_vehicle();
 
         } else if (this->state == State::PrepareLaneChangeRight || this->state == State::PrepareLaneChangeLeft) {
 
+            printf("\r\n");
             if (this->state == State::PrepareLaneChangeRight) {
-                printf(" | State: Prepare Lane Change Right | ");
+                printf("|State: Prepare Lane Change Right|");
             } else {
-                printf(" | State: Prepare Lane Change Left | ");
+                printf("|State: Prepare Lane Change Left|");
             }
 
             this->follow_closest_vehicle();
 
         } else if (this->state == State::LaneChangeRight || this->state == State::LaneChangeLeft) {
 
+            printf("\r\n");
             if (this->state == State::LaneChangeRight) {
-                printf(" | State: Lane Change Right | ");
-
+                printf("|State: Lane Change Right|");
                 this->target_lane = this->cur_vehicle->lane + 1;
             } else {
-                printf(" | State: Lane Change Left | ");
-
+                printf("|State: Lane Change Left|");
                 this->target_lane = this->cur_vehicle->lane - 1;
             }
 
         }
 
-        printf(" | Target speed: %f | ", this->target_speed);
-        printf(" | Target lane: %d | ", this->target_lane);
+        printf("\r\n");
+        printf("|Target speed: %f|", this->target_speed);
+        printf("\r\n");
+        printf("|Target lane: %d|", this->target_lane);
 
+        printf("\r\n");
         if (this->ref_velocity < this->target_speed) {
-            printf(" | Speed policy: increase speed | ");
+            printf("|Speed policy: increase speed|");
             this->ref_velocity = std::min(this->ref_velocity + this->velocity_change, this->target_speed);
         } else if (this->ref_velocity == this->target_speed) {
-            printf(" | Speed policy: keep max speed | ");
+            printf("|Speed policy: keep max speed|");
         } else {
-            printf(" | Speed policy: decrease speed | ");
+            printf("|Speed policy: decrease speed|");
             this->ref_velocity -= this->velocity_change;
         }
     }
@@ -232,14 +237,14 @@ namespace car_nd_path_planning {
             double check_car_speed = closest_vehicle_ahead->speed;
 
             printf("\r\n");
-            printf(" | Closest car speed: %f | ", check_car_speed);
+            printf("|Closest car speed: %f|", check_car_speed);
 
 //            check_car_s += ((double) prev_size * .02 * check_car_speed);
 
             double distance = std::abs(check_car_s - this->cur_vehicle->s);
 
             printf("\r\n");
-            printf(" | Distance to the closest car : %f | ", distance);
+            printf("|Distance to the closest car : %f|", distance);
 
             if (check_car_s > cur_vehicle->s && distance < this->min_safe_distance_threshold) {
                 if (check_car_speed <= speed_limit) {
