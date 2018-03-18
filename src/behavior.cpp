@@ -64,7 +64,7 @@ namespace car_nd_path_planning {
 
             double keep_lane_cost = this->evaluate_next_state(State::KeepLane);
             double lane_change_right_cost = this->evaluate_next_state(State::PrepareLaneChangeRight);
-            double lane_change_left_cost = this->evaluate_change_lane(State::PrepareLaneChangeLeft);
+            double lane_change_left_cost = this->evaluate_next_state(State::PrepareLaneChangeLeft);
 
             printf("\r\n");
             printf("|KL: %f|PLCR: %f|PLCL: %f|", keep_lane_cost, lane_change_right_cost, lane_change_left_cost);
@@ -332,14 +332,6 @@ namespace car_nd_path_planning {
 
     int Behavior::get_target_lane() {
         return this->target_lane;
-    }
-
-    int maxAt(std::vector<int> &vector_name) {
-        int max = INT_MIN;
-        for (auto val : vector_name) {
-            if (max < val) max = val;
-        }
-        return max;
     }
 
 }

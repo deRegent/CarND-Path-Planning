@@ -19,6 +19,14 @@ namespace car_nd_path_planning {
     inline double distance(double x1, double y1, double x2, double y2) {
         return sqrt((x2 - x1) * (x2 - x1) + (y2 - y1) * (y2 - y1));
     }
+
+    inline int maxAt(std::vector<int> &vector_name) {
+        int max = INT_MIN;
+        for (auto val : vector_name) {
+            if (max < val) max = val;
+        }
+        return max;
+    }
 }
 
 #endif //CARND_PATH_PLANNING_UTILS_H
