@@ -139,10 +139,19 @@ namespace car_nd_path_planning {
             printf(" |Closest speeds| ");
 
             for (int lane = 0; lane < closest_vehicles_in_lanes_speeds.size(); lane++) {
-                printf("| %f |", closest_vehicles_in_lanes_speeds[lane]);
 
-                if (closest_vehicles_in_lanes_speeds[lane] > best_closest_speed) {
-                    best_closest_speed = closest_vehicles_in_lanes_speeds[lane];
+                double vehicle_speed = closest_vehicles_in_lanes_speeds[lane];
+
+                printf("|");
+                if (average != road->empty_lane_speed){
+                    printf("%f", vehicle_speed);
+                } else {
+                    printf("INF");
+                }
+                printf("|");
+
+                if (vehicle_speed > best_closest_speed) {
+                    best_closest_speed = vehicle_speed;
                 }
             }
 
