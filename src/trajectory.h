@@ -12,7 +12,7 @@ namespace car_nd_path_planning {
 
     class Trajectory {
     public:
-        Trajectory(vector<double> ptsx, vector<double> ptsy, int horizon, double delta_t);
+        Trajectory(vector<double> ptsx, vector<double> ptsy, double ref_yaw, int horizon, double delta_t);
 
         vector<double> path_x;
         vector<double> path_y;
