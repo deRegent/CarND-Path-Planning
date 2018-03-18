@@ -146,10 +146,6 @@ namespace car_nd_path_planning {
 
             bool viable = std::abs(lane - cur_lane) == 1;
 
-            if (!viable){
-                continue;
-            }
-
             double vehicle_speed = closest_vehicles_in_lanes_speeds[lane];
 
             printf("| ");
@@ -160,6 +156,10 @@ namespace car_nd_path_planning {
                 vehicle_speed = this->speed_limit;
             }
             printf(" |");
+
+            if (!viable){
+                continue;
+            }
 
             if (vehicle_speed > best_closest_speed) {
                 best_closest_speed = vehicle_speed;
