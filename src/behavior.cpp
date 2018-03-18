@@ -225,6 +225,7 @@ namespace car_nd_path_planning {
 
             if (distance < this->block_distance_threshold) {
                 this->blocked_in_lane = true;
+                printf("\r\n");
                 printf("|Blocked|");
                 return;
             }
@@ -242,9 +243,13 @@ namespace car_nd_path_planning {
 
         double max = maxAt(speeds);
 
+        printf("\r\n");
         printf("|Speed %d => %f|", 1, speeds[1]);
+        printf("\r\n");
         printf("|Speed %d => %f|", 2, speeds[2]);
+        printf("\r\n");
         printf("|Speed %d => %f|", 3, speeds[3]);
+        printf("\r\n");
         printf("|Max => %f|", max);
 
         return 1 - (speeds[lane] / max);
