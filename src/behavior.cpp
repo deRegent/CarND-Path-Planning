@@ -33,6 +33,8 @@ namespace car_nd_path_planning {
 
             this->evaluate_keep_lane_trajectory();
 
+            int trajectory_lane;
+
             if (this->state == State::PrepareLaneChangeRight) {
                 trajectory_lane = this->cur_vehicle->lane + 1;
             } else if (this->state == State::PrepareLaneChangeLeft) {
@@ -43,7 +45,6 @@ namespace car_nd_path_planning {
 
             TrajectoryBuilder trajectoryBuilder;
 
-            int trajectory_lane;
 
             Trajectory trajectory = trajectoryBuilder.build_trajectory(this->cur_vehicle->x,
                                                                        this->cur_vehicle->y,
