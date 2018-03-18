@@ -243,7 +243,7 @@ namespace car_nd_path_planning {
 
         double max = maxAt(speeds);
 
-        return 1 - (speeds[lane] / max);
+        return (1 - (speeds[lane] / max)) + 0.1;
     }
 
     double Behavior::evaluate_next_state(State state) {
