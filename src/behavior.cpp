@@ -64,7 +64,7 @@ namespace car_nd_path_planning {
                     printf("\r\n");
                     printf("| State: Ready to change lane Left! |");
                     this->state = State::LaneChangeLeft;
-                    this->target_lane = this->cur_vehicle->lane + 1;
+                    this->target_lane = this->cur_vehicle->lane - 1;
                 }
             }
         } else if (this->state == State::LaneChangeRight || this->state == State::LaneChangeLeft) {
@@ -140,6 +140,12 @@ namespace car_nd_path_planning {
         printf("|Closest speeds| ");
 
         for (int lane = 0; lane < closest_vehicles_in_lanes_speeds.size(); lane++) {
+
+            bool viable = std::abs(lane - cur_lane) == 1;
+
+            if (!viable){
+                continue;
+            }
 
             double vehicle_speed = closest_vehicles_in_lanes_speeds[lane];
 
