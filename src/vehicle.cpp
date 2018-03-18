@@ -118,7 +118,7 @@ namespace car_nd_path_planning {
             // TODO check for actual x, y of vehicle
             double point_distance = distance(trajectory_x_vals[i], trajectory_y_vals[i], predicted_trajectory_x_vals[i], predicted_trajectory_y_vals[i]);
             double self_distance = distance(trajectory_x_vals[i], trajectory_y_vals[i], this->x, this->y);
-            if (point_distance < collision_distance && self_distance < collision_distance){
+            if (point_distance < collision_distance || self_distance < collision_distance){
                 return true;
             }
         }
