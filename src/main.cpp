@@ -227,8 +227,9 @@ int main() {
                             // Sensor Fusion Data, a list of all other cars on the same side of the road.
                             auto sensor_fusion = j[1]["sensor_fusion"];
 
+                            printf("\r\n");
                             printf("-------------------------");
-                            printf("\n");
+                            printf("\r\n");
 
                             int prev_size = previous_path_x.size();
 
@@ -264,8 +265,9 @@ int main() {
                             vector<double> next_x_vals = trajectory.path_x;
                             vector<double> next_y_vals = trajectory.path_y;
 
+                            printf("\r\n");
                             printf("-------------------------");
-                            printf("\n");
+                            printf("\r\n");
 
                             json msgJson;
 

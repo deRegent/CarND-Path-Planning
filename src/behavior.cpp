@@ -135,7 +135,7 @@ namespace car_nd_path_planning {
         double best_closest_speed = closest_speed_in_lane;
 
         printf("\r\n");
-        printf(" |Closest speeds| ");
+        printf("|Closest speeds| ");
 
         for (int lane = 0; lane < closest_vehicles_in_lanes_speeds.size(); lane++) {
 
@@ -158,7 +158,7 @@ namespace car_nd_path_planning {
         int best_average_lane_speed = -1;
 
         printf("\r\n");
-        printf(" |Average speeds| ");
+        printf("|Average speeds| ");
 
         for (int possible_lane = 0; possible_lane < average_lane_speeds.size(); possible_lane++) {
             bool is_viable_lane = possible_lane != cur_lane && std::abs(cur_lane - possible_lane) <= 1;
@@ -186,6 +186,7 @@ namespace car_nd_path_planning {
             }
         }
 
+        printf("\r\n");
         printf("| best average ");
         if (best_average_lane_speed != road->empty_lane_speed){
             printf("%f", best_average_lane_speed);
