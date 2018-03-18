@@ -29,6 +29,12 @@ namespace car_nd_path_planning {
 
     void Behavior::updateState() {
 
+        milliseconds cur_time = duration_cast<milliseconds>(
+                system_clock::now().time_since_epoch()
+        );
+
+        this->observation_time = cur_time;
+
         printf("\r\n");
         printf("%s", this->has_collision_on_lane_change(0) ? "| X |" : "|  |");
         printf("%s", this->has_collision_on_lane_change(1) ? "| X |" : "|  |");
@@ -72,7 +78,14 @@ namespace car_nd_path_planning {
             }
         } else if (this->state == State::LaneChangeRight || this->state == State::LaneChangeLeft) {
             if (this->cur_vehicle->lane == this->target_lane) {
-                this->state = State::KeepLane;
+                if (this->last_lane_change_millisec == 0){
+                    this->last_lane_change_millisec = this->observation_time.count();
+                }
+                auto time_diff = this->observation_time.count() - this->last_lane_change_millisec;
+                if (time_diff > this->lane_transition_millisec){
+                    this->last_lane_change_millisec = 0;
+                    this->state = State::KeepLane;
+                }
             }
         }
     }

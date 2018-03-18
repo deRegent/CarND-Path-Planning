@@ -9,6 +9,7 @@
 #include "json.hpp"
 #include <map>
 #include <vector>
+#include <chrono>
 
 #include "vehicle.h"
 #include "road.h"
@@ -59,6 +60,10 @@ namespace car_nd_path_planning {
         vector<double> map_waypoints_x;
         vector<double> map_waypoints_y;
         vector<double> map_waypoints_s;
+
+        milliseconds observation_time;
+        long last_lane_change_millisec = 0;
+        long lane_transition_millisec = 1000;
 
         void updateState();
         void updateParams();
