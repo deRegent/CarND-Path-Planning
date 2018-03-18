@@ -29,12 +29,12 @@ namespace car_nd_path_planning {
 
     void Behavior::updateState() {
 
-        if (this->state == State::KeepLane) {
+        printf("\r\n");
+        printf("%s", this->has_collision_on_lane_change(0) ? "| X |" : "|  |");
+        printf("%s", this->has_collision_on_lane_change(1) ? "| X |" : "|  |");
+        printf("%s", this->has_collision_on_lane_change(2) ? "| X |" : "|  |");
 
-            printf("\r\n");
-            printf("%s", this->has_collision_on_lane_change(0) ? "| X |" : "|  |");
-            printf("%s", this->has_collision_on_lane_change(1) ? "| X |" : "|  |");
-            printf("%s", this->has_collision_on_lane_change(2) ? "| X |" : "|  |");
+        if (this->state == State::KeepLane) {
 
             this->evaluate_keep_lane_trajectory();
 
