@@ -63,7 +63,7 @@ namespace car_nd_path_planning {
 
         milliseconds observation_time;
         long last_lane_change_millisec = 0;
-        long lane_transition_millisec = 1000;
+        long lane_transition_millisec = 500;
 
         void updateState();
         void updateParams();
