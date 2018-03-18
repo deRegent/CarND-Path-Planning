@@ -168,12 +168,13 @@ namespace car_nd_path_planning {
 
             printf("| ");
             if (average != road->empty_lane_speed){
-                printf("%f", average);
+//                printf("%f", average);
             } else {
-                printf("INF");
+//                printf("INF");
                 average = this->speed_limit;
             }
 
+            printf("%f", average);
 
             if (!is_viable_lane) {
                 printf("-NA");
@@ -185,6 +186,7 @@ namespace car_nd_path_planning {
             if (best_average_lane_speed < 0 || average > best_average_lane_speed) {
                 best_average_lane_speed = average;
                 best_lane = possible_lane;
+                printf("av: %f", best_average_lane_speed);
             }
         }
 
