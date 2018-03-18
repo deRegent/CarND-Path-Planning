@@ -13,7 +13,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="8829f0fb-40e2-45af-8bc8-cb66da2bff18" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/utils.h" afterPath="$PROJECT_DIR$/src/utils.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/vehicle.cpp" afterPath="$PROJECT_DIR$/src/vehicle.cpp" />
     </list>
     <ignored path="CarND-Path-Planning-Project.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -67,20 +67,12 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="vehicle.cpp" pinned="false" current-in-tab="false">
+      <file leaf-file-name="vehicle.cpp" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/vehicle.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="2380">
-              <caret line="140" column="5" selection-start-line="140" selection-start-column="5" selection-end-line="140" selection-end-column="5" />
-              <folding>
-                <marker date="1521381534617" expanded="true" signature="195:370" ph="{...}" />
-                <marker date="1521381534617" expanded="true" signature="463:514" ph="{...}" />
-                <marker date="1521381534617" expanded="true" signature="609:1186" ph="{...}" />
-                <marker date="1521381534617" expanded="true" signature="1336:1507" ph="{...}" />
-                <marker date="1521381534617" expanded="true" signature="1667:2418" ph="{...}" />
-                <marker date="1521381534617" expanded="true" signature="2492:3360" ph="{...}" />
-                <marker date="1521381534617" expanded="true" signature="3445:4599" ph="{...}" />
-              </folding>
+            <state relative-caret-position="613">
+              <caret line="130" column="0" selection-start-line="130" selection-start-column="0" selection-end-line="130" selection-end-column="0" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -105,11 +97,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="utils.h" pinned="false" current-in-tab="true">
+      <file leaf-file-name="utils.h" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/utils.h">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="358">
-              <caret line="123" column="11" selection-start-line="123" selection-start-column="11" selection-end-line="123" selection-end-column="11" />
+            <state relative-caret-position="715">
+              <caret line="144" column="22" selection-start-line="144" selection-start-column="22" selection-end-line="144" selection-end-column="22" />
               <folding />
             </state>
           </provider>
@@ -165,8 +157,8 @@
         <option value="$PROJECT_DIR$/src/trajectory_builder.cpp" />
         <option value="$PROJECT_DIR$/src/trajectory.cpp" />
         <option value="$PROJECT_DIR$/src/trajectory.h" />
-        <option value="$PROJECT_DIR$/src/vehicle.cpp" />
         <option value="$PROJECT_DIR$/src/utils.h" />
+        <option value="$PROJECT_DIR$/src/vehicle.cpp" />
       </list>
     </option>
   </component>
@@ -515,15 +507,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="833">
           <caret line="49" column="35" selection-start-line="49" selection-start-column="35" selection-end-line="49" selection-end-column="35" />
-          <folding>
-            <marker date="1521381534617" expanded="true" signature="195:370" ph="{...}" />
-            <marker date="1521381534617" expanded="true" signature="463:514" ph="{...}" />
-            <marker date="1521381534617" expanded="true" signature="609:1186" ph="{...}" />
-            <marker date="1521381534617" expanded="true" signature="1336:1507" ph="{...}" />
-            <marker date="1521381534617" expanded="true" signature="1667:2418" ph="{...}" />
-            <marker date="1521381534617" expanded="true" signature="2492:3360" ph="{...}" />
-            <marker date="1521381534617" expanded="true" signature="3445:4599" ph="{...}" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -614,15 +598,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="459">
           <caret line="27" column="33" selection-start-line="27" selection-start-column="33" selection-end-line="27" selection-end-column="33" />
-          <folding>
-            <marker date="1521381534617" expanded="true" signature="195:370" ph="{...}" />
-            <marker date="1521381534617" expanded="true" signature="463:514" ph="{...}" />
-            <marker date="1521381534617" expanded="true" signature="609:1186" ph="{...}" />
-            <marker date="1521381534617" expanded="true" signature="1336:1507" ph="{...}" />
-            <marker date="1521381534617" expanded="true" signature="1667:2418" ph="{...}" />
-            <marker date="1521381534617" expanded="true" signature="2492:3360" ph="{...}" />
-            <marker date="1521381534617" expanded="true" signature="3445:4599" ph="{...}" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -678,15 +654,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="85">
           <caret line="5" column="0" selection-start-line="5" selection-start-column="0" selection-end-line="5" selection-end-column="0" />
-          <folding>
-            <marker date="1521381534617" expanded="true" signature="195:370" ph="{...}" />
-            <marker date="1521381534617" expanded="true" signature="463:514" ph="{...}" />
-            <marker date="1521381534617" expanded="true" signature="609:1186" ph="{...}" />
-            <marker date="1521381534617" expanded="true" signature="1336:1507" ph="{...}" />
-            <marker date="1521381534617" expanded="true" signature="1667:2418" ph="{...}" />
-            <marker date="1521381534617" expanded="true" signature="2492:3360" ph="{...}" />
-            <marker date="1521381534617" expanded="true" signature="3445:4599" ph="{...}" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -826,22 +794,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/vehicle.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2380">
-          <caret line="140" column="5" selection-start-line="140" selection-start-column="5" selection-end-line="140" selection-end-column="5" />
-          <folding>
-            <marker date="1521381534617" expanded="true" signature="195:370" ph="{...}" />
-            <marker date="1521381534617" expanded="true" signature="463:514" ph="{...}" />
-            <marker date="1521381534617" expanded="true" signature="609:1186" ph="{...}" />
-            <marker date="1521381534617" expanded="true" signature="1336:1507" ph="{...}" />
-            <marker date="1521381534617" expanded="true" signature="1667:2418" ph="{...}" />
-            <marker date="1521381534617" expanded="true" signature="2492:3360" ph="{...}" />
-            <marker date="1521381534617" expanded="true" signature="3445:4599" ph="{...}" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/vehicle.h">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="765">
@@ -860,8 +812,16 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/utils.h">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="358">
-          <caret line="123" column="11" selection-start-line="123" selection-start-column="11" selection-end-line="123" selection-end-column="11" />
+        <state relative-caret-position="715">
+          <caret line="144" column="22" selection-start-line="144" selection-start-column="22" selection-end-line="144" selection-end-column="22" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/vehicle.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="613">
+          <caret line="130" column="0" selection-start-line="130" selection-start-column="0" selection-end-line="130" selection-end-column="0" />
           <folding />
         </state>
       </provider>

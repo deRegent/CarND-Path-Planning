@@ -124,13 +124,13 @@ namespace car_nd_path_planning {
         vector<double> predicted_trajectory_y_vals = predicted_trajectory.path_y;
 
         for (int i = 0; i < trajectory.horizon; i++) {
-            double tr_s = getFrenet(trajectory_x_vals[i], trajectory_y_vals[i], trajectory.ref_yaw, this->maps_x, this->maps_y)[0];
-            double own_s = getFrenet(predicted_trajectory_x_vals[i], predicted_trajectory_y_vals[i], predicted_trajectory.ref_yaw, this->maps_x, this->maps_y)[0];
+//            double tr_s = getFrenet(trajectory_x_vals[i], trajectory_y_vals[i], trajectory.ref_yaw, this->maps_x, this->maps_y)[0];
+//            double own_s = getFrenet(predicted_trajectory_x_vals[i], predicted_trajectory_y_vals[i], predicted_trajectory.ref_yaw, this->maps_x, this->maps_y)[0];
+//
+//            double point_distance = std::abs(tr_s - own_s);
 
-            double point_distance = std::abs(tr_s - own_s);
-
-//            double point_distance = distance(trajectory_x_vals[i], trajectory_y_vals[i],
-//                                             predicted_trajectory_x_vals[i], predicted_trajectory_y_vals[i]);
+            double point_distance = distance(trajectory_x_vals[i], trajectory_y_vals[i],
+                                             predicted_trajectory_x_vals[i], predicted_trajectory_y_vals[i]);
 
             if (point_distance < collision_distance) {
                 return true;
