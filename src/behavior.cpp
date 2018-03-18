@@ -174,6 +174,7 @@ namespace car_nd_path_planning {
                 average = this->speed_limit;
             }
 
+
             if (!is_viable_lane) {
                 printf("-NA");
                 continue;
