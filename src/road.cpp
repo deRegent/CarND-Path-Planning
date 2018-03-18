@@ -11,7 +11,7 @@ namespace car_nd_path_planning {
 
     }
 
-    void Road::update(json sensor_fusion, double cur_car_s) {
+    void Road::update(json sensor_fusion, double cur_car_s, vector<double> maps_x, vector<double> maps_y) {
         for (int i = 0; i < sensor_fusion.size(); i++) {
 
             int id = sensor_fusion[i][0];
@@ -31,7 +31,7 @@ namespace car_nd_path_planning {
                     this->vehicles[id] = vehicle;
                 } else {
                     Vehicle *vehicle = vehicles[id];
-                    vehicle->update(x, y, vx, vy, s, d);
+                    vehicle->update(x, y, vx, vy, s, d, maps_x, maps_y);
                 }
             } else {
                 this->vehicles.erase(id);

@@ -44,16 +44,21 @@ namespace car_nd_path_planning {
         this->last_update_time = cur_time;
     }
 
-    void Vehicle::update(double x, double y, double yaw, double s, double d) {
+    void Vehicle::update(double x, double y, double yaw, double s, double d,
+                         vector<double> maps_x, vector<double> maps_y) {
         yaw = deg2rad(yaw);
 
         double vx = speed * cos(yaw);
         double vy = speed * sin(yaw);
 
-        this->update(x, y, vx, vy, s, d);
+        this->update(x, y, vx, vy, s, d, maps_x, maps_y);
     }
 
-    void Vehicle::update(double x, double y, double vx, double vy, double s, double d) {
+    void Vehicle::update(double x, double y, double vx, double vy, double s, double d,
+                         vector<double> maps_x, vector<double> maps_y) {
+        this->maps_x = maps_x;
+        this->maps_y = maps_y;
+
         milliseconds cur_time = duration_cast<milliseconds>(
                 system_clock::now().time_since_epoch()
         );
@@ -119,8 +124,14 @@ namespace car_nd_path_planning {
         vector<double> predicted_trajectory_y_vals = predicted_trajectory.path_y;
 
         for (int i = 0; i < trajectory.horizon; i++) {
-            double point_distance = distance(trajectory_x_vals[i], trajectory_y_vals[i],
-                                             predicted_trajectory_x_vals[i], predicted_trajectory_y_vals[i]);
+            double tr_s = getFrenet(trajectory_x_vals[i], trajectory_y_vals[i], this->maps_x, this->maps_y)[0];
+            double own_s = getFrenet(predicted_trajectory_x_vals[i], predicted_trajectory_y_vals[i], this->maps_x, this->maps_y)[0];
+
+            double point_distance = std::abs(tr_s - own_s);
+
+//            double point_distance = distance(trajectory_x_vals[i], trajectory_y_vals[i],
+//                                             predicted_trajectory_x_vals[i], predicted_trajectory_y_vals[i]);
+
             if (point_distance < collision_distance) {
                 return true;
             }

@@ -13,7 +13,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="8829f0fb-40e2-45af-8bc8-cb66da2bff18" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/behavior.cpp" afterPath="$PROJECT_DIR$/src/behavior.cpp" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main.cpp" afterPath="$PROJECT_DIR$/src/main.cpp" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/road.cpp" afterPath="$PROJECT_DIR$/src/road.cpp" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/utils.h" afterPath="$PROJECT_DIR$/src/utils.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/vehicle.cpp" afterPath="$PROJECT_DIR$/src/vehicle.cpp" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/vehicle.h" afterPath="$PROJECT_DIR$/src/vehicle.h" />
     </list>
     <ignored path="CarND-Path-Planning-Project.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -34,11 +38,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="main.cpp" pinned="false" current-in-tab="false">
+      <file leaf-file-name="main.cpp" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="3333">
-              <caret line="269" column="43" selection-start-line="269" selection-start-column="43" selection-end-line="269" selection-end-column="43" />
+            <state relative-caret-position="527">
+              <caret line="133" column="121" selection-start-line="133" selection-start-column="121" selection-end-line="133" selection-end-column="121" />
               <folding />
             </state>
           </provider>
@@ -47,8 +51,8 @@
       <file leaf-file-name="vehicle.h" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/vehicle.h">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="204">
-              <caret line="12" column="18" selection-start-line="12" selection-start-column="0" selection-end-line="12" selection-end-column="18" />
+            <state relative-caret-position="698">
+              <caret line="54" column="8" selection-start-line="54" selection-start-column="8" selection-end-line="54" selection-end-column="8" />
               <folding />
             </state>
           </provider>
@@ -67,8 +71,8 @@
       <file leaf-file-name="vehicle.cpp" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/vehicle.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="68">
-              <caret line="4" column="14" selection-start-line="4" selection-start-column="14" selection-end-line="4" selection-end-column="14" />
+            <state relative-caret-position="358">
+              <caret line="57" column="69" selection-start-line="57" selection-start-column="25" selection-end-line="57" selection-end-column="69" />
               <folding />
             </state>
           </provider>
@@ -84,11 +88,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="behavior.cpp" pinned="false" current-in-tab="true">
+      <file leaf-file-name="behavior.cpp" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/behavior.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="478">
-              <caret line="245" column="0" selection-start-line="245" selection-start-column="0" selection-end-line="245" selection-end-column="0" />
+            <state relative-caret-position="-526">
+              <caret line="261" column="21" selection-start-line="261" selection-start-column="21" selection-end-line="261" selection-end-column="21" />
               <folding />
             </state>
           </provider>
@@ -97,8 +101,8 @@
       <file leaf-file-name="road.cpp" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/road.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="545">
-              <caret line="154" column="48" selection-start-line="154" selection-start-column="8" selection-end-line="154" selection-end-column="48" />
+            <state relative-caret-position="561">
+              <caret line="33" column="70" selection-start-line="33" selection-start-column="70" selection-end-line="33" selection-end-column="70" />
               <folding />
             </state>
           </provider>
@@ -109,7 +113,9 @@
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="425">
               <caret line="25" column="35" selection-start-line="25" selection-start-column="35" selection-end-line="25" selection-end-column="35" />
-              <folding />
+              <folding>
+                <marker date="1521378314732" expanded="true" signature="583:2093" ph="{...}" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -117,8 +123,8 @@
       <file leaf-file-name="utils.h" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/utils.h">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="0">
-              <caret line="0" column="2" selection-start-line="0" selection-start-column="2" selection-end-line="0" selection-end-column="2" />
+            <state relative-caret-position="-102">
+              <caret line="71" column="24" selection-start-line="71" selection-start-column="24" selection-end-line="71" selection-end-column="24" />
               <folding />
             </state>
           </provider>
@@ -127,7 +133,7 @@
       <file leaf-file-name="trajectory_builder.cpp" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/trajectory_builder.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="579">
+            <state relative-caret-position="375">
               <caret line="115" column="38" selection-start-line="115" selection-start-column="38" selection-end-line="115" selection-end-column="38" />
               <folding />
             </state>
@@ -146,16 +152,16 @@
         <option value="$PROJECT_DIR$/src/trajectory_generator.h" />
         <option value="$PROJECT_DIR$/src/trajectory.cpp" />
         <option value="$PROJECT_DIR$/src/trajectory.h" />
-        <option value="$PROJECT_DIR$/src/vehicle.h" />
         <option value="$PROJECT_DIR$/src/trajectory_builder.cpp" />
         <option value="$PROJECT_DIR$/src/trajectory_builder.h" />
-        <option value="$PROJECT_DIR$/src/main.cpp" />
-        <option value="$PROJECT_DIR$/src/vehicle.cpp" />
-        <option value="$PROJECT_DIR$/src/road.cpp" />
         <option value="$PROJECT_DIR$/src/road.h" />
         <option value="$PROJECT_DIR$/src/behavior.h" />
-        <option value="$PROJECT_DIR$/src/utils.h" />
         <option value="$PROJECT_DIR$/src/behavior.cpp" />
+        <option value="$PROJECT_DIR$/src/utils.h" />
+        <option value="$PROJECT_DIR$/src/vehicle.h" />
+        <option value="$PROJECT_DIR$/src/vehicle.cpp" />
+        <option value="$PROJECT_DIR$/src/road.cpp" />
+        <option value="$PROJECT_DIR$/src/main.cpp" />
       </list>
     </option>
   </component>
@@ -731,27 +737,13 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/trajectory_builder.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="579">
-          <caret line="115" column="38" selection-start-line="115" selection-start-column="38" selection-end-line="115" selection-end-column="38" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="3333">
-          <caret line="269" column="43" selection-start-line="269" selection-start-column="43" selection-end-line="269" selection-end-column="43" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/behavior.h">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="425">
           <caret line="25" column="35" selection-start-line="25" selection-start-column="35" selection-end-line="25" selection-end-column="35" />
-          <folding />
+          <folding>
+            <marker date="1521378314732" expanded="true" signature="583:2093" ph="{...}" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -759,14 +751,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="732">
           <caret line="49" column="0" selection-start-line="49" selection-start-column="0" selection-end-line="49" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/utils.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="2" selection-start-line="0" selection-start-column="2" selection-end-line="0" selection-end-column="2" />
           <folding />
         </state>
       </provider>
@@ -779,34 +763,58 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/vehicle.cpp">
+    <entry file="file://$PROJECT_DIR$/src/trajectory_builder.cpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="68">
-          <caret line="4" column="14" selection-start-line="4" selection-start-column="14" selection-end-line="4" selection-end-column="14" />
+        <state relative-caret-position="375">
+          <caret line="115" column="38" selection-start-line="115" selection-start-column="38" selection-end-line="115" selection-end-column="38" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/vehicle.h">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="204">
-          <caret line="12" column="18" selection-start-line="12" selection-start-column="0" selection-end-line="12" selection-end-column="18" />
+        <state relative-caret-position="698">
+          <caret line="54" column="8" selection-start-line="54" selection-start-column="8" selection-end-line="54" selection-end-column="8" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/road.cpp">
+    <entry file="file://$PROJECT_DIR$/src/utils.h">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="545">
-          <caret line="154" column="48" selection-start-line="154" selection-start-column="8" selection-end-line="154" selection-end-column="48" />
+        <state relative-caret-position="-102">
+          <caret line="71" column="24" selection-start-line="71" selection-start-column="24" selection-end-line="71" selection-end-column="24" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/vehicle.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="358">
+          <caret line="57" column="69" selection-start-line="57" selection-start-column="25" selection-end-line="57" selection-end-column="69" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/behavior.cpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="478">
-          <caret line="245" column="0" selection-start-line="245" selection-start-column="0" selection-end-line="245" selection-end-column="0" />
+        <state relative-caret-position="-526">
+          <caret line="261" column="21" selection-start-line="261" selection-start-column="21" selection-end-line="261" selection-end-column="21" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/road.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="561">
+          <caret line="33" column="70" selection-start-line="33" selection-start-column="70" selection-end-line="33" selection-end-column="70" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="527">
+          <caret line="133" column="121" selection-start-line="133" selection-start-column="121" selection-end-line="133" selection-end-column="121" />
           <folding />
         </state>
       </provider>

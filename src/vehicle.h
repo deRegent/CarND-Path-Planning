@@ -51,6 +51,9 @@ namespace car_nd_path_planning {
 
         milliseconds last_update_time;
 
+        vector<double> maps_x;
+        vector<double> maps_y;
+
     private:
         int default_car_id = -1;
 
