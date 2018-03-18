@@ -147,19 +147,21 @@ namespace car_nd_path_planning {
     bool Road::has_collisions(Trajectory trajectory, double collision_distance){
         vector<Vehicle *> vehicles = this->get_vehicles();
 
+        bool hasCollisions = false;
+
         printf(" | Has collisions with vehicles: ");
         for (int i=0; i < vehicles.size(); i++){
             Vehicle* vehicle = vehicles[i];
 
             if (vehicle->has_collisions(trajectory, collision_distance)){
                 printf(" lane: %d, ", vehicle->lane);
-                return true;
+                hasCollisions = true;
             }
         }
 
         printf(" | ");
 
-        return false;
+        return hasCollisions;
     }
 
 }

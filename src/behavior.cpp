@@ -114,7 +114,7 @@ namespace car_nd_path_planning {
                                                                        map_waypoints_y,
                                                                        map_waypoints_s);
 
-            bool has_collisions = road->has_collisions(trajectory, this->collision_theshold);
+            bool has_collisions = road->has_collisions(trajectory, this->collision_threshold);
 
             if (!has_collisions) {
                 printf(" | State: Ready to change lane Right! | ");
