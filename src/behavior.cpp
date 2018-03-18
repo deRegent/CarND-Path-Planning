@@ -239,14 +239,9 @@ namespace car_nd_path_planning {
             if (speeds[i] > this->speed_limit) {
                 speeds[i] = this->speed_limit;
             }
-            printf("\r\n");
-            printf("|Speed %d => %f|", i, speeds[i]);
         }
 
         double max = maxAt(speeds);
-
-        printf("\r\n");
-        printf("|Max => %f|", max);
 
         return 1 - (speeds[lane] / max);
     }
