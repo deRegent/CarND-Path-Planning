@@ -149,17 +149,17 @@ namespace car_nd_path_planning {
 
         bool hasCollisions = false;
 
-        printf(" | Has collisions with vehicles: ");
+//        printf(" | Has collisions with vehicles: ");
         for (int i=0; i < vehicles.size(); i++){
             Vehicle* vehicle = vehicles[i];
 
             if (vehicle->has_collisions(trajectory, collision_distance)){
-                printf(" lane: %d, ", vehicle->lane);
+//                printf(" lane: %d, ", vehicle->lane);
                 hasCollisions = true;
             }
         }
 
-        printf(" | ");
+//        printf(" | ");
 
         return hasCollisions;
     }
