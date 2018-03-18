@@ -54,8 +54,9 @@ namespace car_nd_path_planning {
         double min_safe_distance_threshold = 15.0;
         double collision_threshold = 10.0;
         double velocity_change = 0.224;
+        double block_distance_threshold = min_safe_distance_threshold * 2;
 
-        double lane_change_speed = 30;
+        bool blocked_in_lane = false;
 
         vector<double> previous_path_x;
         vector<double> previous_path_y;
@@ -65,16 +66,20 @@ namespace car_nd_path_planning {
 
         milliseconds observation_time;
         long last_lane_change_millisec = 0;
-        long lane_transition_millisec = 500;
+        long lane_transition_millisec = 250;
 
         void updateState();
         void updateParams();
 
         void follow_closest_vehicle();
 
-        void evaluate_keep_lane_trajectory();
-
         bool has_collision_on_lane_change(int lane);
+
+        void update_road_observation();
+
+        double evaluate_lane_speed(int lane);
+
+        double evaluate_next_state(State state);
     };
 }
 

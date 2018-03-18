@@ -43,10 +43,10 @@ namespace car_nd_path_planning {
 
         double empty_lane_speed = std::numeric_limits<double>::max();
 
+        int lanes = 3;
+
     private:
         map<int, Vehicle*> vehicles;
-
-        int lanes = 3;
 
         double sensor_range = 100.0;
 

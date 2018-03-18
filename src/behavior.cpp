@@ -41,62 +41,72 @@ namespace car_nd_path_planning {
         printf("%s", this->has_collision_on_lane_change(1) ? "| X |" : "|  |");
         printf("%s", this->has_collision_on_lane_change(2) ? "| X |" : "|  |");
 
+        this->update_road_observation();
+
         if (this->state == State::KeepLane) {
 
-            this->evaluate_keep_lane_trajectory();
+            double keep_lane_cost = this->evaluate_next_state(State::KeepLane);
+            double lane_change_right_cost = this->evaluate_next_state(State::PrepareLaneChangeRight);
+            double lane_change_left_cost = this->evaluate_change_lane(State::PrepareLaneChangeLeft);
+
+            printf("\r\n");
+            printf("|KL: %f|PLCR: %f|PLCL: %f|", keep_lane_cost, lane_change_right_cost, lane_change_left_cost);
+
+            if (lane_change_right_cost < lane_change_left_cost && lane_change_right_cost < keep_lane_cost) {
+                this->state = State::PrepareLaneChangeRight;
+            } else if (lane_change_left_cost < lane_change_right_cost && lane_change_left_cost < keep_lane_cost) {
+                this->state = State::PrepareLaneChangeLeft;
+            } else {
+                this->state = State::KeepLane;
+            }
 
         } else if (this->state == State::PrepareLaneChangeRight || this->state == State::PrepareLaneChangeLeft) {
 
-            this->evaluate_keep_lane_trajectory();
+            double keep_lane_cost = this->evaluate_next_state(State::KeepLane);
+            double lane_change_right_cost = this->evaluate_next_state(State::PrepareLaneChangeRight);
+            double lane_change_left_cost = this->evaluate_change_lane(State::PrepareLaneChangeLeft);
 
-            int trajectory_lane;
+            printf("\r\n");
+            printf("|KL: %f|PLCR: %f|PLCL: %f|", keep_lane_cost, lane_change_right_cost, lane_change_left_cost);
 
-            if (this->state == State::PrepareLaneChangeRight) {
-                trajectory_lane = this->cur_vehicle->lane + 1;
-            } else if (this->state == State::PrepareLaneChangeLeft) {
-                trajectory_lane = this->cur_vehicle->lane - 1;
+            if (lane_change_right_cost < lane_change_left_cost && lane_change_right_cost < keep_lane_cost) {
+                this->state = State::PrepareLaneChangeRight;
+            } else if (lane_change_left_cost < lane_change_right_cost && lane_change_left_cost < keep_lane_cost) {
+                this->state = State::PrepareLaneChangeLeft;
             } else {
+                this->state = State::KeepLane;
                 return;
             }
 
-            vector<double> closest_vehicles_in_lanes_speeds =
-                    road->get_speed_of_closest_vehicles_for(this->cur_vehicle);
-
-            this->lane_change_speed = closest_vehicles_in_lanes_speeds[trajectory_lane];
-
-            bool has_collisions = this->has_collision_on_lane_change(trajectory_lane);
+            double change_lane_cost =
+                    this->state == State::PrepareLaneChangeRight ? this->evaluate_next_state(State::LaneChangeRight)
+                                                                 : this->evaluate_next_state(State::LaneChangeLeft);
+            bool change_lane = change_lane_cost < lane_change_right_cost;
 
             printf("\r\n");
-            printf("trajectory without collisions", has_collisions ? "| X |" : "|  |");
+            printf("|CL: %f|PLCR: %f|PLCL: %f|", change_lane_cost, lane_change_right_cost, lane_change_left_cost);
 
-            if (!has_collisions) {
-                vector<double> closest_vehicles_in_lanes_speeds =
-                        road->get_speed_of_closest_vehicles_for(this->cur_vehicle);
-
+            if (change_lane) {
                 if (this->state == State::PrepareLaneChangeRight) {
-                    printf("\r\n");
-                    printf("| State: Ready to change lane Right! |");
                     this->state = State::LaneChangeRight;
                     this->target_lane = this->cur_vehicle->lane + 1;
+                    this->target_speed = this->ref_velocity;
                 } else {
-                    printf("\r\n");
-                    printf("| State: Ready to change lane Left! |");
                     this->state = State::LaneChangeLeft;
                     this->target_lane = this->cur_vehicle->lane - 1;
+                    this->target_speed = this->ref_velocity;
                 }
-
-                this->target_speed = this->lane_change_speed;
             }
         } else if (this->state == State::LaneChangeRight || this->state == State::LaneChangeLeft) {
-            if (this->cur_vehicle->lane == this->target_lane) {
-                if (this->last_lane_change_millisec == 0){
-                    this->last_lane_change_millisec = this->observation_time.count();
-                }
-                auto time_diff = this->observation_time.count() - this->last_lane_change_millisec;
-                if (time_diff > this->lane_transition_millisec){
-                    this->last_lane_change_millisec = 0;
-                    this->state = State::KeepLane;
-                }
+            double keep_lane_cost = this->evaluate_next_state(State::KeepLane);
+            double change_lane_cost =
+                    this->state == State::LaneChangeRight ? this->evaluate_next_state(State::LaneChangeRight)
+                                                          : this->evaluate_next_state(State::LaneChangeLeft);
+
+            printf("|KL: %f|CL: %f|", keep_lane_cost, change_lane_cost);
+
+            if (keep_lane_cost < change_lane_cost) {
+                this->state = State::KeepLane;
             }
         }
     }
@@ -148,74 +158,6 @@ namespace car_nd_path_planning {
         }
     }
 
-    void Behavior::evaluate_keep_lane_trajectory() {
-        Vehicle *vehicle_ahead = road->get_closest_vehicle_ahead_of(this->cur_vehicle);
-        bool has_vehicle_ahead = vehicle_ahead != NULL;
-
-        vector<double> average_lane_speeds = road->get_average_lane_speeds_ahead_of(this->cur_vehicle);
-        vector<double> closest_vehicles_in_lanes_speeds =
-                road->get_speed_of_closest_vehicles_for(this->cur_vehicle);
-
-        int cur_lane = this->cur_vehicle->lane;
-
-        double closest_speed_in_lane = closest_vehicles_in_lanes_speeds[cur_lane];
-        double best_closest_speed = closest_speed_in_lane;
-
-        int best_lane = -1;
-
-        printf("\r\n");
-        printf("|Closest speeds| ");
-
-        for (int lane = 0; lane < closest_vehicles_in_lanes_speeds.size(); lane++) {
-
-            bool viable = std::abs(lane - cur_lane) == 1;
-
-            double vehicle_speed = closest_vehicles_in_lanes_speeds[lane];
-
-            printf("| ");
-            if (vehicle_speed != road->empty_lane_speed){
-                printf("%f", vehicle_speed);
-            } else {
-                printf("INF");
-                vehicle_speed = this->speed_limit;
-            }
-            printf(" |");
-
-            if (!viable){
-                continue;
-            }
-
-            if (vehicle_speed > best_closest_speed) {
-                best_closest_speed = vehicle_speed;
-                best_lane = lane;
-            }
-        }
-
-        if (has_vehicle_ahead) {
-            double closest_distance = std::abs(vehicle_ahead->s - this->cur_vehicle->s);
-
-            if (closest_distance > this->min_safe_distance_threshold * 2 && this->state == State::KeepLane) {
-                return;
-            }
-
-            if (closest_speed_in_lane >= best_closest_speed) {
-                // cur lane is better
-                this->state = State::KeepLane;
-
-                printf("\r\n");
-                printf(" |Current lane faster than best closest vehicles| ");
-
-                return;
-            }
-//
-            if ((best_lane - cur_lane) > 0) {
-                this->state = State::PrepareLaneChangeRight;
-            } else if ((best_lane - cur_lane) < 0) {
-                this->state = State::PrepareLaneChangeLeft;
-            }
-        }
-    }
-
     void Behavior::follow_closest_vehicle() {
         Vehicle *closest_vehicle_ahead = road->get_closest_vehicle_ahead_of(this->cur_vehicle);
         bool has_vehicle_ahead = closest_vehicle_ahead != NULL;
@@ -232,10 +174,8 @@ namespace car_nd_path_planning {
             printf("|Distance to the closest car : %f|", distance);
 
             if (check_car_s > cur_vehicle->s && distance < this->min_safe_distance_threshold) {
-                if (check_car_speed <= speed_limit) {
-                    // check if car ahead us behaves well. No reason to blindly follow a crazy driver
-                    this->target_speed = check_car_speed;
-                }
+                // check if car ahead us behaves well. No reason to blindly follow a crazy driver
+                this->target_speed = std::min(check_car_speed, this->speed_limit);
             } else {
                 this->target_speed = this->speed_limit;
             }
@@ -255,7 +195,7 @@ namespace car_nd_path_planning {
                                                                    this->cur_vehicle->s,
                                                                    this->cur_vehicle->yaw,
                                                                    trajectory_lane,
-                                                                   this->lane_change_speed,
+                                                                   this->ref_velocity,
                                                                    this->previous_path_x,
                                                                    this->previous_path_y,
                                                                    this->map_waypoints_x,
@@ -267,12 +207,138 @@ namespace car_nd_path_planning {
         return has_collisions;
     }
 
+    void Behavior::update_road_observation() {
+        Vehicle *closest_vehicle_ahead = road->get_closest_vehicle_ahead_of(this->cur_vehicle);
+        bool has_vehicle_ahead = closest_vehicle_ahead != NULL;
+        if (has_vehicle_ahead) {
+            double check_car_s = closest_vehicle_ahead->s;
+            double check_car_speed = closest_vehicle_ahead->speed;
+
+            printf("\r\n");
+            printf("|Closest car speed: %f|", check_car_speed);
+
+            double distance = std::abs(check_car_s - this->cur_vehicle->s);
+
+            printf("\r\n");
+            printf("|Distance to the closest car : %f|", distance);
+
+            if (distance < this->block_distance_threshold) {
+                this->blocked_in_lane = true;
+                printf("|Blocked|");
+                return;
+            }
+        }
+        this->blocked_in_lane = false;
+    }
+
+    double Behavior::evaluate_lane_speed(int lane) {
+        vector<double> speeds = road->get_speed_of_closest_vehicles_for(this->cur_vehicle);
+        double max = maxAt(speeds);
+
+        if (max == road->empty_lane_speed) {
+            max = this->speed_limit;
+        }
+
+        return 1 - (speeds[lane] / max);
+    }
+
+    double Behavior::evaluate_next_state(State state) {
+
+        if (state == State::KeepLane) {
+
+            if (this->state == State::LaneChangeRight || this->state == State::LaneChangeLeft) {
+                if (this->cur_vehicle->lane == this->target_lane) {
+                    if (this->last_lane_change_millisec == 0) {
+                        this->last_lane_change_millisec = this->observation_time.count();
+                    }
+                    auto time_diff = this->observation_time.count() - this->last_lane_change_millisec;
+                    if (time_diff > this->lane_transition_millisec) {
+                        this->last_lane_change_millisec = 0;
+                        return 0;
+                    }
+                }
+                return 1;
+            }
+
+            if (this->blocked_in_lane) {
+                return this->evaluate_lane_speed(this->cur_vehicle->lane);
+            } else {
+                return 0;
+            }
+
+        } else if (state == State::PrepareLaneChangeLeft) {
+
+            if (this->state == State::LaneChangeLeft || this->state == State::LaneChangeRight) {
+                return 1;
+            }
+
+            int next_lane = this->cur_vehicle->lane - 1;
+            if (next_lane < 0) {
+                return 1;
+            }
+            return this->evaluate_lane_speed();
+
+        } else if (state == State::PrepareLaneChangeRight) {
+
+            if (this->state == State::LaneChangeLeft || this->state == State::LaneChangeRight) {
+                return 1;
+            }
+
+            int next_lane = this->cur_vehicle->lane + 1;
+            if (next_lane >= road->lanes) {
+                return 1;
+            }
+            return this->evaluate_lane_speed(this->cur_vehicle->lane + 1);
+
+        } else if (state == State::LaneChangeRight) {
+
+            if (this->state == State::PrepareLaneChangeRight) {
+
+                int next_lane = this->cur_vehicle->lane + 1;
+
+                if (this->has_collision_on_lane_change(next_lane)) {
+                    return 1;
+                }
+
+                return 0;
+            } else if (this->state == State::LaneChangeRight) {
+                return 0.5;
+            } else {
+                return 1;
+            }
+
+        } else if (state == State::LaneChangeLeft) {
+            if (this->state == State::PrepareLaneChangeLeft) {
+
+                int next_lane = this->cur_vehicle->lane - 1;
+
+                if (this->has_collision_on_lane_change(next_lane)) {
+                    return 1;
+                }
+
+                return 0;
+            } else if (this->state == State::LaneChangeLeft) {
+                return 0.5;
+            } else {
+                return 1;
+            }
+        }
+    }
+
     double Behavior::get_ref_velocity() {
         return this->ref_velocity;
     }
 
     int Behavior::get_target_lane() {
         return this->target_lane;
+    }
+
+    int maxAt(std::vector<int> &vector_name) {
+        int max = INT_MIN;
+        for (auto val : vector_name) {
+            if (max < val) max = val;
+        }
+        return max;
     }
 
 }
