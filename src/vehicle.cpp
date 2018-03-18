@@ -79,31 +79,6 @@ namespace car_nd_path_planning {
         this->lane = floor(d / 4.0);
     }
 
-//    Trajectory Vehicle::predict_trajectory(int horizon, double delta_t) {
-//        vector<double> next_x_vals;
-//        vector<double> next_y_vals;
-//
-//        double x = this->x;
-//        double vx = this->vx;
-//        double y = this->y;
-//        double vy = this->vy;
-//
-//        for (int i = 0; i < horizon; i++) {
-//            x = x + vx * delta_t + this->acceleration_x * delta_t * delta_t / 2;
-//            vx = vx + this->acceleration_x * delta_t;
-//
-//            y = y + vy * delta_t + this->acceleration_y * delta_t * delta_t / 2;
-//            vy = vy + this->acceleration_y * delta_t;
-//
-//            next_x_vals.push_back(x);
-//            next_y_vals.push_back(y);
-//        }
-//
-//        Trajectory trajectory(next_x_vals, next_y_vals, horizon, delta_t);
-//
-//        return trajectory;
-//    }
-
     Trajectory Vehicle::predict_trajectory(int horizon, double delta_t) {
         vector<double> next_x_vals;
         vector<double> next_y_vals;
@@ -113,10 +88,16 @@ namespace car_nd_path_planning {
         double y = this->y;
         double vy = this->vy;
 
-        for (int i = 0; i < horizon; i++) {
-            x = x + vx * delta_t;
+        double acceleration_x = this->acceleration_x > 0.01 ? this->acceleration_x : 0;
+        double acceleration_y = this->acceleration_y > 0.01 ? this->acceleration_y : 0;
 
-            y = y + vy * delta_t;
+        for (int i = 0; i < horizon; i++) {
+
+            x = x + vx * delta_t + acceleration_x * delta_t * delta_t / 2;
+            vx = vx + acceleration_x * delta_t;
+
+            y = y + vy * delta_t + acceleration_y * delta_t * delta_t / 2;
+            vy = vy + acceleration_y * delta_t;
 
             next_x_vals.push_back(x);
             next_y_vals.push_back(y);
