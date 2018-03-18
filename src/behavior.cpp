@@ -238,6 +238,8 @@ namespace car_nd_path_planning {
 
         if (max == road->empty_lane_speed) {
             max = this->speed_limit;
+        } else if (max <= 0){
+            max = this->speed_limit;
         }
 
         return 1 - (speeds[lane] / max);
