@@ -148,7 +148,7 @@ namespace car_nd_path_planning {
 
                 double distance = std::abs(check_car_s - this->cur_vehicle->s);
 
-                check_car_s += ((double) prev_size * .02 * check_car_speed);
+//                check_car_s += ((double) prev_size * .02 * check_car_speed);
 
                 if (check_car_s > cur_vehicle->s && distance < this->min_safe_distance_threshold) {
                     if (check_car_speed <= speed_limit) {
