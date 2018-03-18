@@ -114,12 +114,21 @@ namespace car_nd_path_planning {
         vector<double> predicted_trajectory_x_vals = predicted_trajectory.path_x;
         vector<double> predicted_trajectory_y_vals = predicted_trajectory.path_y;
 
+//        for (int i = 0; i < trajectory.horizon; i++) {
+//            // TODO check for actual x, y of vehicle
+//            double point_distance = distance(trajectory_x_vals[i], trajectory_y_vals[i], predicted_trajectory_x_vals[i], predicted_trajectory_y_vals[i]);
+//            double self_distance = distance(trajectory_x_vals[i], trajectory_y_vals[i], this->x, this->y);
+//            if (point_distance < collision_distance || self_distance < collision_distance){
+//                return true;
+//            }
+//        }
+
         for (int i = 0; i < trajectory.horizon; i++) {
-            // TODO check for actual x, y of vehicle
-            double point_distance = distance(trajectory_x_vals[i], trajectory_y_vals[i], predicted_trajectory_x_vals[i], predicted_trajectory_y_vals[i]);
-            double self_distance = distance(trajectory_x_vals[i], trajectory_y_vals[i], this->x, this->y);
-            if (point_distance < collision_distance || self_distance < collision_distance){
-                return true;
+            for (int j = 0; j < trajectory.horizon; j++) {
+                double point_distance = distance(trajectory_x_vals[i], trajectory_y_vals[i], predicted_trajectory_x_vals[j], predicted_trajectory_y_vals[j]);
+                if (point_distance < collision_distance){
+                    return true;
+                }
             }
         }
 
