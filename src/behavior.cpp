@@ -240,7 +240,7 @@ namespace car_nd_path_planning {
                 speeds[i] = this->speed_limit;
             }
             printf("\r\n");
-            printf("|Speed %d => %f|", i, speeds_normalized[i]);
+            printf("|Speed %d => %f|", i, speeds[i]);
         }
 
         double max = maxAt(speeds);
