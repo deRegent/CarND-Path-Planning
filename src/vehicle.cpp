@@ -117,7 +117,8 @@ namespace car_nd_path_planning {
         for (int i = 0; i < trajectory.horizon; i++) {
             // TODO check for actual x, y of vehicle
             double point_distance = distance(trajectory_x_vals[i], trajectory_y_vals[i], predicted_trajectory_x_vals[i], predicted_trajectory_y_vals[i]);
-            if (point_distance < collision_distance){
+            double self_distance = distance(trajectory_x_vals[i], trajectory_y_vals[i], this->x, this->y);
+            if (point_distance < collision_distance && self_distance < collision_distance){
                 return true;
             }
         }
