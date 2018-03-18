@@ -27,6 +27,10 @@ namespace car_nd_path_planning {
 
         if (this->state == State::KeepLane) {
 
+            printf(" | collision: %s in lane %d| ", this->has_collision_on_lane_change(0) ? "true" : "false", 0);
+            printf(" | collisions %s in lane %d| ", this->has_collision_on_lane_change(1) ? "true" : "false", 1);
+            printf(" | collisions %s in lane %d| ", this->has_collision_on_lane_change(2) ? "true" : "false", 2);
+
             this->evaluate_keep_lane_trajectory();
 
         } else if (this->state == State::PrepareLaneChangeRight || this->state == State::PrepareLaneChangeLeft) {
@@ -43,22 +47,7 @@ namespace car_nd_path_planning {
                 return;
             }
 
-            TrajectoryBuilder trajectoryBuilder;
-
-
-            Trajectory trajectory = trajectoryBuilder.build_trajectory(this->cur_vehicle->x,
-                                                                       this->cur_vehicle->y,
-                                                                       this->cur_vehicle->s,
-                                                                       this->cur_vehicle->yaw,
-                                                                       trajectory_lane,
-                                                                       this->ref_velocity,
-                                                                       previous_path_x,
-                                                                       previous_path_y,
-                                                                       map_waypoints_x,
-                                                                       map_waypoints_y,
-                                                                       map_waypoints_s);
-
-            bool has_collisions = road->has_collisions(trajectory, this->collision_threshold);
+            bool has_collisions = this->has_collision_on_lane_change(trajectory_lane);
 
             if (!has_collisions) {
                 printf(" | State: Ready to change lane Right! | ");
@@ -122,7 +111,7 @@ namespace car_nd_path_planning {
         }
     }
 
-    void Behavior::evaluate_keep_lane_trajectory(){
+    void Behavior::evaluate_keep_lane_trajectory() {
         Vehicle *vehicle_ahead = road->get_closest_vehicle_ahead_of(this->cur_vehicle);
         bool has_vehicle_ahead = vehicle_ahead != NULL;
 
@@ -146,7 +135,7 @@ namespace car_nd_path_planning {
             double best_closest_speed = closest_speed_in_lane;
 
             for (int lane = 0; lane < closest_vehicles_in_lanes_speeds.size(); lane++) {
-                printf(" | Closest vehicle speed %f in lane %d| ", closest_vehicles_in_lanes_speeds[lane], lane);
+                // printf(" | Closest vehicle speed %f in lane %d| ", closest_vehicles_in_lanes_speeds[lane], lane);
 
                 if (closest_vehicles_in_lanes_speeds[lane] > best_closest_speed) {
                     best_closest_speed = closest_vehicles_in_lanes_speeds[lane];
@@ -169,7 +158,7 @@ namespace car_nd_path_planning {
                     continue;
                 }
 
-                printf(" | Average lane speed %f in lane %d| ", average_lane_speeds[possible_lane], possible_lane);
+                // printf(" | Average lane speed %f in lane %d| ", average_lane_speeds[possible_lane], possible_lane);
 
                 if (best_average_lane_speed < 0 || average_lane_speeds[possible_lane] > best_average_lane_speed) {
                     best_average_lane_speed = average_lane_speeds[possible_lane];
@@ -183,15 +172,15 @@ namespace car_nd_path_planning {
                 return;
             }
 
-            if ((best_lane - cur_lane) > 0) {
-                this->state = State::PrepareLaneChangeRight;
-            } else if ((best_lane - cur_lane) < 0) {
-                this->state = State::PrepareLaneChangeLeft;
-            }
+//            if ((best_lane - cur_lane) > 0) {
+//                this->state = State::PrepareLaneChangeRight;
+//            } else if ((best_lane - cur_lane) < 0) {
+//                this->state = State::PrepareLaneChangeLeft;
+//            }
         }
     }
 
-    void Behavior::follow_closest_vehicle(int prev_size){
+    void Behavior::follow_closest_vehicle(int prev_size) {
         Vehicle *closest_vehicle_ahead = road->get_closest_vehicle_ahead_of(this->cur_vehicle);
         bool has_vehicle_ahead = closest_vehicle_ahead != NULL;
         if (has_vehicle_ahead) {
@@ -219,6 +208,27 @@ namespace car_nd_path_planning {
         }
 
         this->target_lane = this->cur_vehicle->lane;
+    }
+
+    void Behavior::has_collision_on_lane_change(int trajectory_lane) {
+        TrajectoryBuilder trajectoryBuilder;
+
+
+        Trajectory trajectory = trajectoryBuilder.build_trajectory(this->cur_vehicle->x,
+                                                                   this->cur_vehicle->y,
+                                                                   this->cur_vehicle->s,
+                                                                   this->cur_vehicle->yaw,
+                                                                   trajectory_lane,
+                                                                   this->ref_velocity,
+                                                                   previous_path_x,
+                                                                   previous_path_y,
+                                                                   map_waypoints_x,
+                                                                   map_waypoints_y,
+                                                                   map_waypoints_s);
+
+        bool has_collisions = road->has_collisions(trajectory, this->collision_threshold);
+
+        return has_collisions;
     }
 
     double Behavior::get_ref_velocity() {
