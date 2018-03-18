@@ -20,8 +20,8 @@ namespace car_nd_path_planning {
         return sqrt((x2 - x1) * (x2 - x1) + (y2 - y1) * (y2 - y1));
     }
 
-    inline int maxAt(std::vector<int> &vector_name) {
-        int max = std::numeric_limits<int>::min();
+    inline double maxAt(std::vector<double> &vector_name) {
+        double max = std::numeric_limits<double>::min();
         for (auto val : vector_name) {
             if (max < val) max = val;
         }
