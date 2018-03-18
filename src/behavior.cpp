@@ -214,7 +214,7 @@ namespace car_nd_path_planning {
         this->target_lane = this->cur_vehicle->lane;
     }
 
-    void Behavior::has_collision_on_lane_change(int trajectory_lane) {
+    bool Behavior::has_collision_on_lane_change(int trajectory_lane) {
         TrajectoryBuilder trajectoryBuilder;
 
 

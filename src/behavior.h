@@ -67,7 +67,7 @@ namespace car_nd_path_planning {
 
         void evaluate_keep_lane_trajectory();
 
-        void has_collision_on_lane_change(int lane);
+        bool has_collision_on_lane_change(int lane);
     };
 }
 
