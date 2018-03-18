@@ -143,7 +143,7 @@ namespace car_nd_path_planning {
                 double vehicle_speed = closest_vehicles_in_lanes_speeds[lane];
 
                 printf("|");
-                if (average != road->empty_lane_speed){
+                if (vehicle_speed != road->empty_lane_speed){
                     printf("%f", vehicle_speed);
                 } else {
                     printf("INF");
