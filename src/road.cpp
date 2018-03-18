@@ -101,14 +101,17 @@ namespace car_nd_path_planning {
         return target_vehicle;
     }
 
-    double Road::get_average_lane_speed(int lane){
+    double Road::get_average_lane_speed_ahead_of(Vehicle *vehicle, int lane){
         double total_speed = 0;
 
         vector<Vehicle *> vehicles = this->get_vehicles_in_lane(lane);
 
         for (int i=0; i < vehicles.size(); i++){
-            Vehicle* vehicle = vehicles[i];
-            total_speed += vehicle->speed;
+            Vehicle* road_vehicle = vehicles[i];
+
+            if (road_vehicle->s >= vehicle->s){
+                total_speed += road_vehicle->speed;
+            }
         }
 
         if (total_speed == 0){
@@ -118,11 +121,11 @@ namespace car_nd_path_planning {
         return total_speed / vehicles.size();
     }
 
-    vector<double> Road::get_average_lane_speeds() {
+    vector<double> Road::get_average_lane_speeds_ahead_of(Vehicle *vehicle) {
         vector<double> speeds;
 
         for (int lane = 0; lane < this->lanes; lane++) {
-            speeds.push_back(this->get_average_lane_speed(lane));
+            speeds.push_back(this->get_average_lane_speed_ahead_of(vehicle, lane));
         }
 
         return speeds;

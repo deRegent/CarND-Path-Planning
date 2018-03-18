@@ -31,9 +31,9 @@ namespace car_nd_path_planning {
 
         if (this->state == State::KeepLane) {
 
-            printf(" |lane %d crash %s |", 0, this->has_collision_on_lane_change(0) ? "true" : "false");
-            printf(" |lane %d crash %s |", 1, this->has_collision_on_lane_change(1) ? "true" : "false");
-            printf(" |lane %d crash %s |", 2, this->has_collision_on_lane_change(2) ? "true" : "false");
+            printf("%s", this->has_collision_on_lane_change(0) ? "| X |" : "|  |");
+            printf("%s", 1, this->has_collision_on_lane_change(1) ? "| X |" : "|  |");
+            printf("%s", 2, this->has_collision_on_lane_change(2) ? "| X |" : "|  |");
 
             this->evaluate_keep_lane_trajectory();
 
@@ -57,10 +57,10 @@ namespace car_nd_path_planning {
                 printf(" | State: Ready to change lane Right! | ");
                 if (this->state == State::PrepareLaneChangeRight) {
                     printf(" | State: Ready to change lane Right! | ");
-//                    this->state = State::LaneChangeRight;
+                    this->state = State::LaneChangeRight;
                 } else {
                     printf(" | State: Ready to change lane Left! | ");
-//                    this->state = State::LaneChangeLeft;
+                    this->state = State::LaneChangeLeft;
                 }
             }
         } else if (this->state == State::LaneChangeRight || this->state == State::LaneChangeLeft) {
@@ -126,10 +126,7 @@ namespace car_nd_path_planning {
                 return;
             }
 
-            // TODO compute speed only ahead
-            // TODO check collisions code
-
-            vector<double> average_lane_speeds = road->get_average_lane_speeds();
+            vector<double> average_lane_speeds = road->get_average_lane_speeds_ahead_of(this->cur_vehicle);
             vector<double> closest_vehicles_in_lanes_speeds =
                     road->get_speed_of_closest_vehicles_for(this->cur_vehicle);
 
@@ -176,11 +173,11 @@ namespace car_nd_path_planning {
                 return;
             }
 
-//            if ((best_lane - cur_lane) > 0) {
-//                this->state = State::PrepareLaneChangeRight;
-//            } else if ((best_lane - cur_lane) < 0) {
-//                this->state = State::PrepareLaneChangeLeft;
-//            }
+            if ((best_lane - cur_lane) > 0) {
+                this->state = State::PrepareLaneChangeRight;
+            } else if ((best_lane - cur_lane) < 0) {
+                this->state = State::PrepareLaneChangeLeft;
+            }
         }
     }
 

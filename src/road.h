@@ -33,9 +33,9 @@ namespace car_nd_path_planning {
 
         Vehicle* get_closest_vehicle_ahead_of(Vehicle *vehicle, int lane);
 
-        double get_average_lane_speed(int lane);
+        double get_average_lane_speed_ahead_of(Vehicle *vehicle, int lane);
 
-        vector<double> get_average_lane_speeds();
+        vector<double> get_average_lane_speeds_ahead_of(Vehicle* cur_vehicle);
 
         vector<double> get_speed_of_closest_vehicles_for(Vehicle* cur_vehicle);
 
