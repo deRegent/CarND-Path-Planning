@@ -35,10 +35,6 @@ namespace car_nd_path_planning {
                     vector<double> map_waypoints_x, vector<double> map_waypoints_y,
                     vector<double> map_waypoints_s);
 
-        void updateState();
-
-        void updateParams();
-
         double get_ref_velocity();
 
         int get_target_lane();
