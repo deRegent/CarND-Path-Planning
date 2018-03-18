@@ -183,6 +183,7 @@ namespace car_nd_path_planning {
             printf("\r\n");
             printf("|Closest car speed: %f|", check_car_speed);
 
+            check_car_s += this->previous_path_x.size() * 0.02 * closest_vehicle_ahead->speed;
             double distance = std::abs(check_car_s - this->cur_vehicle->s);
 
             printf("\r\n");
@@ -231,6 +232,8 @@ namespace car_nd_path_planning {
 
             printf("\r\n");
             printf("|Closest car speed: %f|", check_car_speed);
+
+            check_car_s += this->previous_path_x.size() * 0.02 * closest_vehicle_ahead->speed;
 
             double distance = std::abs(check_car_s - this->cur_vehicle->s);
 
