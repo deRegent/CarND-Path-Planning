@@ -103,6 +103,7 @@ namespace car_nd_path_planning {
                     this->state == State::LaneChangeRight ? this->evaluate_next_state(State::LaneChangeRight)
                                                           : this->evaluate_next_state(State::LaneChangeLeft);
 
+            printf("\r\n");
             printf("|KL: %f|CL: %f|", keep_lane_cost, change_lane_cost);
 
             if (keep_lane_cost < change_lane_cost) {
