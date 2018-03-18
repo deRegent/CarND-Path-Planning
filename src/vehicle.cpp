@@ -10,8 +10,8 @@ namespace car_nd_path_planning {
     Vehicle::Vehicle(double x, double y, double yaw, double s, double d) {
         yaw = deg2rad(yaw);
 
-        double vx = speed*cos(yaw);
-        double vy = speed*sin(yaw);
+        double vx = speed * cos(yaw);
+        double vy = speed * sin(yaw);
 
         this->init(this->default_car_id, x, y, vx, vy, s, d);
     }
@@ -20,7 +20,7 @@ namespace car_nd_path_planning {
         this->init(id, x, y, vx, vy, s, d);
     }
 
-    void Vehicle::init(int id, double x, double y, double vx, double vy, double s, double d){
+    void Vehicle::init(int id, double x, double y, double vx, double vy, double s, double d) {
         this->id = id;
         this->x = x;
         this->y = y;
@@ -47,10 +47,10 @@ namespace car_nd_path_planning {
     void Vehicle::update(double x, double y, double yaw, double s, double d) {
         yaw = deg2rad(yaw);
 
-        double vx = speed*cos(yaw);
-        double vy = speed*sin(yaw);
+        double vx = speed * cos(yaw);
+        double vy = speed * sin(yaw);
 
-       this->update(x, y, vx, vy, s, d);
+        this->update(x, y, vx, vy, s, d);
     }
 
     void Vehicle::update(double x, double y, double vx, double vy, double s, double d) {
@@ -79,6 +79,31 @@ namespace car_nd_path_planning {
         this->lane = floor(d / 4.0);
     }
 
+//    Trajectory Vehicle::predict_trajectory(int horizon, double delta_t) {
+//        vector<double> next_x_vals;
+//        vector<double> next_y_vals;
+//
+//        double x = this->x;
+//        double vx = this->vx;
+//        double y = this->y;
+//        double vy = this->vy;
+//
+//        for (int i = 0; i < horizon; i++) {
+//            x = x + vx * delta_t + this->acceleration_x * delta_t * delta_t / 2;
+//            vx = vx + this->acceleration_x * delta_t;
+//
+//            y = y + vy * delta_t + this->acceleration_y * delta_t * delta_t / 2;
+//            vy = vy + this->acceleration_y * delta_t;
+//
+//            next_x_vals.push_back(x);
+//            next_y_vals.push_back(y);
+//        }
+//
+//        Trajectory trajectory(next_x_vals, next_y_vals, horizon, delta_t);
+//
+//        return trajectory;
+//    }
+
     Trajectory Vehicle::predict_trajectory(int horizon, double delta_t) {
         vector<double> next_x_vals;
         vector<double> next_y_vals;
@@ -89,11 +114,9 @@ namespace car_nd_path_planning {
         double vy = this->vy;
 
         for (int i = 0; i < horizon; i++) {
-            x = x + vx * delta_t + this->acceleration_x * delta_t * delta_t / 2;
-            vx = vx + this->acceleration_x * delta_t;
+            x = x + vx * delta_t;
 
-            y = y + vy * delta_t + this->acceleration_y * delta_t * delta_t / 2;
-            vy = vy + this->acceleration_y * delta_t;
+            y = y + vy * delta_t;
 
             next_x_vals.push_back(x);
             next_y_vals.push_back(y);
@@ -104,7 +127,7 @@ namespace car_nd_path_planning {
         return trajectory;
     }
 
-    bool Vehicle::has_collisions(Trajectory trajectory, double collision_distance){
+    bool Vehicle::has_collisions(Trajectory trajectory, double collision_distance) {
 
         Trajectory predicted_trajectory = this->predict_trajectory(trajectory.horizon, trajectory.delta_t);
 
@@ -114,21 +137,11 @@ namespace car_nd_path_planning {
         vector<double> predicted_trajectory_x_vals = predicted_trajectory.path_x;
         vector<double> predicted_trajectory_y_vals = predicted_trajectory.path_y;
 
-//        for (int i = 0; i < trajectory.horizon; i++) {
-//            // TODO check for actual x, y of vehicle
-//            double point_distance = distance(trajectory_x_vals[i], trajectory_y_vals[i], predicted_trajectory_x_vals[i], predicted_trajectory_y_vals[i]);
-//            double self_distance = distance(trajectory_x_vals[i], trajectory_y_vals[i], this->x, this->y);
-//            if (point_distance < collision_distance || self_distance < collision_distance){
-//                return true;
-//            }
-//        }
-
         for (int i = 0; i < trajectory.horizon; i++) {
-            for (int j = 0; j < trajectory.horizon; j++) {
-                double point_distance = distance(trajectory_x_vals[i], trajectory_y_vals[i], predicted_trajectory_x_vals[j], predicted_trajectory_y_vals[j]);
-                if (point_distance < collision_distance){
-                    return true;
-                }
+            double point_distance = distance(trajectory_x_vals[i], trajectory_y_vals[i],
+                                             predicted_trajectory_x_vals[i], predicted_trajectory_y_vals[i]);
+            if (point_distance < collision_distance) {
+                return true;
             }
         }
 
