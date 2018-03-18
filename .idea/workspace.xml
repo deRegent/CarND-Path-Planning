@@ -87,8 +87,8 @@
       <file leaf-file-name="behavior.cpp" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/behavior.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="376">
-              <caret line="239" column="47" selection-start-line="239" selection-start-column="47" selection-end-line="239" selection-end-column="47" />
+            <state relative-caret-position="495">
+              <caret line="246" column="0" selection-start-line="246" selection-start-column="0" selection-end-line="246" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -805,8 +805,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/behavior.cpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="376">
-          <caret line="239" column="47" selection-start-line="239" selection-start-column="47" selection-end-line="239" selection-end-column="47" />
+        <state relative-caret-position="495">
+          <caret line="246" column="0" selection-start-line="246" selection-start-column="0" selection-end-line="246" selection-end-column="0" />
           <folding />
         </state>
       </provider>

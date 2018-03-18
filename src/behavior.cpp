@@ -235,27 +235,20 @@ namespace car_nd_path_planning {
 
     double Behavior::evaluate_lane_speed(int lane) {
         vector<double> speeds = road->get_speed_of_closest_vehicles_for(this->cur_vehicle);
-        vector<double> speeds_normalized;
         for (int i=0; i < speeds.size(); i++){
             if (speeds[i] > this->speed_limit) {
-                speeds_normalized.push_back(this->speed_limit);
-            } else {
-                speeds_normalized.push_back(speeds[i]);
+                speeds[i] = this->speed_limit;
             }
+            printf("\r\n");
+            printf("|Speed %d => %f|", i, speeds_normalized[i]);
         }
 
-        double max = maxAt(speeds_normalized);
+        double max = maxAt(speeds);
 
-        printf("\r\n");
-        printf("|Speed %d => %f|", 1, speeds_normalized[1]);
-        printf("\r\n");
-        printf("|Speed %d => %f|", 2, speeds_normalized[2]);
-        printf("\r\n");
-        printf("|Speed %d => %f|", 3, speeds_normalized[3]);
         printf("\r\n");
         printf("|Max => %f|", max);
 
-        return 1 - (speeds_normalized[lane] / max);
+        return 1 - (speeds[lane] / max);
     }
 
     double Behavior::evaluate_next_state(State state) {
