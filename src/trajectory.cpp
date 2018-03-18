@@ -15,6 +15,7 @@ namespace car_nd_path_planning {
         this->horizon = horizon;
         this->delta_t = delta_t;
 
+        this->ref_yaw = ref_yaw;
     }
 
 }

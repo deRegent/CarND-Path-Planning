@@ -107,7 +107,7 @@ namespace car_nd_path_planning {
             next_y_vals.push_back(out_y);
         }
 
-        Trajectory trajectory(next_x_vals, next_y_vals, this->horizon, this->delta_t);
+        Trajectory trajectory(next_x_vals, next_y_vals, ref_yaw, this->horizon, this->delta_t);
 
         return trajectory;
     }

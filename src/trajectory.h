@@ -20,6 +20,8 @@ namespace car_nd_path_planning {
         int horizon;
         double delta_t;
 
+        double ref_yaw;
+
     };
 
 }
