@@ -59,10 +59,12 @@ namespace car_nd_path_planning {
                     printf("\r\n");
                     printf("| State: Ready to change lane Right! |");
                     this->state = State::LaneChangeRight;
+                    this->target_lane = this->cur_vehicle->lane + 1;
                 } else {
                     printf("\r\n");
                     printf("| State: Ready to change lane Left! |");
                     this->state = State::LaneChangeLeft;
+                    this->target_lane = this->cur_vehicle->lane + 1;
                 }
             }
         } else if (this->state == State::LaneChangeRight || this->state == State::LaneChangeLeft) {
@@ -96,10 +98,8 @@ namespace car_nd_path_planning {
             printf("\r\n");
             if (this->state == State::LaneChangeRight) {
                 printf("|State: Lane Change Right|");
-                this->target_lane = this->cur_vehicle->lane + 1;
             } else {
                 printf("|State: Lane Change Left|");
-                this->target_lane = this->cur_vehicle->lane - 1;
             }
 
         }
@@ -175,11 +175,11 @@ namespace car_nd_path_planning {
                 return;
             }
 //
-//            if ((best_lane - cur_lane) > 0) {
-//                this->state = State::PrepareLaneChangeRight;
-//            } else if ((best_lane - cur_lane) < 0) {
-//                this->state = State::PrepareLaneChangeLeft;
-//            }
+            if ((best_lane - cur_lane) > 0) {
+                this->state = State::PrepareLaneChangeRight;
+            } else if ((best_lane - cur_lane) < 0) {
+                this->state = State::PrepareLaneChangeLeft;
+            }
         }
     }
 
