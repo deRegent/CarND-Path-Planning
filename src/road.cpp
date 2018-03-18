@@ -137,9 +137,9 @@ namespace car_nd_path_planning {
         for (int lane = 0; lane < this->lanes; lane++) {
             Vehicle *vehicle = this->get_closest_vehicle_ahead_of(cur_vehicle, lane);
 
-            double distance = std::abs(cur_vehicle->s - vehicle->s);
+//            double distance = std::abs(cur_vehicle->s - vehicle->s);
 
-            if (vehicle == NULL || distance < this->closest_range) {
+            if (vehicle == NULL) {
                 speeds.push_back(this->empty_lane_speed);
             } else {
                 speeds.push_back(vehicle->speed);
