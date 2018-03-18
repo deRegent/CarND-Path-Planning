@@ -194,8 +194,8 @@ namespace car_nd_path_planning {
             }
 
             printf("| best average ");
-            if (average != road->empty_lane_speed){
-                printf("%f", average);
+            if (best_average_lane_speed != road->empty_lane_speed){
+                printf("%f", best_average_lane_speed);
             } else {
                 printf("INF");
             }
