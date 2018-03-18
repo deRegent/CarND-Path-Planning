@@ -27,80 +27,23 @@ namespace car_nd_path_planning {
 
         if (this->state == State::KeepLane) {
 
-            Vehicle *vehicle_ahead = road->get_closest_vehicle_ahead_of(this->cur_vehicle);
-            bool has_vehicle_ahead = vehicle_ahead != NULL;
+            this->evaluate_keep_lane_trajectory();
 
-            if (has_vehicle_ahead) {
-                double closest_distance = std::abs(vehicle_ahead->s - this->cur_vehicle->s);
-
-                if (closest_distance > this->min_safe_distance_threshold) {
-                    return;
-                }
-
-                // TODO compute speed only ahead
-                // TODO check collisions code
-
-                vector<double> average_lane_speeds = road->get_average_lane_speeds();
-                vector<double> closest_vehicles_in_lanes_speeds =
-                        road->get_speed_of_closest_vehicles_for(this->cur_vehicle);
-
-                int cur_lane = this->cur_vehicle->lane;
-
-                double closest_speed_in_lane = closest_vehicles_in_lanes_speeds[cur_lane];
-                double best_closest_speed = closest_speed_in_lane;
-
-                for (int lane = 0; lane < closest_vehicles_in_lanes_speeds.size(); lane++) {
-                    printf(" | Closest vehicle speed %f in lane %d| ", closest_vehicles_in_lanes_speeds[lane], lane);
-
-                    if (closest_vehicles_in_lanes_speeds[lane] > best_closest_speed) {
-                        best_closest_speed = closest_vehicles_in_lanes_speeds[lane];
-                    }
-                }
-
-                if (closest_speed_in_lane >= best_closest_speed) {
-                    // cur lane is better
-                    return;
-                }
-
-                int best_lane = -1;
-                int best_average_lane_speed = -1;
-
-                for (int possible_lane = 0; possible_lane < average_lane_speeds.size(); possible_lane++) {
-                    bool is_viable_lane = possible_lane != cur_lane && std::abs(cur_lane - possible_lane) <= 1;
-
-                    if (!is_viable_lane) {
-                        continue;
-                    }
-
-                    printf(" | Average lane speed %f in lane %d| ", average_lane_speeds[possible_lane], possible_lane);
-
-                    if (best_average_lane_speed < 0 || average_lane_speeds[possible_lane] > best_average_lane_speed) {
-                        best_average_lane_speed = average_lane_speeds[possible_lane];
-                        best_lane = possible_lane;
-                    }
-                }
-
-                if (closest_speed_in_lane >= best_average_lane_speed) {
-                    // cur lane is better in the near future
-                    return;
-                }
-
-                if ((best_lane - cur_lane) > 0) {
-                    this->state = State::PrepareLaneChangeRight;
-                } else if ((best_lane - cur_lane) < 0) {
-                    this->state = State::PrepareLaneChangeLeft;
-                }
-            }
         } else if (this->state == State::PrepareLaneChangeRight || this->state == State::PrepareLaneChangeLeft) {
-            TrajectoryBuilder trajectoryBuilder;
 
-            int trajectory_lane;
+            this->evaluate_keep_lane_trajectory();
 
             if (this->state == State::PrepareLaneChangeRight) {
                 trajectory_lane = this->cur_vehicle->lane + 1;
-            } else {
+            } else if (this->state == State::PrepareLaneChangeLeft) {
                 trajectory_lane = this->cur_vehicle->lane - 1;
+            } else {
+                return;
             }
+
+            TrajectoryBuilder trajectoryBuilder;
+
+            int trajectory_lane;
 
             Trajectory trajectory = trajectoryBuilder.build_trajectory(this->cur_vehicle->x,
                                                                        this->cur_vehicle->y,
@@ -210,6 +153,75 @@ namespace car_nd_path_planning {
         } else {
             printf(" | Speed policy: decrease speed | ");
             this->ref_velocity -= this->velocity_change;
+        }
+    }
+
+    void Behavior::evaluate_keep_lane_trajectory(){
+        Vehicle *vehicle_ahead = road->get_closest_vehicle_ahead_of(this->cur_vehicle);
+        bool has_vehicle_ahead = vehicle_ahead != NULL;
+
+        if (has_vehicle_ahead) {
+            double closest_distance = std::abs(vehicle_ahead->s - this->cur_vehicle->s);
+
+            if (closest_distance > this->min_safe_distance_threshold && this->state == State::KeepLane) {
+                return;
+            }
+
+            // TODO compute speed only ahead
+            // TODO check collisions code
+
+            vector<double> average_lane_speeds = road->get_average_lane_speeds();
+            vector<double> closest_vehicles_in_lanes_speeds =
+                    road->get_speed_of_closest_vehicles_for(this->cur_vehicle);
+
+            int cur_lane = this->cur_vehicle->lane;
+
+            double closest_speed_in_lane = closest_vehicles_in_lanes_speeds[cur_lane];
+            double best_closest_speed = closest_speed_in_lane;
+
+            for (int lane = 0; lane < closest_vehicles_in_lanes_speeds.size(); lane++) {
+                printf(" | Closest vehicle speed %f in lane %d| ", closest_vehicles_in_lanes_speeds[lane], lane);
+
+                if (closest_vehicles_in_lanes_speeds[lane] > best_closest_speed) {
+                    best_closest_speed = closest_vehicles_in_lanes_speeds[lane];
+                }
+            }
+
+            if (closest_speed_in_lane >= best_closest_speed) {
+                // cur lane is better
+                this->state = State::KeepLane;
+                return;
+            }
+
+            int best_lane = -1;
+            int best_average_lane_speed = -1;
+
+            for (int possible_lane = 0; possible_lane < average_lane_speeds.size(); possible_lane++) {
+                bool is_viable_lane = possible_lane != cur_lane && std::abs(cur_lane - possible_lane) <= 1;
+
+                if (!is_viable_lane) {
+                    continue;
+                }
+
+                printf(" | Average lane speed %f in lane %d| ", average_lane_speeds[possible_lane], possible_lane);
+
+                if (best_average_lane_speed < 0 || average_lane_speeds[possible_lane] > best_average_lane_speed) {
+                    best_average_lane_speed = average_lane_speeds[possible_lane];
+                    best_lane = possible_lane;
+                }
+            }
+
+            if (closest_speed_in_lane >= best_average_lane_speed) {
+                // cur lane is better in the near future
+                this->state = State::KeepLane;
+                return;
+            }
+
+            if ((best_lane - cur_lane) > 0) {
+                this->state = State::PrepareLaneChangeRight;
+            } else if ((best_lane - cur_lane) < 0) {
+                this->state = State::PrepareLaneChangeLeft;
+            }
         }
     }
 
