@@ -49,6 +49,8 @@ namespace car_nd_path_planning {
         int lanes = 3;
 
         double sensor_range = 100.0;
+
+        double closest_range = 20.0;
     };
 }
 
