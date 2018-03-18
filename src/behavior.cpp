@@ -36,6 +36,7 @@ namespace car_nd_path_planning {
         this->observation_time = cur_time;
 
         printf("\r\n");
+        printf("Current lane: %d", this->cur_vehicle->lane);
         printf("%s", this->has_collision_on_lane_change(0) ? "| X |" : "|  |");
         printf("%s", this->has_collision_on_lane_change(1) ? "| X |" : "|  |");
         printf("%s", this->has_collision_on_lane_change(2) ? "| X |" : "|  |");
