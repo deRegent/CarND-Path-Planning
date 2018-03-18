@@ -31,6 +31,7 @@ namespace car_nd_path_planning {
 
         if (this->state == State::KeepLane) {
 
+            printf("\r\n");
             printf("%s", this->has_collision_on_lane_change(0) ? "| X |" : "|  |");
             printf("%s", this->has_collision_on_lane_change(1) ? "| X |" : "|  |");
             printf("%s", this->has_collision_on_lane_change(2) ? "| X |" : "|  |");
@@ -128,6 +129,7 @@ namespace car_nd_path_planning {
         double closest_speed_in_lane = closest_vehicles_in_lanes_speeds[cur_lane];
         double best_closest_speed = closest_speed_in_lane;
 
+        printf("\r\n");
         printf(" |Closest speeds| ");
 
         for (int lane = 0; lane < closest_vehicles_in_lanes_speeds.size(); lane++) {
@@ -150,6 +152,7 @@ namespace car_nd_path_planning {
         int best_lane = -1;
         int best_average_lane_speed = -1;
 
+        printf("\r\n");
         printf(" |Average speeds| ");
 
         for (int possible_lane = 0; possible_lane < average_lane_speeds.size(); possible_lane++) {
@@ -196,14 +199,20 @@ namespace car_nd_path_planning {
             if (closest_speed_in_lane >= best_closest_speed) {
                 // cur lane is better
                 this->state = State::KeepLane;
+
+                printf("\r\n");
                 printf(" |Current lane faster than best closest vehicles| ");
+
                 return;
             }
 
             if (closest_speed_in_lane >= best_average_lane_speed) {
                 // cur lane is better in the near future
                 this->state = State::KeepLane;
+
+                printf("\r\n");
                 printf(" |Current lane faster than best average| ");
+
                 return;
             }
 
@@ -222,12 +231,14 @@ namespace car_nd_path_planning {
             double check_car_s = closest_vehicle_ahead->s;
             double check_car_speed = closest_vehicle_ahead->speed;
 
+            printf("\r\n");
             printf(" | Closest car speed: %f | ", check_car_speed);
 
 //            check_car_s += ((double) prev_size * .02 * check_car_speed);
 
             double distance = std::abs(check_car_s - this->cur_vehicle->s);
 
+            printf("\r\n");
             printf(" | Distance to the closest car : %f | ", distance);
 
             if (check_car_s > cur_vehicle->s && distance < this->min_safe_distance_threshold) {
