@@ -10,7 +10,6 @@
 
 namespace car_nd_path_planning {
     using namespace std;
-    using std::abs;
 
     inline constexpr double pi() { return M_PI; }
 

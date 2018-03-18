@@ -125,7 +125,7 @@ namespace car_nd_path_planning {
 
         for (int i = 0; i < trajectory.horizon; i++) {
             double tr_s = getFrenet(trajectory_x_vals[i], trajectory_y_vals[i], trajectory.ref_yaw, this->maps_x, this->maps_y)[0];
-            double own_s = getFrenet(predicted_trajectory_x_vals[i], predicted_trajectory_y_vals[i], predicted_trajectory.yaw, this->maps_x, this->maps_y)[0];
+            double own_s = getFrenet(predicted_trajectory_x_vals[i], predicted_trajectory_y_vals[i], predicted_trajectory.ref_yaw, this->maps_x, this->maps_y)[0];
 
             double point_distance = std::abs(tr_s - own_s);
 
