@@ -54,6 +54,9 @@ namespace car_nd_path_planning {
 
             bool has_collisions = this->has_collision_on_lane_change(trajectory_lane);
 
+            printf("\r\n");
+            printf("trajectory without collisions", has_collisions ? "| X |" : "|  |");
+
             if (!has_collisions) {
                 if (this->state == State::PrepareLaneChangeRight) {
                     printf("\r\n");
