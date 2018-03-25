@@ -8,6 +8,7 @@
 
 
 **The Goal of this Project**
+
 In this project, my goal was to design a path planner that is able to create smooth, safe paths for the car to follow along a 3 lane highway with traffic. 
 
 The car should try to go as close as possible to the 50 MPH speed limit, which means passing slower traffic when possible. 

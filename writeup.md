@@ -9,6 +9,7 @@
 ---
 
 **The Goal of this Project**
+
 In this project, my goal was to design a path planner that is able to create smooth, safe paths for the car to follow along a 3 lane highway with traffic. 
 
 The car should try to go as close as possible to the 50 MPH speed limit, which means passing slower traffic when possible. 
@@ -36,11 +37,11 @@ The project also contains "spline.h" library which is used to build smooth paths
 
 ### Valid Trajectories
 
-####1. The car is able to drive at least 4.32 miles without incident
+#### 1. The car is able to drive at least 4.32 miles without incident
 
 After I've finished implementation of my path planner, the car was able to drive more than 4.32 miles without any incident. 
 
-####2. The car drives according to the speed limit.
+#### 2. The car drives according to the speed limit.
 
 The car has hard-coded speed limit of 49.5 miles per hour, which is defined in behavior.h along with other behavior-related parametres:
 
@@ -98,7 +99,7 @@ The method updateParams() handles velocity changes, taking into consideration th
 	}
 ```
  
-####3. Max Acceleration and Jerk are not Exceeded.
+#### 3. Max Acceleration and Jerk are not Exceeded.
 
 This constraint is handled by "double velocity_change = 0.224;" hyperparameter in behavior.h. This value was taken from the project's walkthough and it's applied in the updateParams() method of Behavior class:
 
@@ -120,7 +121,7 @@ This constraint is handled by "double velocity_change = 0.224;" hyperparameter i
         }
 ```
 
-####4. Car does not have collisions.
+#### 4. Car does not have collisions.
 
 This rubric point is achieved by assigning the highest cost to the states which contrain trajectories which might collide with other vehicles. An example for a Lane Change Left state: 
 
@@ -202,7 +203,7 @@ As an addditional safeguard, I've implemented logic to force the car to keep the
 	}
 ```
 
-####5. The car stays in its lane, except for the time between changing lanes.
+#### 5. The car stays in its lane, except for the time between changing lanes.
 
 This rubric point is implemented inside TrajectoryBuilder class using "spline.h" library in the method:
 
@@ -222,7 +223,7 @@ This method generates new waypoints using the algorithm:
 
 The key to lane keeping is in the first line of the algorithm: the target lane is used to generate D coordinate which is used in the "anchorage" watpoints. As long as we just keep our lane, the waypoints of the future trajectory will use the same lane.
 
-####6. The car is able to change lanes
+#### 6. The car is able to change lanes
 
 The car can change lane if we pass a target lane, which is different from our current lane, to the trajectory builder. In this case, trajectory builder will build anchorage waypoints using other lane, so the spline will generate smooth transition between lanes.
 
