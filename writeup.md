@@ -1,10 +1,10 @@
 #**Path Planning Project** 
 
-##Built by Dmitry Zaganich in March 2018.
+## Built by Dmitry Zaganich in March 2018.
 
 <img src="submission_res/title_img.png" width="720" alt="Combined Image" />
 
-##Writeup 
+## Writeup 
 
 ---
 
@@ -17,7 +17,7 @@ The car should be able to make one complete loop around the 6946m highway.
 The car should not experience total acceleration over 10 m/s^2 and jerk that is greater than 10 m/s^3.
 
 ## Rubric Points
-###Here I will consider the [rubric points](https://review.udacity.com/#!/rubrics/432/view) individually and describe how I addressed each point in my implementation.  
+### Here I will consider the [rubric points](https://review.udacity.com/#!/rubrics/432/view) individually and describe how I addressed each point in my implementation.  
 
 ---
 ### Compilation
