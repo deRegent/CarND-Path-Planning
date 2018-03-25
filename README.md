@@ -6,9 +6,6 @@
 
 <img src="submission_res/title_img.png" width="720" alt="Combined Image" />
 
-## Writeup 
-
----
 
 **The Goal of this Project**
 In this project, my goal was to design a path planner that is able to create smooth, safe paths for the car to follow along a 3 lane highway with traffic. 
@@ -18,11 +15,8 @@ The car should avoid hitting other cars at all cost as well as driving inside of
 The car should be able to make one complete loop around the 6946m highway. 
 The car should not experience total acceleration over 10 m/s^2 and jerk that is greater than 10 m/s^3.
 
-## Rubric Points
-### Here I will consider the [rubric points](https://review.udacity.com/#!/rubrics/432/view) individually and describe how I addressed each point in my implementation.  
-
 ---
-### Compilation
+### Files
 
 To ensure transparency of the project's design, I have split my path planning code into following modules: 
 * main.cpp. The main file of the project, which takes data from simulator, builds a trajectory using modules below and passes the trajectory to the simulator.
